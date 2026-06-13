@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { @apply bg-slate-50 text-slate-900 antialiased; }
+[dir="rtl"] { font-family: Arial, sans-serif; }
+.leaflet-container { height: 420px; border-radius: 1.5rem; }
+
+.card { @apply rounded-3xl border border-slate-200 bg-white shadow-soft; }
+.input { @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-sudanGreen focus:ring-4 focus:ring-green-100; }
+.btn { @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold transition; }
+.btn-primary { @apply btn bg-slate-950 text-white hover:bg-slate-800; }
+.btn-secondary { @apply btn border border-slate-200 bg-white text-slate-800 hover:bg-slate-50; }
+.badge { @apply rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-700; }

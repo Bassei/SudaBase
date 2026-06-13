@@ -1,0 +1,9 @@
+{
+  "/en/university/[id]/page": "app/en/university/[id]/page.js",
+  "/ar/students/page": "app/ar/students/page.js",
+  "/compare-universities/page": "app/compare-universities/page.js",
+  "/en/page": "app/en/page.js",
+  "/en/business/page": "app/en/business/page.js",
+  "/en/business/companies/page": "app/en/business/companies/page.js",
+  "/en/business/companies/[id]/page": "app/en/business/companies/[id]/page.js"
+}

@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { getStats } from '@/lib/data';
+import { StatCard } from '@/components/ui/stat-card';
+export default async function EconomyPage() { const stats = await getStats(); return <section className="mx-auto max-w-7xl space-y-8 px-4 py-12"><h1 className="text-4xl font-black">Economic / Market Intelligence</h1><p className="max-w-2xl text-slate-600">Prepare and explore sector profiles, business directories, market indicators, competitor density, and opportunity scores.</p><div className="grid gap-4 md:grid-cols-3"><StatCard label="Sectors" value={stats.sectors} /><StatCard label="Businesses" value={stats.businesses} /><StatCard label="Market indicators" value="Live-ready" /></div><div className="grid gap-4 md:grid-cols-3"><Link className="card p-6 font-bold" href="/sectors">Sectors</Link><Link className="card p-6 font-bold" href="/businesses">Businesses</Link><Link className="card p-6 font-bold" href="/market-indicators">Market indicators</Link></div></section>; }
+

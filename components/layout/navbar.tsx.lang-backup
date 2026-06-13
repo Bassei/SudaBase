@@ -1,0 +1,75 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+export function Navbar() {
+  const pathname = usePathname();
+  const isEnglish = pathname.startsWith('/en');
+
+  const homeHref = isEnglish ? '/en' : '/';
+  const studentsHref = isEnglish ? '/en/students' : '/ar/students';
+  const businessHref = isEnglish ? '/en/business' : '/ar/business';
+  const researchHref = isEnglish ? '/en/research' : '/ar/research';
+  const universitiesHref = isEnglish ? '/en/universities' : '/ar/universities';
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+        <Link href={homeHref} className="flex items-center gap-3">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
+            ◉
+          </span>
+
+          <span className="text-xl font-black underline">
+            Sudanese Database
+          </span>
+        </Link>
+
+        <nav className="hidden items-center gap-6 text-sm font-semibold md:flex">
+          <Link href={homeHref} className="hover:text-sudanGreen">
+            {isEnglish ? 'Home' : 'الرئيسية'}
+          </Link>
+
+          <Link href={studentsHref} className="hover:text-sudanGreen">
+            {isEnglish ? 'Students' : 'للطلاب'}
+          </Link>
+
+          <Link href={businessHref} className="hover:text-sudanGreen">
+            {isEnglish ? 'Business' : 'للأعمال'}
+          </Link>
+
+          <Link href={researchHref} className="hover:text-sudanGreen">
+            {isEnglish ? 'Researchers' : 'للباحثين'}
+          </Link>
+
+          <Link href={universitiesHref} className="hover:text-sudanGreen">
+            {isEnglish ? 'Universities' : 'الجامعات'}
+          </Link>
+
+          <Link href="/market-indicators" className="hover:text-sudanGreen">
+            {isEnglish ? 'Market' : 'السوق'}
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-slate-950 hover:text-white"
+          >
+            العربية
+          </Link>
+
+          <Link
+            href="/en"
+            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-slate-950 hover:text-white"
+          >
+            English
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default Navbar;

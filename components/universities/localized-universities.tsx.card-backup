@@ -1,0 +1,758 @@
+﻿import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { createClient } from '@supabase/supabase-js';
+import {
+  ExternalLink,
+  GraduationCap,
+  MapPin,
+  ShieldCheck,
+  Search,
+  Globe2,
+  Award,
+} from 'lucide-react';
+import { ReviewForm } from '@/components/reviews/review-form';
+import OperationalStatusPanel, {
+  OperationalStatusData,
+} from '@/components/universities/OperationalStatusPanel';
+
+export const dynamic = 'force-dynamic';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+);
+
+type Locale = 'ar' | 'en';
+
+type Translation = {
+  university_id: string;
+  locale: Locale;
+  name: string;
+  city: string | null;
+  ownership: string | null;
+  search_text: string | null;
+  translation_confidence?: string | null;
+};
+
+type UniversityRecord = OperationalStatusData & {
+  university_id: string;
+  name_en: string | null;
+  name_ar?: string | null;
+  city?: string | null;
+  country?: string | null;
+  ownership?: string | null;
+  website?: string | null;
+  logo_url?: string | null;
+  logo_source?: string | null;
+  rank_unirank_sudan?: number | null;
+  rank_edurank_sudan?: number | null;
+  rank_webometrics_sudan?: number | null;
+  comparison_rank?: number | null;
+  comparison_score?: number | null;
+  comparison_grade?: string | null;
+  comparison_data_confidence?: string | null;
+};
+
+const ui = {
+  ar: {
+    dir: 'rtl',
+    title: 'الجامعات السودانية',
+    description:
+      'ابحث عن جامعة حسب الاسم أو المدينة أو نوع الجامعة. البحث يعمل بالعربية والإنجليزية.',
+    search: 'ابحث باسم الجامعة أو المدينة',
+    city: 'المدينة',
+    ownership: 'النوع',
+    anyWebsite: 'كل الجامعات',
+    websiteOnly: 'لديها موقع فقط',
+    apply: 'تطبيق الفلاتر',
+    showing: 'يتم عرض',
+    of: 'من أصل',
+    records: 'جامعة',
+    unknownCity: 'مدينة غير معروفة',
+    unknownOwnership: 'نوع غير معروف',
+    public: 'حكومية',
+    private: 'خاصة',
+    openProfile: 'فتح صفحة الجامعة',
+    website: 'الموقع الرسمي',
+    noRanking: 'لا توجد تصنيفات متاحة',
+    back: 'الرجوع إلى الجامعات',
+    programs: 'البرامج والكليات',
+    noPrograms: 'لا توجد برامج أو كليات متاحة لهذه الجامعة حالياً.',
+    reviewsTitle: 'تقييمات الطلاب',
+    reviewsDescription:
+      'التقييمات لهذه الجامعة فقط. التقييمات الجديدة تحفظ كقيد الانتظار حتى موافقة الإدارة.',
+    approvedReviews: 'التقييمات المعتمدة',
+    noApprovedReviews: 'لا توجد تقييمات معتمدة بعد.',
+    averageReview: 'متوسط التقييم',
+    noReviews: 'لا توجد تقييمات بعد',
+    visitWebsite: 'زيارة الموقع',
+    confidence: 'مستوى الثقة',
+    sources: 'المصادر ومعلومات التحديث',
+    lastUpdated: 'آخر تحديث',
+    sourceUrls: 'روابط المصادر',
+    unknown: 'غير معروف',
+    compareNote: 'مصادر ترتيب',
+  },
+  en: {
+    dir: 'ltr',
+    title: 'Sudanese universities',
+    description:
+      'Search universities by name, city, or ownership type. Search works in Arabic and English.',
+    search: 'Search by university name or city',
+    city: 'City',
+    ownership: 'Ownership',
+    anyWebsite: 'Any website status',
+    websiteOnly: 'Has website only',
+    apply: 'Apply filters',
+    showing: 'Showing',
+    of: 'of',
+    records: 'universities',
+    unknownCity: 'Unknown city',
+    unknownOwnership: 'Ownership unknown',
+    public: 'Public',
+    private: 'Private',
+    openProfile: 'Open profile',
+    website: 'Official website',
+    noRanking: 'No rankings available',
+    back: 'Back to universities',
+    programs: 'Programs and faculties',
+    noPrograms: 'No programs or faculties are available yet for this university.',
+    reviewsTitle: 'Student reviews',
+    reviewsDescription:
+      'Reviews for this university only. New reviews are saved as pending until admin approval.',
+    approvedReviews: 'Approved reviews',
+    noApprovedReviews: 'No approved reviews yet.',
+    averageReview: 'Average review',
+    noReviews: 'No reviews yet',
+    visitWebsite: 'Visit website',
+    confidence: 'Confidence',
+    sources: 'Sources and update information',
+    lastUpdated: 'Last updated',
+    sourceUrls: 'Source URLs',
+    unknown: 'Unknown',
+    compareNote: 'Ranking sources',
+  },
+};
+
+const cityNames: Record<string, { ar: string; en: string }> = {
+  khartoum: { ar: 'الخرطوم', en: 'Khartoum' },
+  omdurman: { ar: 'أم درمان', en: 'Omdurman' },
+  'khartoum north': { ar: 'بحري', en: 'Khartoum North' },
+  bahri: { ar: 'بحري', en: 'Bahri' },
+  'port sudan': { ar: 'بورتسودان', en: 'Port Sudan' },
+  'wad madani': { ar: 'ود مدني', en: 'Wad Madani' },
+  'wad medani': { ar: 'ود مدني', en: 'Wad Madani' },
+  'el-obeid': { ar: 'الأبيض', en: 'El-Obeid' },
+  'el obeid': { ar: 'الأبيض', en: 'El-Obeid' },
+  kassala: { ar: 'كسلا', en: 'Kassala' },
+  shendi: { ar: 'شندي', en: 'Shendi' },
+  'al-fashir': { ar: 'الفاشر', en: 'Al-Fashir' },
+  'al fashir': { ar: 'الفاشر', en: 'Al-Fashir' },
+  gadaref: { ar: 'القضارف', en: 'Gadaref' },
+  gadarif: { ar: 'القضارف', en: 'Gadarif' },
+  berber: { ar: 'بربر', en: 'Berber' },
+  sennar: { ar: 'سنار', en: 'Sennar' },
+  sinnar: { ar: 'سنار', en: 'Sinnar' },
+  nyala: { ar: 'نيالا', en: 'Nyala' },
+  dongola: { ar: 'دنقلا', en: 'Dongola' },
+  'al-fulah': { ar: 'الفولة', en: 'Al-Fulah' },
+  'al fulah': { ar: 'الفولة', en: 'Al-Fulah' },
+  kosti: { ar: 'كوستي', en: 'Kosti' },
+};
+
+function cleanName(value: string | null | undefined) {
+  return String(value || '')
+    .replace(/\s+#\s*\d+.*$/g, '')
+    .replace(/\s+Acceptance Rate.*$/gi, '')
+    .replace(/\s+Statistics Rankings.*$/gi, '')
+    .replace(/\s+Founded\s+\d{3,4}.*$/gi, '')
+    .replace(/\s+Enrollment\s+.*$/gi, '')
+    .replace(/\s+Read more.*$/gi, '')
+    .replace(/\s+Male:Female.*$/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalize(value: string | null | undefined) {
+  return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function normalizeArabic(value: string | null | undefined) {
+  return String(value || '')
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/ؤ/g, 'و')
+    .replace(/ئ/g, 'ي')
+    .replace(/ـ/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function fieldMatches(value: string | null | undefined, query: string) {
+  if (!query) return true;
+
+  return (
+    normalize(value).includes(normalize(query)) ||
+    normalizeArabic(value).includes(normalizeArabic(query))
+  );
+}
+
+function isGoodArabic(value: string | null | undefined) {
+  const text = String(value || '').trim();
+  return Boolean(text) && !/[�ØÃ]/.test(text);
+}
+
+function displayName(locale: Locale, university: any, translation?: Translation) {
+  const translated = cleanName(translation?.name);
+  const ar = cleanName(university.name_ar);
+  const en = cleanName(university.name_en);
+
+  if (locale === 'ar') {
+    if (isGoodArabic(translated)) return translated;
+    if (isGoodArabic(ar)) return ar;
+    return en || university.university_id;
+  }
+
+  return en || translated || ar || university.university_id;
+}
+
+function secondaryName(locale: Locale, university: any, translation?: Translation) {
+  const en = cleanName(university.name_en);
+
+  if (locale === 'ar') return en;
+
+  return '';
+}
+
+function cityLabel(locale: Locale, value: string | null | undefined, translation?: Translation) {
+  const translatedCity = cleanName(translation?.city);
+  const raw = cleanName(value);
+
+  if (locale === 'ar' && translatedCity && !/[�ØÃ]/.test(translatedCity)) {
+    return translatedCity;
+  }
+
+  const key = normalize(raw);
+  const match = cityNames[key];
+
+  if (match) return match[locale];
+
+  return raw || ui[locale].unknownCity;
+}
+
+function ownershipLabel(locale: Locale, value: string | null | undefined, translation?: Translation) {
+  const translatedOwnership = cleanName(translation?.ownership);
+  const raw = normalize(value);
+
+  if (locale === 'ar' && translatedOwnership && !/[�ØÃ]/.test(translatedOwnership)) {
+    return translatedOwnership;
+  }
+
+  if (raw.includes('private')) return ui[locale].private;
+  if (raw.includes('public') || raw.includes('government')) return ui[locale].public;
+
+  return value || ui[locale].unknownOwnership;
+}
+
+function qualityScore(university: any, translation?: Translation) {
+  let score = 0;
+
+  if (translation?.name || university.name_ar || university.name_en) score += 2;
+  if (translation?.city || university.city) score += 2;
+  if (translation?.ownership || university.ownership) score += 2;
+  if (university.website) score += 2;
+  if (university.rank_unirank_sudan) score += 2;
+  if (university.rank_edurank_sudan) score += 2;
+  if (university.rank_webometrics_sudan) score += 2;
+
+  return score;
+}
+
+function bestRank(university: any) {
+  const ranks = [
+    Number(university.rank_edurank_sudan),
+    Number(university.rank_webometrics_sudan),
+    Number(university.rank_unirank_sudan),
+  ].filter((rank) => Number.isFinite(rank) && rank > 0);
+
+  return ranks.length ? Math.min(...ranks) : 999999;
+}
+
+function initials(name: string) {
+  const clean = cleanName(name);
+
+  if (/[\u0600-\u06FF]/.test(clean)) {
+    return clean.replace(/\s+/g, '').slice(0, 2) || 'ج';
+  }
+
+  return (
+    clean
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase() || 'SD'
+  );
+}
+
+function LogoMark({ university, name }: { university: UniversityRecord; name: string }) {
+  if (university.logo_url) {
+    return (
+      <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
+        <img
+          src={university.logo_url}
+          alt={`${name} logo`}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-xl font-black text-white shadow-sm">
+      {initials(name)}
+    </div>
+  );
+}
+
+function RankBox({ label, value }: { label: string; value: number | null | undefined }) {
+  if (!value) return null;
+
+  return (
+    <div className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
+      <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
+        {label}
+      </p>
+      <p className="mt-1 text-2xl font-black text-slate-950">{value}</p>
+    </div>
+  );
+}
+
+function UniversityCard({
+  university,
+  translation,
+  locale,
+}: {
+  university: UniversityRecord;
+  translation?: Translation;
+  locale: Locale;
+}) {
+  const label = ui[locale];
+  const name = displayName(locale, university, translation);
+  const sub = secondaryName(locale, university, translation);
+  const profileHref = `/${locale}/university/${university.university_id}`;
+
+  const hasRanks =
+    university.rank_edurank_sudan ||
+    university.rank_unirank_sudan ||
+    university.rank_webometrics_sudan;
+
+  return (
+    <article
+      dir={label.dir}
+      className="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+    >
+      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-emerald-400 to-slate-950" />
+
+      <div className="p-6">
+        <header className="flex items-start gap-4">
+          <LogoMark university={university} name={name} />
+
+          <div className="min-w-0 flex-1">
+            <Link
+              href={profileHref}
+              className="line-clamp-2 text-2xl font-black leading-tight text-slate-950 decoration-slate-300 underline-offset-4 transition hover:text-emerald-700 hover:underline"
+            >
+              {name}
+            </Link>
+
+            {sub && (
+              <p className="mt-1 line-clamp-1 text-sm font-semibold text-slate-500" dir="ltr">
+                {sub}
+              </p>
+            )}
+
+            <div className="mt-4 flex flex-wrap gap-2 text-sm">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 font-semibold text-slate-700 ring-1 ring-slate-200">
+                <MapPin className="h-4 w-4 text-slate-500" />
+                {cityLabel(locale, university.city, translation)}
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 font-semibold text-slate-700 ring-1 ring-slate-200">
+                <ShieldCheck className="h-4 w-4 text-slate-500" />
+                {ownershipLabel(locale, university.ownership, translation)}
+              </span>
+            </div>
+          </div>
+        </header>
+
+        <section className="mt-5">
+          {hasRanks ? (
+            <div className="grid grid-cols-2 gap-3 text-center">
+              <RankBox label="EduRank" value={university.rank_edurank_sudan} />
+              <RankBox label="UniRank" value={university.rank_unirank_sudan} />
+              <RankBox label="Webometrics" value={university.rank_webometrics_sudan} />
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-slate-50 p-4 text-sm font-semibold text-slate-500 ring-1 ring-slate-100">
+              {label.noRanking}
+            </div>
+          )}
+        </section>
+
+        <OperationalStatusPanel data={university} locale={locale} variant="compact" />
+
+        <footer className="mt-5 grid gap-3 sm:grid-cols-2">
+          <Link
+            href={profileHref}
+            className="inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-emerald-700"
+          >
+            {label.openProfile}
+          </Link>
+
+          {university.website && (
+            <a
+              href={university.website}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-900 transition hover:bg-slate-50"
+            >
+              <Globe2 className="h-4 w-4" />
+              {label.website}
+            </a>
+          )}
+        </footer>
+      </div>
+    </article>
+  );
+}
+
+export async function LocalizedUniversitiesPage({
+  locale,
+  searchParams,
+}: {
+  locale: Locale;
+  searchParams?: { q?: string; city?: string; ownership?: string; website?: string };
+}) {
+  const label = ui[locale];
+  const q = searchParams?.q || '';
+  const city = searchParams?.city || '';
+  const ownership = searchParams?.ownership || '';
+  const website = searchParams?.website || '';
+
+  const [{ data: universities }, { data: translations }] = await Promise.all([
+    supabase.from('university_cards_enriched_public').select('*').limit(500),
+    supabase.from('university_translations').select('*').eq('locale', locale),
+  ]);
+
+  const translationMap = new Map<string, Translation>();
+
+  for (const translation of translations || []) {
+    translationMap.set(translation.university_id, translation as Translation);
+  }
+
+  const all = (universities || []) as UniversityRecord[];
+
+  const filtered = all
+    .filter((university) => {
+      const translation = translationMap.get(university.university_id);
+
+      const searchText = [
+        translation?.search_text,
+        translation?.name,
+        translation?.city,
+        translation?.ownership,
+        university.name_en,
+        university.name_ar,
+        university.city,
+        university.ownership,
+        university.university_id,
+      ].join(' ');
+
+      return fieldMatches(searchText, q);
+    })
+    .filter((university) => {
+      const translation = translationMap.get(university.university_id);
+      return fieldMatches([translation?.city, university.city].join(' '), city);
+    })
+    .filter((university) => {
+      const translation = translationMap.get(university.university_id);
+      return fieldMatches([translation?.ownership, university.ownership].join(' '), ownership);
+    })
+    .filter((university) => website !== 'yes' || Boolean(university.website))
+    .sort((a, b) => {
+      const ta = translationMap.get(a.university_id);
+      const tb = translationMap.get(b.university_id);
+
+      const rankDiff = bestRank(a) - bestRank(b);
+      if (rankDiff !== 0) return rankDiff;
+
+      const qualityDiff = qualityScore(b, tb) - qualityScore(a, ta);
+      if (qualityDiff !== 0) return qualityDiff;
+
+      return displayName(locale, a, ta).localeCompare(displayName(locale, b, tb));
+    })
+    .slice(0, 24);
+
+  return (
+    <section dir={label.dir} className="mx-auto max-w-7xl space-y-8 px-4 py-12">
+      <div className="rounded-[2rem] bg-gradient-to-br from-slate-950 to-emerald-950 p-8 text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
+          <GraduationCap className="h-8 w-8 text-emerald-300" />
+        </div>
+
+        <h1 className="mt-6 text-4xl font-black md:text-6xl">{label.title}</h1>
+
+        <p className="mt-3 max-w-3xl leading-7 text-slate-200">
+          {label.description}
+        </p>
+
+        <p className="mt-4 text-sm text-slate-300">
+          {label.showing} {filtered.length} {label.of} {all.length} {label.records}
+        </p>
+      </div>
+
+      <form className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="grid gap-4 md:grid-cols-4">
+          <div className="relative md:col-span-2">
+            <Search className="pointer-events-none absolute start-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+            <input
+              name="q"
+              defaultValue={q}
+              placeholder={label.search}
+              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pe-4 ps-12 text-slate-950 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+            />
+          </div>
+
+          <input
+            name="city"
+            defaultValue={city}
+            placeholder={label.city}
+            className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+          />
+
+          <input
+            name="ownership"
+            defaultValue={ownership}
+            placeholder={label.ownership}
+            className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+          />
+
+          <select
+            name="website"
+            defaultValue={website}
+            className="rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 md:col-span-1"
+          >
+            <option value="">{label.anyWebsite}</option>
+            <option value="yes">{label.websiteOnly}</option>
+          </select>
+
+          <button
+            className="rounded-2xl bg-slate-950 px-5 py-3 font-black text-white transition hover:bg-emerald-700 md:col-span-3"
+            type="submit"
+          >
+            {label.apply}
+          </button>
+        </div>
+      </form>
+
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {filtered.map((university: UniversityRecord) => (
+          <UniversityCard
+            key={university.university_id}
+            university={university}
+            translation={translationMap.get(university.university_id)}
+            locale={locale}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export async function LocalizedUniversityDetailPage({
+  locale,
+  id,
+}: {
+  locale: Locale;
+  id: string;
+}) {
+  const label = ui[locale];
+
+  const [{ data: university }, { data: translation }, { data: programs }, { data: reviews }] =
+    await Promise.all([
+      supabase
+        .from('university_cards_enriched_public')
+        .select('*')
+        .eq('university_id', id)
+        .single(),
+      supabase
+        .from('university_translations')
+        .select('*')
+        .eq('university_id', id)
+        .eq('locale', locale)
+        .maybeSingle(),
+      supabase
+        .from('programs')
+        .select('*')
+        .eq('university_id', id)
+        .order('program_or_faculty', { ascending: true }),
+      supabase
+        .from('student_reviews')
+        .select('*')
+        .eq('university_id', id)
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false })
+        .limit(20),
+    ]);
+
+  if (!university) notFound();
+
+  const approvedReviews = reviews || [];
+
+  const averageScore =
+    approvedReviews.length > 0
+      ? approvedReviews.reduce(
+          (sum, review: any) => sum + Number(review.overall_score || 0),
+          0
+        ) / approvedReviews.length
+      : null;
+
+  const universityOption = [
+    {
+      university_id: university.university_id,
+      name_en: university.name_en || university.university_id,
+      name_ar: translation?.name || university.name_ar,
+    },
+  ];
+
+  return (
+    <section dir={label.dir} className="mx-auto max-w-7xl space-y-10 px-4 py-12">
+      <div>
+        <Link
+          href={`/${locale}/universities`}
+          className="text-sm font-bold text-emerald-700"
+        >
+          {label.back}
+        </Link>
+
+        <div className="mt-4 rounded-[2rem] bg-slate-950 p-8 text-white">
+          <div className="flex flex-wrap items-start gap-5">
+            <LogoMark university={university as UniversityRecord} name={displayName(locale, university, translation as Translation)} />
+
+            <div>
+              <h1 className="text-4xl font-black">
+                {displayName(locale, university, translation as Translation)}
+              </h1>
+
+              {secondaryName(locale, university, translation as Translation) && (
+                <p className="mt-2 text-xl text-slate-300" dir="ltr">
+                  {secondaryName(locale, university, translation as Translation)}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            <div>
+              <p className="text-sm text-slate-400">{label.city}</p>
+              <p className="font-bold">
+                {cityLabel(locale, university.city, translation as Translation)}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-slate-400">{label.ownership}</p>
+              <p className="font-bold">
+                {ownershipLabel(locale, university.ownership, translation as Translation)}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-slate-400">{label.averageReview}</p>
+              <p className="font-bold">
+                {averageScore ? `${averageScore.toFixed(1)} / 5` : label.noReviews}
+              </p>
+            </div>
+          </div>
+
+          {university.website && (
+            <a
+              href={university.website}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex rounded-2xl bg-white px-5 py-3 font-bold text-slate-950"
+            >
+              {label.visitWebsite}
+            </a>
+          )}
+        </div>
+
+        <OperationalStatusPanel data={university as UniversityRecord} locale={locale} />
+      </div>
+
+      <section className="space-y-4">
+        <h2 className="text-3xl font-black">{label.programs}</h2>
+
+        {!programs?.length ? (
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">
+            {label.noPrograms}
+          </div>
+        ) : (
+          <div className="grid gap-3 md:grid-cols-2">
+            {programs.map((program: any) => (
+              <div
+                key={program.program_id}
+                className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <h3 className="font-bold">{program.program_or_faculty || '-'}</h3>
+                <p className="mt-1 text-sm text-slate-600">{program.degree || '-'}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="space-y-6">
+        <div>
+          <h2 className="text-3xl font-black">{label.reviewsTitle}</h2>
+          <p className="mt-2 max-w-2xl text-slate-600">{label.reviewsDescription}</p>
+        </div>
+
+        <ReviewForm
+          locale={locale}
+          universities={universityOption}
+          defaultUniversityId={university.university_id}
+        />
+
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold">{label.approvedReviews}</h3>
+
+          {!approvedReviews.length ? (
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">
+              {label.noApprovedReviews}
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2">
+              {approvedReviews.map((review: any) => (
+                <article
+                  key={review.review_id}
+                  className="space-y-3 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                  <p className="text-3xl font-black text-emerald-700">
+                    {Number(review.overall_score || 0).toFixed(1)} / 5
+                  </p>
+
+                  <p className="text-slate-700">{review.comment}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </section>
+  );
+}

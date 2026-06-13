@@ -1,0 +1,2 @@
+export default function MethodologyPage(){return <section className="mx-auto max-w-4xl space-y-4 px-4 py-12"><h1 className="text-4xl font-black">Methodology</h1><p>Every record should include source URLs, confidence labels, and last updated dates. Rankings and market indicators are sourced from public or API-based providers and should be treated as indicative.</p><p>Program records scraped from university websites may be noisy, so low-confidence records should be reviewed before publication.</p></section>}
+
