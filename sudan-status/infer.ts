@@ -93,7 +93,7 @@ export function inferOperationalStatus(textInput: string, sourceType: string) {
   else if (onlineScore > 0) mode = 'Remote';
 
   let stability: 'Stable' | 'Moderate' | 'Unstable' | 'Unknown' = 'Unknown';
-  if (status === 'Suspended' || status === 'Inactive') stability = 'Unstable';
+  if ((status as string) === 'Suspended' || (status as string) === 'Inactive') stability = 'Unstable';
   else if (unstableScore >= stableScore + 2 && unstableScore > 0) stability = 'Unstable';
   else if (stableScore >= 3 && ['Active', 'Partially Active'].includes(status)) stability = 'Stable';
   else if (['Active', 'Partially Active'].includes(status)) stability = 'Moderate';
