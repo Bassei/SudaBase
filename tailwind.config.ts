@@ -6,22 +6,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        sand: '#f6efe7',
-        nile: '#2563eb',
-        sudanRed: '#dc2626',
-        sudanGreen: '#10b981', // Changed to Emerald/Teal
-        ink: '#111827',
-        surface: '#171717',
-        background: '#0a0a0a',
-        primary: '#10b981',
+        // Primary
+        brandBlue: '#0057FF',
+        primary: '#0057FF', // Alias for brandBlue
+        // Secondary
+        brandGreen: '#00C896',
+        secondary: '#00C896', // Alias for brandGreen
+        // Backgrounds
+        darkNavy: '#0A192F',
+        pureWhite: '#FFFFFF',
+        lightSurface: '#F5F7FA',
+        background: '#0a0a0a', // keep generic for some dark mode defaults
+        // Alerts
+        alertWarning: '#FFB800',
+        alertError: '#FF3B30',
+        alertInfo: '#00A3FF',
+        // Neutral
+        neutralData: '#8A94A6',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-roboto-mono)', 'monospace'],
       },
-      boxShadow: { soft: '0 18px 50px rgba(0, 0, 0, 0.4)' },
+      boxShadow: { 
+        soft: '0 8px 24px rgba(0, 0, 0, 0.12)',
+        card: '0 8px 24px rgba(0, 0, 0, 0.12)',
+      },
+      borderRadius: {
+        card: '16px',
+        button: '12px',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-mesh': 'radial-gradient(at 0% 0%, hsla(160, 84%, 39%, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, hsla(160, 84%, 39%, 0.1) 0px, transparent 50%)',
+        'hero-mesh': 'radial-gradient(at 0% 0%, hsla(219, 100%, 50%, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, hsla(160, 100%, 39%, 0.1) 0px, transparent 50%)',
       },
     }
   },
