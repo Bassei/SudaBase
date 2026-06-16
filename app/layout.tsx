@@ -4,7 +4,7 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 
 export const metadata: Metadata = {
-  title: 'Sudanese Database',
+  title: 'SudaBase',
   description: 'Sudan Education & Economic Data Platform'
 };
 

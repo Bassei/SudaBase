@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-slate-200 bg-white">
       <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 md:grid-cols-3">
         <div>
-          <p className="font-bold">Sudanese Database</p>
+          <p className="font-bold">SudaBase</p>
           <p className="mt-2 text-sm text-slate-600">Sudan Education & Economic Data Platform for public decision-making, study, investment, and research.</p>
         </div>
         <div className="text-sm text-slate-600">
