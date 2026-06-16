@@ -42,26 +42,29 @@ export default async function EnglishHomePage() {
 
   return (
     <div dir="ltr">
-      <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-green-950 text-white">
-        <div className="mx-auto max-w-7xl px-4 py-20">
+      <section className="bg-[#0a0a0a] bg-hero-mesh text-zinc-100 relative overflow-hidden">
+        {/* Decorative elements for the mesh */}
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-[#0a0a0a]/90 to-zinc-950/80 pointer-events-none" />
+        
+        <div className="mx-auto max-w-7xl px-4 py-20 relative z-10">
           <div className="mb-6 flex items-center justify-between gap-4">
-            <p className="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm">
+            <p className="inline-flex rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm text-zinc-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
               Sudan Education & Economic Data Infrastructure
             </p>
 
             <Link
               href="/ar"
-              className="rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white hover:bg-white hover:text-slate-950"
+              className="rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm font-bold text-zinc-300 transition-all hover:bg-zinc-800 hover:text-white"
             >
               العربية
             </Link>
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-black tracking-tight md:text-7xl">
+          <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
             Sudanese Database
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-200">
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
             A national data platform for students, businesses, researchers,
             universities, organizations, and decision makers. Choose the interface
             that matches your goal.
@@ -72,24 +75,26 @@ export default async function EnglishHomePage() {
               <Link
                 key={href}
                 href={href}
-                className="group rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur transition hover:bg-white hover:text-slate-950"
+                className="group rounded-3xl border border-zinc-800 bg-[#171717]/60 p-6 backdrop-blur-[12px] transition-all duration-300 hover:bg-zinc-800 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-1"
               >
-                <Icon className="h-10 w-10 text-green-300 group-hover:text-sudanGreen" />
+                <div className="mb-4 inline-flex rounded-xl bg-zinc-900/50 p-3 ring-1 ring-zinc-800 transition-colors group-hover:bg-primary/10 group-hover:ring-primary/30">
+                  <Icon className="h-8 w-8 text-zinc-400 group-hover:text-primary transition-colors" />
+                </div>
 
-                <h2 className="mt-5 text-2xl font-black">
+                <h2 className="text-2xl font-black text-zinc-100 group-hover:text-white">
                   {title}
                 </h2>
 
-                <p className="mt-2 font-semibold text-slate-200 group-hover:text-slate-700">
+                <p className="mt-2 font-semibold text-zinc-300 group-hover:text-zinc-200">
                   {subtitle}
                 </p>
 
-                <p className="mt-4 text-sm leading-6 text-slate-300 group-hover:text-slate-600">
+                <p className="mt-4 text-sm leading-6 text-zinc-500 group-hover:text-zinc-400">
                   {description}
                 </p>
 
-                <span className="mt-6 inline-flex font-bold underline">
-                  {cta}
+                <span className="mt-6 inline-flex font-bold text-primary group-hover:text-emerald-400 transition-colors">
+                  {cta} →
                 </span>
               </Link>
             ))}

@@ -2,15 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+:root { color-scheme: dark; }
 html { scroll-behavior: smooth; }
-body { @apply bg-slate-50 text-slate-900 antialiased; }
-[dir="rtl"] { font-family: Arial, sans-serif; }
+body { 
+  @apply bg-[#0a0a0a] text-zinc-300 antialiased font-sans selection:bg-primary/30 selection:text-white; 
+}
+[dir="rtl"] { font-family: 'Tajawal', Arial, sans-serif; }
 .leaflet-container { height: 420px; border-radius: 1.5rem; }
 
-.card { @apply rounded-3xl border border-slate-200 bg-white shadow-soft; }
-.input { @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-sudanGreen focus:ring-4 focus:ring-green-100; }
-.btn { @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold transition; }
-.btn-primary { @apply btn bg-slate-950 text-white hover:bg-slate-800; }
-.btn-secondary { @apply btn border border-slate-200 bg-white text-slate-800 hover:bg-slate-50; }
-.badge { @apply rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-700; }
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-wide text-zinc-100;
+}
+
+.card { 
+  @apply rounded-3xl border border-zinc-800 bg-[#171717]/80 backdrop-blur-[12px] transition-all duration-300 hover:shadow-2xl hover:border-zinc-700/80; 
+}
+.input { 
+  @apply w-full rounded-2xl border border-zinc-800 bg-[#171717] px-4 py-3 text-sm text-zinc-200 outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all; 
+}
+.btn { 
+  @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold transition-all duration-300 active:scale-[0.98]; 
+}
+.btn-primary { 
+  @apply btn bg-primary text-zinc-950 hover:bg-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]; 
+}
+.btn-secondary { 
+  @apply btn border border-zinc-800 bg-[#171717]/50 backdrop-blur-md text-zinc-200 hover:bg-zinc-800 hover:text-white; 
+}
+.badge { 
+  @apply rounded-full border border-zinc-800/80 bg-[#171717]/50 backdrop-blur-md px-3 py-1 text-xs font-medium text-zinc-300; 
+}

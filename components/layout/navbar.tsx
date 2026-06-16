@@ -45,10 +45,10 @@ export function Navbar() {
   const englishHref = getLanguageHref(pathname, 'en');
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-[#0a0a0a]/70 backdrop-blur-[12px] transition-all">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
         <Link href={homeHref} className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-zinc-950 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             ◉
           </span>
 
@@ -58,31 +58,31 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-semibold md:flex">
-          <Link href={homeHref} className="hover:text-sudanGreen">
+          <Link href={homeHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Home' : 'الرئيسية'}
           </Link>
 
-          <Link href={studentsHref} className="hover:text-sudanGreen">
+          <Link href={studentsHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Students' : 'للطلاب'}
           </Link>
 
-          <Link href={businessHref} className="hover:text-sudanGreen">
+          <Link href={businessHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Business' : 'للأعمال'}
           </Link>
 
-          <Link href={researchHref} className="hover:text-sudanGreen">
+          <Link href={researchHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Researchers' : 'للباحثين'}
           </Link>
 
-          <Link href={universitiesHref} className="hover:text-sudanGreen">
+          <Link href={universitiesHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Universities' : 'الجامعات'}
           </Link>
 
-          <Link href={compareHref} className="hover:text-sudanGreen">
+          <Link href={compareHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Ratings' : 'التقييمات'}
           </Link>
 
-          <Link href={marketHref} className="hover:text-sudanGreen">
+          <Link href={marketHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Market' : 'السوق'}
           </Link>
         </nav>
@@ -90,8 +90,8 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href={arabicHref}
-            className={`rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-slate-950 hover:text-white ${
-              isArabic ? 'bg-slate-950 text-white' : ''
+            className={`rounded-full border border-zinc-800 px-4 py-2 text-sm font-bold transition-all hover:bg-zinc-800 hover:text-white ${
+              isArabic ? 'bg-primary text-zinc-950 border-primary' : 'text-zinc-300'
             }`}
           >
             العربية
@@ -99,8 +99,8 @@ export function Navbar() {
 
           <Link
             href={englishHref}
-            className={`rounded-full border border-slate-200 px-4 py-2 text-sm font-bold hover:bg-slate-950 hover:text-white ${
-              isEnglish ? 'bg-slate-950 text-white' : ''
+            className={`rounded-full border border-zinc-800 px-4 py-2 text-sm font-bold transition-all hover:bg-zinc-800 hover:text-white ${
+              isEnglish ? 'bg-primary text-zinc-950 border-primary' : 'text-zinc-300'
             }`}
           >
             English
