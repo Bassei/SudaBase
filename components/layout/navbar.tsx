@@ -53,7 +53,7 @@ export function Navbar() {
           </span>
 
           <span className="text-xl font-black underline">
-            Sudanese Database
+            SudaBase
           </span>
         </Link>
 

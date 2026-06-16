@@ -61,7 +61,7 @@ export default async function EnglishHomePage() {
           </div>
 
           <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-            Sudanese Database
+            SudaBase
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">

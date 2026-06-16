@@ -59,7 +59,7 @@ export const dictionaries = {
     langLabel: 'العربية',
     switchTo: '/ar',
     badge: 'Sudan Education & Economic Data Infrastructure',
-    title: 'Sudanese Database',
+    title: 'SudaBase',
     description:
       'A national data platform for students, businesses, researchers, universities, organizations, and decision makers. Choose the interface that matches your goal.',
     students: {

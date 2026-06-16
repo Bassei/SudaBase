@@ -54,7 +54,7 @@ type SectorRecord = {
 const ui = {
   ar: {
     dir: 'rtl',
-    title: 'دليل الشركات السودانية',
+    title: 'سودا بيس',
     eyebrow: 'Business Directory',
     description:
       'قائمة أعمال مختصرة ونظيفة. لا تظهر بيانات التواصل هنا؛ افتح صفحة الشركة لعرض التفاصيل.',
