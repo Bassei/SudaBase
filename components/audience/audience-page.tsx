@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import {
+  Lightbulb,
+  Target,
+  FlaskConical,
+  BookOpen,
   BriefcaseBusiness,
   Building2,
   Database,
@@ -35,9 +39,9 @@ const text = {
     businessTitle: 'للأعمال',
     businessDescription:
       'واجهة مخصصة للتجار، الشركات، المستثمرين، ورواد الأعمال لمتابعة مؤشرات السوق، القطاعات، الشركات، والفرص الاقتصادية في السودان.',
-    researchTitle: 'للباحثين',
+    researchTitle: 'بوابة البحث والابتكار',
     researchDescription:
-      'واجهة بحثية منظمة لبيانات التعليم والاقتصاد في السودان، مخصصة للباحثين، الجامعات، المنظمات، الصحفيين، والمحللين.',
+      'منصة مخصصة للباحثين لنشر أبحاثهم وإبداعاتهم، وللشركات وأصحاب الأعمال لطرح المشاكل والمنتجات التي يريدون من طلاب الجامعات والباحثين العمل عليها لإيجاد حلول مبتكرة.',
     browseUniversities: 'تصفح الجامعات',
     compareUniversities: 'قارن الجامعات',
     marketIndicators: 'مؤشرات السوق',
@@ -81,7 +85,13 @@ const text = {
       methodology: 'المنهجية',
       methodologyDesc: 'راجع طريقة جمع البيانات، تنظيفها، تصنيفها، وتحديثها.',
       quality: 'جودة البيانات',
-      qualityDesc: 'لوحة مستقبلية للتكرارات، النواقص، البيانات القديمة، ومستوى الثقة.'
+      qualityDesc: 'لوحة مستقبلية للتكرارات، النواقص، البيانات القديمة، ومستوى الثقة.',
+      addIdea: 'أضف فكرة أو بحث',
+      addIdeaDesc: 'شارك مشروعك، بحثك، أو إبداعك مع المجتمع الأكاديمي والشركات لتعزيز الابتكار.',
+      addProblem: 'طرح مشكلة أو تطوير منتج',
+      addProblemDesc: 'للشركات وأصحاب الأعمال: اطرح التحديات التي تواجهك ليقوم الطلاب بإيجاد حلول لها.',
+      researchData: 'البيانات البحثية',
+      researchDataDesc: 'بيانات ومعلومات مفتوحة ومخصصة لمساعدة الباحثين في دراساتهم وتحليلاتهم.'
     }
   },
   en: {
@@ -91,9 +101,9 @@ const text = {
     businessTitle: 'For Businesses',
     businessDescription:
       'A business-focused interface for Sudanese market indicators, sectors, businesses, and market opportunity intelligence.',
-    researchTitle: 'For Researchers',
+    researchTitle: 'Research & Innovation Portal',
     researchDescription:
-      'A structured research interface for Sudanese education and economic data. Designed for researchers, universities, organizations, journalists, and analysts.',
+      'A dedicated platform for researchers to publish their work, and for companies to post technical problems and product developments for university students to solve.',
     browseUniversities: 'Browse universities',
     compareUniversities: 'Compare universities',
     marketIndicators: 'Market indicators',
@@ -137,7 +147,13 @@ const text = {
       methodology: 'Methodology',
       methodologyDesc: 'Review how data is collected, cleaned, labeled, and updated.',
       quality: 'Data quality',
-      qualityDesc: 'Future dashboard for duplicates, missing fields, outdated records, and confidence labels.'
+      qualityDesc: 'Future dashboard for duplicates, missing fields, outdated records, and confidence labels.',
+      addIdea: 'Add an Idea or Research',
+      addIdeaDesc: 'Share your project, research, or idea with the academic community and businesses.',
+      addProblem: 'Post a Problem or Product',
+      addProblemDesc: 'For businesses: post the challenges you face so students and researchers can find solutions.',
+      researchData: 'Research Data',
+      researchDataDesc: 'Open data and information designed to help researchers with their studies and analysis.'
     }
   }
 };
