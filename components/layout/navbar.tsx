@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { LogIn, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { BrandLogo } from '@/components/layout/brand-logo';
 import {
@@ -95,6 +95,14 @@ export function Navbar() {
             </Link>
           </div>
 
+          <Link
+            href="/login"
+            className="hidden items-center gap-2 rounded-lg bg-[#f6b83f] px-4 py-2 text-sm font-black text-[#173a2b] shadow-sm transition hover:bg-amber-300 md:inline-flex"
+          >
+            <LogIn className="h-4 w-4" />
+            {isEnglish ? 'Register' : 'تسجيل'}
+          </Link>
+
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -128,6 +136,13 @@ export function Navbar() {
               English
             </Link>
           </div>
+          <Link
+            href="/login"
+            onClick={() => setOpen(false)}
+            className="mx-auto mt-2 block max-w-7xl rounded-lg bg-[#f6b83f] px-4 py-3 text-center text-sm font-black text-[#173a2b]"
+          >
+            {isEnglish ? 'Register' : 'تسجيل'}
+          </Link>
         </div>
       )}
     </header>
