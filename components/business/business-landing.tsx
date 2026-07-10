@@ -1,199 +1,217 @@
 import Link from 'next/link';
 import {
+  ArrowLeft,
+  ArrowRight,
   BriefcaseBusiness,
-  Building2,
+  Handshake,
   LineChart,
-  Phone,
-  SearchCheck,
   ShieldCheck,
+  Sprout,
   Store,
+  Truck,
+  Wrench,
 } from 'lucide-react';
 
 type Locale = 'ar' | 'en';
 
-const ui = {
+const content = {
   ar: {
     dir: 'rtl',
-    title: 'بوابة الأعمال السودانية',
+    eyebrow: 'United Fruit Company',
+    title: 'بوابة السوق الزراعي',
     subtitle:
-      'واجهة مخصصة للقطاعات، الشركات، فرص السوق، ومؤشرات الاقتصاد في السودان.',
-    description:
-      'استكشف بيانات الأعمال بصورة منظمة. الشركات وبيانات التواصل تظهر داخل صفحة الشركات فقط حتى تبقى واجهة الأعمال الرئيسية نظيفة وسهلة القراءة.',
-    companies: 'الشركات',
-    companiesDesc: 'اعرض الشركات السودانية النظيفة والمؤكدة مع القطاع والمدينة ووسائل التواصل.',
-    market: 'مؤشرات السوق',
-    marketDesc: 'تابع مؤشرات الصرف والسيولة وأسعار المحاصيل من صفحة واحدة.',
-    sectors: 'القطاعات',
-    sectorsDesc: 'استكشف القطاعات الاقتصادية مثل النقل، الزراعة، الصناعة، التمويل، والخدمات.',
-    opportunities: 'الفرص',
-    opportunitiesDesc: 'ادخل سوق United Fruit لتقديم عروض وطلبات قابلة للمطابقة.',
-    openCompanies: 'فتح دليل الشركات',
-    comingSoon: 'فتح',
-    note:
-      'بيانات الشركات في هذه المرحلة انتقائية ومراجعة يدوياً بدرجة أعلى. سنضيف المزيد تدريجياً من مصادر موثوقة.',
-    statsCompanies: 'شركات مؤكدة',
-    statsContacts: 'وسائل تواصل',
-    statsSectors: 'قطاعات',
-    statsSources: 'مصادر عامة',
+      'بيع وشراء المحاصيل بكميات تجارية عبر فريق يراجع العروض والطلبات وينسق الصفقة حتى الإغلاق.',
+    primary: 'ابدأ التسجيل',
+    secondary: 'عرض الأسعار',
+    minLabel: 'حد طلب الشراء',
+    minValue: '400 جوال',
+    productsLabel: 'المنتجات',
+    productsValue: 'فتريتة، قمح، بصل ومحاصيل أخرى',
+    flowLabel: 'المطابقة',
+    flowValue: 'من خلال الفريق',
+    privacy:
+      'لا تظهر بيانات التواصل بين المزارع والتاجر مباشرة. فريق United Fruit يدير المطابقة والتنسيق.',
+    portalsTitle: 'اختر بوابتك',
+    portals: [
+      {
+        title: 'مزارع',
+        description: 'سجل بياناتك وأرسل عرض محصول مع الكمية وموقع الحصاد.',
+        href: '/login',
+        cta: 'تسجيل مزارع',
+        icon: Sprout,
+      },
+      {
+        title: 'تاجر أو مشتري',
+        description: 'أرسل طلب شراء بالجملة، وسيتم ربطه بالعروض المناسبة.',
+        href: '/login',
+        cta: 'تسجيل تاجر',
+        icon: Store,
+      },
+      {
+        title: 'سوق يونايتد فروت',
+        description: 'قدّم عرض توفر أو طلب شراء وتابع حالة الطلب من نفس الصفحة.',
+        href: '/ar/marketplace',
+        cta: 'دخول السوق',
+        icon: Handshake,
+      },
+      {
+        title: 'تقني الفريق',
+        description: 'دخول مخصص للفريق لمراجعة البيانات، ربط الصفقات، وتحديث الأسعار.',
+        href: '/login',
+        cta: 'تسجيل تقني',
+        icon: Wrench,
+      },
+    ],
+    toolsTitle: 'أدوات التشغيل',
+    tools: [
+      { title: 'أسعار المحاصيل', href: '/ar/marketplace/prices', icon: LineChart },
+      { title: 'مؤشرات السوق', href: '/market-indicators', icon: BriefcaseBusiness },
+      { title: 'مسارات الترحيل', href: '/admin/marketplace', icon: Truck },
+    ],
   },
   en: {
     dir: 'ltr',
-    title: 'Sudanese Business Portal',
+    eyebrow: 'United Fruit Company',
+    title: 'Agricultural Market Portal',
     subtitle:
-      'A dedicated interface for sectors, companies, market opportunities, and economic indicators in Sudan.',
-    description:
-      'Explore business data in a structured way. Company records and contact details are shown only inside the companies directory to keep this main business page clean.',
-    companies: 'Companies',
-    companiesDesc: 'Browse verified Sudanese companies with sector, city, and contact information.',
-    market: 'Market indicators',
-    marketDesc: 'Track exchange, liquidity, and crop price signals from one page.',
-    sectors: 'Sectors',
-    sectorsDesc: 'Explore economic sectors such as logistics, agriculture, manufacturing, finance, and services.',
-    opportunities: 'Opportunities',
-    opportunitiesDesc: 'Open the United Fruit marketplace for supply and demand matching.',
-    openCompanies: 'Open companies directory',
-    comingSoon: 'Open',
-    note:
-      'The current business dataset is selective and more strictly reviewed. More companies will be added gradually from trusted sources.',
-    statsCompanies: 'Verified companies',
-    statsContacts: 'Contacts',
-    statsSectors: 'Sectors',
-    statsSources: 'Public sources',
+      'Buy and sell commercial crop volumes through a team-reviewed flow from request to deal coordination.',
+    primary: 'Start registration',
+    secondary: 'View prices',
+    minLabel: 'Minimum demand',
+    minValue: '400 jowal',
+    productsLabel: 'Products',
+    productsValue: 'Feterita, wheat, onion, and more',
+    flowLabel: 'Matching',
+    flowValue: 'Team managed',
+    privacy:
+      'Farmer and buyer contact details are not exposed directly. United Fruit manages matching and coordination.',
+    portalsTitle: 'Choose your portal',
+    portals: [
+      {
+        title: 'Farmer',
+        description: 'Register and submit crop supply with quantity and harvest location.',
+        href: '/login',
+        cta: 'Register farmer',
+        icon: Sprout,
+      },
+      {
+        title: 'Buyer',
+        description: 'Submit wholesale demand and let the team match it with suitable supply.',
+        href: '/login',
+        cta: 'Register buyer',
+        icon: Store,
+      },
+      {
+        title: 'United Fruit Market',
+        description: 'Submit supply or demand and track request status from one page.',
+        href: '/en/marketplace',
+        cta: 'Open market',
+        icon: Handshake,
+      },
+      {
+        title: 'Team technician',
+        description: 'Review records, create matches, and update prices from the team dashboard.',
+        href: '/login',
+        cta: 'Register technician',
+        icon: Wrench,
+      },
+    ],
+    toolsTitle: 'Operating tools',
+    tools: [
+      { title: 'Crop prices', href: '/en/marketplace/prices', icon: LineChart },
+      { title: 'Market indicators', href: '/market-indicators', icon: BriefcaseBusiness },
+      { title: 'Transport lanes', href: '/admin/marketplace', icon: Truck },
+    ],
   },
 };
 
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-sm">
-      <p className="text-sm font-bold text-[#60736a]">{label}</p>
-      <p className="mt-2 text-3xl font-black text-[#173a2b]">{value}</p>
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon: Icon,
-  title,
-  description,
-  href,
-  cta,
-  disabled,
-}: {
-  icon: any;
-  title: string;
-  description: string;
-  href?: string;
-  cta?: string;
-  disabled?: boolean;
-}) {
-  const content = (
-    <article className="h-full rounded-lg border border-emerald-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-50 text-emerald-800">
-        <Icon className="h-7 w-7" />
-      </div>
-
-      <h2 className="mt-5 text-2xl font-black text-[#173a2b]">{title}</h2>
-
-      <p className="mt-3 min-h-[72px] text-sm leading-6 text-slate-600">
-        {description}
-      </p>
-
-      <span
-        className={`mt-5 inline-flex rounded-2xl px-4 py-2 text-sm font-black ${
-          disabled
-            ? 'bg-emerald-50 text-[#60736a]'
-            : 'bg-[#f6b83f] text-[#173a2b] hover:bg-amber-300'
-        }`}
-      >
-        {cta}
-      </span>
-    </article>
-  );
-
-  if (disabled || !href) {
-    return content;
-  }
-
-  return <Link href={href}>{content}</Link>;
-}
-
 export function LocalizedBusinessLandingPage({ locale }: { locale: Locale }) {
-  const label = ui[locale];
+  const t = content[locale];
+  const Arrow = locale === 'ar' ? ArrowLeft : ArrowRight;
 
   return (
-    <main dir={label.dir} className="mx-auto max-w-7xl space-y-10 px-4 py-12">
-      <section className="overflow-hidden rounded-lg border border-emerald-100 bg-[linear-gradient(135deg,#eef9f0_0%,#fff7e3_100%)] p-8 md:p-12">
-        <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-white text-emerald-800 shadow-sm">
-          <BriefcaseBusiness className="h-9 w-9" />
+    <main dir={t.dir} className="bg-[#fbfdf8]">
+      <section className="border-b border-emerald-100 bg-[linear-gradient(135deg,#f4fbf5_0%,#fff7df_100%)]">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+          <div>
+            <p className="badge">{t.eyebrow}</p>
+            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-[#173a2b] md:text-6xl">
+              {t.title}
+            </h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-[#426457]">
+              {t.subtitle}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/login" className="btn-primary px-5 py-3">
+                {t.primary}
+                <Arrow className="h-4 w-4" />
+              </Link>
+              <Link href={locale === 'ar' ? '/ar/marketplace/prices' : '/en/marketplace/prices'} className="btn-secondary px-5 py-3">
+                {t.secondary}
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-sm">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <Info label={t.minLabel} value={t.minValue} />
+              <Info label={t.productsLabel} value={t.productsValue} />
+              <Info label={t.flowLabel} value={t.flowValue} />
+            </div>
+            <div className="mt-4 rounded-lg bg-emerald-50 p-4">
+              <div className="flex gap-3">
+                <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-700" />
+                <p className="text-sm font-bold leading-7 text-[#426457]">{t.privacy}</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <h1 className="mt-8 max-w-4xl text-4xl font-black tracking-tight text-[#173a2b] md:text-6xl">
-          {label.title}
-        </h1>
-
-        <p className="mt-5 max-w-3xl text-xl font-semibold text-emerald-800">
-          {label.subtitle}
-        </p>
-
-        <p className="mt-5 max-w-3xl leading-8 text-[#426457]">
-          {label.description}
-        </p>
-
-        <div className="mt-8">
-          <Link
-            href={`/${locale}/business/companies`}
-            className="btn-primary px-6 py-3"
-          >
-            {label.openCompanies}
-          </Link>
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <h2 className="text-3xl font-black text-[#173a2b]">{t.portalsTitle}</h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {t.portals.map(({ title, description, href, cta, icon: Icon }) => (
+            <Link key={title} href={href} className="group rounded-lg border border-emerald-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-800">
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 text-xl font-black text-[#173a2b]">{title}</h3>
+              <p className="mt-3 min-h-[84px] text-sm leading-7 text-[#60736a]">{description}</p>
+              <span className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#f6b83f] px-4 py-2 text-sm font-black text-[#173a2b]">
+                {cta}
+                <Arrow className="h-4 w-4" />
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-4">
-        <StatCard label={label.statsCompanies} value="55" />
-        <StatCard label={label.statsContacts} value="122" />
-        <StatCard label={label.statsSectors} value="6" />
-        <StatCard label={label.statsSources} value="Public" />
-      </section>
-
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <FeatureCard
-          icon={Building2}
-          title={label.companies}
-          description={label.companiesDesc}
-          href={`/${locale}/business/companies`}
-          cta={label.openCompanies}
-        />
-
-        <FeatureCard
-          icon={LineChart}
-          title={label.market}
-          description={label.marketDesc}
-          href="/market-indicators"
-          cta={label.comingSoon}
-        />
-
-        <FeatureCard
-          icon={Store}
-          title={label.sectors}
-          description={label.sectorsDesc}
-          href="/sectors"
-          cta={label.comingSoon}
-        />
-
-        <FeatureCard
-          icon={SearchCheck}
-          title={label.opportunities}
-          description={label.opportunitiesDesc}
-          href={`/${locale}/marketplace`}
-          cta={label.comingSoon}
-        />
-      </section>
-
-      <section className="rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm font-semibold leading-7 text-amber-900">
-        <ShieldCheck className="mb-3 h-6 w-6" />
-        {label.note}
+      <section className="border-t border-emerald-100 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-10">
+          <h2 className="text-2xl font-black text-[#173a2b]">{t.toolsTitle}</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {t.tools.map(({ title, href, icon: Icon }) => (
+              <Link key={title} href={href} className="flex items-center justify-between rounded-lg border border-emerald-100 bg-[#fbfdf8] p-5 font-black text-[#173a2b] transition hover:bg-emerald-50">
+                <span className="inline-flex items-center gap-3">
+                  <Icon className="h-5 w-5 text-emerald-700" />
+                  {title}
+                </span>
+                <Arrow className="h-4 w-4 text-[#ef7b45]" />
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
+  );
+}
+
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-emerald-100 bg-[#fbfdf8] p-4">
+      <p className="text-xs font-bold text-[#60736a]">{label}</p>
+      <p className="mt-1 text-lg font-black text-[#173a2b]">{value}</p>
+    </div>
   );
 }
