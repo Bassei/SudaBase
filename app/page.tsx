@@ -1,141 +1,152 @@
 import Link from 'next/link';
-import { BriefcaseBusiness, Handshake, LineChart } from 'lucide-react';
+import { ArrowLeft, BriefcaseBusiness, Handshake, LineChart, ShieldCheck, Sprout, Store } from 'lucide-react';
 import { MarketTicker } from '@/components/market/market-ticker';
 import { getMarketIndicators, getStats } from '@/lib/data';
 import { StatCard } from '@/components/ui/stat-card';
+import { BrandLogo } from '@/components/layout/brand-logo';
 
-const audiences = [
+const portals = [
   {
-    title: 'للأعمال',
-    subtitle: 'مؤشرات السوق، القطاعات، الشركات، والفرص الزراعية.',
-    description:
-      'تابع مؤشرات السوق واستكشف بيانات الأعمال والقطاعات المرتبطة بسلاسل الإمداد الزراعي.',
-    href: '/ar/business',
-    icon: BriefcaseBusiness,
-    cta: 'استكشف بيانات الأعمال'
+    title: 'بوابة المزارع',
+    subtitle: 'سجل محصولك وتابع حالة العرض',
+    description: 'نموذج واضح لتسجيل بيانات المزارع وتوفر الفتريتة أو القمح أو البصل، ثم متابعة الحالة من نفس الرقم.',
+    href: '/ar/marketplace',
+    icon: Sprout,
+    tone: 'bg-emerald-50 text-emerald-800',
   },
   {
-    title: 'سوق يونايتد فروت',
-    subtitle: 'عروض مزارعين وطلبات تجار تمر عبر فريق United Fruit.',
-    description:
-      'سجل توفر محصولك أو طلب شراء بالجملة، وسيقوم الفريق بمراجعة المطابقة والتنسيق دون كشف بيانات التواصل مباشرة.',
+    title: 'بوابة التاجر',
+    subtitle: 'طلبات شراء بالجملة مع حد نقل واضح',
+    description: 'طلب شراء يبدأ من 400 جوال لضمان كفاءة النقل، ثم يراجعه فريق United Fruit قبل المطابقة.',
     href: '/ar/marketplace',
-    icon: Handshake,
-    cta: 'افتح السوق'
+    icon: Store,
+    tone: 'bg-[#fff4d8] text-amber-800',
   },
   {
     title: 'لوحة الأسعار',
-    subtitle: 'أسعار عامة قابلة للتحديث من لوحة الفريق.',
-    description:
-      'اطلع على متوسط سعر المصدر ومتوسط سعر الخرطوم للفتريتة والقمح والبصل وآخر تحديث.',
+    subtitle: 'أسعار عامة قابلة للتحديث',
+    description: 'جدول سريع لأسعار المصدر والخرطوم وآخر تحديث، مناسب للقراءة من الهاتف أو الحاسوب.',
     href: '/ar/marketplace/prices',
     icon: LineChart,
-    cta: 'عرض الأسعار'
-  }
+    tone: 'bg-[#e7f7fb] text-cyan-800',
+  },
+  {
+    title: 'بوابة الأعمال',
+    subtitle: 'قطاعات وشركات ومؤشرات',
+    description: 'مدخل منظم لبيانات الأعمال الحالية مع الحفاظ على وظيفة القسم كما هي.',
+    href: '/ar/business',
+    icon: BriefcaseBusiness,
+    tone: 'bg-[#ffece4] text-orange-800',
+  },
 ];
 
 export default async function HomePage() {
-  const [stats, indicators] = await Promise.all([
-    getStats(),
-    getMarketIndicators()
-  ]);
+  const [stats, indicators] = await Promise.all([getStats(), getMarketIndicators()]);
 
   return (
-    <div dir="rtl">
-      <section className="bg-[#0a0a0a] bg-hero-mesh text-zinc-100 relative overflow-hidden">
-        {/* Decorative elements for the mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-[#0a0a0a]/90 to-zinc-950/80 pointer-events-none" />
-        
-        <div className="mx-auto max-w-7xl px-4 py-20 relative z-10">
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <p className="inline-flex rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm text-zinc-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-              منصة United Fruit للسلع الزراعية في السودان
+    <main dir="rtl" className="overflow-hidden">
+      <section className="border-b border-emerald-100 bg-[linear-gradient(135deg,#fbfdf8_0%,#eef9f0_46%,#fff7e3_100%)]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:py-16 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+          <div>
+            <p className="badge">منصة سودانية للسلع الزراعية</p>
+            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-[#173a2b] sm:text-5xl lg:text-7xl">
+              United Fruit Company
+            </h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-[#426457]">
+              واجهة خفيفة وواضحة لكل الفئات السودانية: المزارع، التاجر، فريق المطابقة، وزائر الأسعار. كل بوابة تقود المستخدم مباشرة للخطوة المناسبة على الهاتف أو الحاسوب.
             </p>
 
-            <Link
-              href="/en"
-              className="rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm font-bold text-zinc-300 transition-all hover:bg-zinc-800 hover:text-white"
-            >
-              English
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/ar/marketplace" className="btn-primary px-5 py-3">
+                افتح السوق
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+              <Link href="/ar/marketplace/prices" className="btn-secondary px-5 py-3">
+                عرض الأسعار
+              </Link>
+            </div>
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-            United Fruit Company
-          </h1>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
-            بوابة حديثة لتنظيم عروض المزارعين وطلبات المشترين، مع شفافية أسعار
-            وسير مطابقة داخلي يحافظ على خصوصية الأطراف.
-          </p>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {audiences.map(({ title, subtitle, description, href, icon: Icon, cta }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group rounded-3xl border border-zinc-800 bg-[#171717]/60 p-6 backdrop-blur-[12px] transition-all duration-300 hover:bg-zinc-800 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-1"
-              >
-                <div className="mb-4 inline-flex rounded-xl bg-zinc-900/50 p-3 ring-1 ring-zinc-800 transition-colors group-hover:bg-primary/10 group-hover:ring-primary/30">
-                  <Icon className="h-8 w-8 text-zinc-400 group-hover:text-primary transition-colors" />
-                </div>
-
-                <h2 className="text-2xl font-black text-zinc-100 group-hover:text-white">
-                  {title}
-                </h2>
-
-                <p className="mt-2 font-semibold text-zinc-300 group-hover:text-zinc-200">
-                  {subtitle}
+          <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-900/5">
+            <div className="flex items-center justify-between gap-4 border-b border-emerald-100 pb-4">
+              <BrandLogo />
+              <span className="rounded-lg bg-[#f6b83f] px-3 py-2 text-sm font-black text-[#173a2b]">
+                مباشر
+              </span>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <Info label="طلبات تمر عبر الفريق" value="خصوصية كاملة" />
+              <Info label="حد طلب الشراء" value="400 جوال" />
+              <Info label="المنتجات" value="فتريتة، قمح، بصل" />
+              <Info label="الواجهات" value="هاتف وحاسوب" />
+            </div>
+            <div className="mt-5 rounded-lg bg-emerald-50 p-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-700" />
+                <p className="text-sm font-bold leading-7 text-[#426457]">
+                  لا تظهر بيانات التواصل بين المزارع والتاجر مباشرة. المطابقة والتنسيق يتمان من لوحة الفريق الداخلية.
                 </p>
-
-                <p className="mt-4 text-sm leading-6 text-zinc-500 group-hover:text-zinc-400">
-                  {description}
-                </p>
-
-                <span className="mt-6 inline-flex font-bold text-primary group-hover:text-emerald-400 transition-colors">
-                  {cta} ←
-                </span>
-              </Link>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
-        <div>
-          <h2 className="text-3xl font-black">لمحة عن التشغيل</h2>
-          <p className="mt-2 max-w-2xl text-slate-600">
-            قاعدة بيانات واحدة تدعم الأعمال، السوق، ومؤشرات الأسعار القابلة للتحديث.
-          </p>
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-black text-emerald-700">البوابات الرئيسية</p>
+            <h2 className="mt-2 text-3xl font-black">اختر المسار المناسب</h2>
+          </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {portals.map(({ title, subtitle, description, href, icon: Icon, tone }) => (
+            <Link key={title} href={href} className="group rounded-lg border border-emerald-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${tone}`}>
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 text-xl font-black text-[#173a2b]">{title}</h3>
+              <p className="mt-2 text-sm font-black text-emerald-700">{subtitle}</p>
+              <p className="mt-3 text-sm leading-7 text-[#60736a]">{description}</p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#ef7b45]">
+                دخول البوابة
+                <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-emerald-100 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 md:grid-cols-3">
           <StatCard label="القطاعات" value={stats.sectors} />
           <StatCard label="الأعمال" value={stats.businesses} />
           <StatCard label="مؤشرات السوق" value={indicators.length} />
         </div>
-
-        <section>
-          <div className="mb-4 flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold">لمحة السوق</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                أسعار إرشادية سريعة. الأدوات الكاملة موجودة داخل واجهة الأعمال.
-              </p>
-            </div>
-
-            <Link href="/ar/marketplace/prices" className="hidden font-bold text-sudanGreen md:inline-flex">
-              افتح لوحة أسعار المحاصيل
-            </Link>
-          </div>
-
-          <MarketTicker indicators={indicators} />
-
-          <p className="mt-3 text-sm text-slate-500">
-            أسعار الصرف، USDT، الذهب والفضة إرشادية وقد تختلف عن أسعار السوق المحلي في السودان.
-          </p>
-        </section>
       </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-black text-emerald-700">لمحة السوق</p>
+            <h2 className="mt-2 text-2xl font-black">مؤشرات سريعة للمتابعة</h2>
+          </div>
+          <Link href="/ar/marketplace/prices" className="btn-secondary">
+            لوحة أسعار المحاصيل
+          </Link>
+        </div>
+        <MarketTicker indicators={indicators} />
+      </section>
+    </main>
+  );
+}
+
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-emerald-100 bg-[#fbfdf8] p-4">
+      <p className="text-xs font-bold text-[#60736a]">{label}</p>
+      <p className="mt-1 text-lg font-black text-[#173a2b]">{value}</p>
     </div>
   );
 }

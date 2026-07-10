@@ -237,7 +237,7 @@ function BusinessCard({
 
       <div className="p-6">
         <header className="flex items-start gap-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-lg font-black text-white shadow-sm">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-[#f6b83f] text-lg font-black text-[#173a2b] shadow-sm">
             {initials(name)}
           </div>
 
@@ -296,7 +296,7 @@ function BusinessCard({
               href={business.website}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-black text-white transition hover:bg-emerald-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-black text-white transition hover:bg-amber-500 hover:text-[#173a2b]"
             >
               <Globe2 className="h-4 w-4" />
               {label.website}
@@ -407,21 +407,21 @@ export async function LocalizedBusinessPage({
 
   return (
     <section dir={label.dir} className="mx-auto max-w-7xl space-y-8 px-4 py-12">
-      <div className="rounded-[2rem] bg-gradient-to-br from-slate-950 to-emerald-950 p-8 text-white">
+          <div className="rounded-lg border border-emerald-100 bg-[linear-gradient(135deg,#eef9f0_0%,#fff7e3_100%)] p-8 text-[#173a2b]">
         <Link
           href={`/${locale}`}
-          className="text-sm font-bold text-emerald-200 hover:text-white"
+          className="text-sm font-bold text-emerald-700 hover:text-emerald-900"
         >
           {label.back}
         </Link>
 
-        <div className="mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
-          <Building2 className="h-8 w-8 text-emerald-300" />
+        <div className="mt-6 flex h-14 w-14 items-center justify-center rounded-lg bg-white shadow-sm">
+          <Building2 className="h-8 w-8 text-emerald-700" />
         </div>
 
         <h1 className="mt-6 text-4xl font-black md:text-6xl">{label.title}</h1>
 
-        <p className="mt-3 max-w-3xl leading-7 text-slate-200">
+        <p className="mt-3 max-w-3xl leading-7 text-[#426457]">
           {label.description}
         </p>
 
@@ -485,7 +485,7 @@ export async function LocalizedBusinessPage({
           </select>
 
           <button
-            className="rounded-2xl bg-slate-950 px-5 py-3 font-black text-white transition hover:bg-emerald-700 md:col-span-5"
+            className="rounded-lg bg-emerald-700 px-5 py-3 font-black text-white transition hover:bg-amber-500 hover:text-[#173a2b] md:col-span-5"
             type="submit"
           >
             {label.apply}

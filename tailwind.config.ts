@@ -10,10 +10,10 @@ const config: Config = {
       },
       colors: {
         primary: {
-          DEFAULT: '#0ea5e9', // Tailwind sky-500
+          DEFAULT: '#1f8a4c',
           foreground: '#ffffff',
         },
-        background: '#020617', // slate-950
+        background: '#fbfdf8',
       }
     }
   },

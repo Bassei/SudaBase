@@ -184,7 +184,7 @@ function CompanyRow({
       className="group block rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-xl"
     >
       <div className="grid gap-4 lg:grid-cols-[64px_1.4fr_1fr_0.8fr_120px] lg:items-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-950 to-slate-800 text-lg font-black text-white shadow-lg shadow-slate-200">
+          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-[#f6b83f] text-lg font-black text-[#173a2b] shadow-lg shadow-amber-100">
           {initials(name)}
         </div>
 
@@ -233,7 +233,7 @@ function CompanyRow({
             </p>
           </div>
 
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white transition group-hover:bg-amber-600">
+              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-700 text-white transition group-hover:bg-amber-500 group-hover:text-[#173a2b]">
             <ArrowUpRight className="h-5 w-5" />
           </span>
         </div>
@@ -301,15 +301,15 @@ export async function LocalizedCompaniesPage({
 
   return (
     <section dir={label.dir} className="mx-auto max-w-7xl space-y-8 px-4 py-12">
-      <div className="overflow-hidden rounded-[2.5rem] bg-[radial-gradient(circle_at_top_left,_#f59e0b,_transparent_35%),linear-gradient(135deg,#020617,#111827_45%,#0f766e)] p-8 text-white md:p-12">
+      <div className="overflow-hidden rounded-lg border border-emerald-100 bg-[linear-gradient(135deg,#eef9f0_0%,#fff7e3_100%)] p-8 text-[#173a2b] md:p-12">
         <Link
           href={`/${locale}/business`}
-          className="text-sm font-bold text-amber-200 hover:text-white"
+          className="text-sm font-bold text-emerald-700 hover:text-emerald-900"
         >
           {label.back}
         </Link>
 
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black text-amber-100 ring-1 ring-white/10">
+        <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-amber-800 ring-1 ring-amber-100">
           <Sparkles className="h-4 w-4" />
           {label.eyebrow}
         </div>
@@ -318,7 +318,7 @@ export async function LocalizedCompaniesPage({
           {label.title}
         </h1>
 
-        <p className="mt-4 max-w-3xl leading-8 text-slate-200">
+        <p className="mt-4 max-w-3xl leading-8 text-[#426457]">
           {label.description}
         </p>
 
@@ -378,7 +378,7 @@ export async function LocalizedCompaniesPage({
           </select>
 
           <button
-            className="rounded-2xl bg-slate-950 px-5 py-3 font-black text-white transition hover:bg-amber-600 md:col-span-5"
+            className="rounded-lg bg-emerald-700 px-5 py-3 font-black text-white transition hover:bg-amber-500 hover:text-[#173a2b] md:col-span-5"
             type="submit"
           >
             {label.apply}

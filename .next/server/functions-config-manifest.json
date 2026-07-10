@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/university/[id]":{},"/api/market/refresh":{},"/compare-universities":{}}}
+{"version":1,"functions":{"/compare-universities":{},"/api/market/refresh":{},"/university/[id]":{}}}

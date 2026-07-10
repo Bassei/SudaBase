@@ -64,9 +64,9 @@ const ui = {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm font-bold text-slate-500">{label}</p>
-      <p className="mt-2 text-3xl font-black text-slate-950">{value}</p>
+    <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-sm">
+      <p className="text-sm font-bold text-[#60736a]">{label}</p>
+      <p className="mt-2 text-3xl font-black text-[#173a2b]">{value}</p>
     </div>
   );
 }
@@ -87,12 +87,12 @@ function FeatureCard({
   disabled?: boolean;
 }) {
   const content = (
-    <article className="h-full rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white">
+    <article className="h-full rounded-lg border border-emerald-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-50 text-emerald-800">
         <Icon className="h-7 w-7" />
       </div>
 
-      <h2 className="mt-5 text-2xl font-black text-slate-950">{title}</h2>
+      <h2 className="mt-5 text-2xl font-black text-[#173a2b]">{title}</h2>
 
       <p className="mt-3 min-h-[72px] text-sm leading-6 text-slate-600">
         {description}
@@ -101,8 +101,8 @@ function FeatureCard({
       <span
         className={`mt-5 inline-flex rounded-2xl px-4 py-2 text-sm font-black ${
           disabled
-            ? 'bg-slate-100 text-slate-500'
-            : 'bg-emerald-600 text-white hover:bg-emerald-700'
+            ? 'bg-emerald-50 text-[#60736a]'
+            : 'bg-[#f6b83f] text-[#173a2b] hover:bg-amber-300'
         }`}
       >
         {cta}
@@ -122,27 +122,27 @@ export function LocalizedBusinessLandingPage({ locale }: { locale: Locale }) {
 
   return (
     <main dir={label.dir} className="mx-auto max-w-7xl space-y-10 px-4 py-12">
-      <section className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 p-8 text-white md:p-12">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10">
-          <BriefcaseBusiness className="h-9 w-9 text-emerald-300" />
+      <section className="overflow-hidden rounded-lg border border-emerald-100 bg-[linear-gradient(135deg,#eef9f0_0%,#fff7e3_100%)] p-8 md:p-12">
+        <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-white text-emerald-800 shadow-sm">
+          <BriefcaseBusiness className="h-9 w-9" />
         </div>
 
-        <h1 className="mt-8 max-w-4xl text-4xl font-black tracking-tight md:text-7xl">
+        <h1 className="mt-8 max-w-4xl text-4xl font-black tracking-tight text-[#173a2b] md:text-6xl">
           {label.title}
         </h1>
 
-        <p className="mt-5 max-w-3xl text-xl font-semibold text-emerald-100">
+        <p className="mt-5 max-w-3xl text-xl font-semibold text-emerald-800">
           {label.subtitle}
         </p>
 
-        <p className="mt-5 max-w-3xl leading-8 text-slate-200">
+        <p className="mt-5 max-w-3xl leading-8 text-[#426457]">
           {label.description}
         </p>
 
         <div className="mt-8">
           <Link
             href={`/${locale}/business/companies`}
-            className="inline-flex rounded-2xl bg-white px-6 py-3 font-black text-slate-950 transition hover:bg-emerald-100"
+            className="btn-primary px-6 py-3"
           >
             {label.openCompanies}
           </Link>
@@ -190,7 +190,7 @@ export function LocalizedBusinessLandingPage({ locale }: { locale: Locale }) {
         />
       </section>
 
-      <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 text-sm font-semibold leading-7 text-amber-900">
+      <section className="rounded-lg border border-amber-200 bg-amber-50 p-6 text-sm font-semibold leading-7 text-amber-900">
         <ShieldCheck className="mb-3 h-6 w-6" />
         {label.note}
       </section>

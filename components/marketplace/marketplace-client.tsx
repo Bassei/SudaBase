@@ -226,20 +226,20 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
   }
 
   return (
-    <main dir={t.dir} className="bg-[#f7f3ea] text-slate-950">
+    <main dir={t.dir} className="bg-[#fbfdf8] text-[#173a2b]">
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div>
           <p className="inline-flex rounded-full bg-emerald-900 px-4 py-2 text-sm font-black text-amber-100">
             {t.badge}
           </p>
-          <h1 className="mt-6 text-4xl font-black text-emerald-950 md:text-6xl">{t.title}</h1>
+          <h1 className="mt-6 text-4xl font-black text-[#173a2b] md:text-6xl">{t.title}</h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{t.lead}</p>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           {products.map((product) => (
             <article key={product.product_id} className="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
               <p className="text-sm font-bold text-slate-500">{product.source_region}</p>
-              <h2 className="mt-2 text-2xl font-black text-emerald-950">
+              <h2 className="mt-2 text-2xl font-black text-[#173a2b]">
                 {locale === 'ar' ? product.name_ar : product.name_en}
               </h2>
               <p className="mt-2 text-sm font-bold text-amber-700">{product.unit}</p>
@@ -253,13 +253,13 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           <form onSubmit={submitFarmer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <Sprout className="h-6 w-6 text-emerald-700" />
-              <h2 className="text-2xl font-black text-emerald-950">{t.farmerTitle}</h2>
+              <h2 className="text-2xl font-black text-[#173a2b]">{t.farmerTitle}</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t.name}><input className="input bg-white text-slate-950" name="name" required /></Field>
-              <Field label={t.phone}><input className="input bg-white text-slate-950" name="phone" required value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
-              <Field label={t.region}><input className="input bg-white text-slate-950" name="region" required /></Field>
-              <Field label={t.crop}><input className="input bg-white text-slate-950" name="primary_crop" required /></Field>
+              <Field label={t.name}><input className="input" name="name" required /></Field>
+              <Field label={t.phone}><input className="input" name="phone" required value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
+              <Field label={t.region}><input className="input" name="region" required /></Field>
+              <Field label={t.crop}><input className="input" name="primary_crop" required /></Field>
             </div>
             <button className="btn-primary mt-5 bg-emerald-700 hover:bg-emerald-800" disabled={farmerState.type === 'loading'}>
               {farmerState.type === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
@@ -271,16 +271,16 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           <form onSubmit={submitSupply} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <PackageCheck className="h-6 w-6 text-emerald-700" />
-              <h2 className="text-2xl font-black text-emerald-950">{t.farmerOfferTitle}</h2>
+              <h2 className="text-2xl font-black text-[#173a2b]">{t.farmerOfferTitle}</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t.phone}><input className="input bg-white text-slate-950" name="farmer_phone" required value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
-              <Field label={t.product}><select className="input bg-white text-slate-950" name="product_id" defaultValue={firstProduct} required>{productOptions}</select></Field>
-              <Field label={t.quantity}><input className="input bg-white text-slate-950" name="quantity_jowal" type="number" min="1" step="1" required /></Field>
-              <Field label={t.harvestLocation}><input className="input bg-white text-slate-950" name="harvest_location" required /></Field>
-              <Field label={t.availableDate}><input className="input bg-white text-slate-950" name="expected_available_date" type="date" required /></Field>
+              <Field label={t.phone}><input className="input" name="farmer_phone" required value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
+              <Field label={t.product}><select className="input" name="product_id" defaultValue={firstProduct} required>{productOptions}</select></Field>
+              <Field label={t.quantity}><input className="input" name="quantity_jowal" type="number" min="1" step="1" required /></Field>
+              <Field label={t.harvestLocation}><input className="input" name="harvest_location" required /></Field>
+              <Field label={t.availableDate}><input className="input" name="expected_available_date" type="date" required /></Field>
             </div>
-            <button className="btn-primary mt-5 bg-amber-500 text-slate-950 hover:bg-amber-400" disabled={supplyState.type === 'loading'}>
+            <button className="btn-primary mt-5 bg-[#f6b83f] text-[#173a2b] hover:bg-amber-300" disabled={supplyState.type === 'loading'}>
               {supplyState.type === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : <PackageCheck className="h-4 w-4" />}
               {t.submitSupply}
             </button>
@@ -292,13 +292,13 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           <form onSubmit={submitBuyer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <Store className="h-6 w-6 text-emerald-700" />
-              <h2 className="text-2xl font-black text-emerald-950">{t.buyerTitle}</h2>
+              <h2 className="text-2xl font-black text-[#173a2b]">{t.buyerTitle}</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t.businessName}><input className="input bg-white text-slate-950" name="business_name" required /></Field>
-              <Field label={t.businessType}><select className="input bg-white text-slate-950" name="business_type" required><option>تاجر جملة</option><option>مصنع</option><option>غيره</option></select></Field>
-              <Field label={t.phone}><input className="input bg-white text-slate-950" name="phone" required value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
-              <Field label={t.buyerLocation}><input className="input bg-white text-slate-950" name="location" required /></Field>
+              <Field label={t.businessName}><input className="input" name="business_name" required /></Field>
+              <Field label={t.businessType}><select className="input" name="business_type" required><option>تاجر جملة</option><option>مصنع</option><option>غيره</option></select></Field>
+              <Field label={t.phone}><input className="input" name="phone" required value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
+              <Field label={t.buyerLocation}><input className="input" name="location" required /></Field>
             </div>
             <button className="btn-primary mt-5 bg-emerald-700 hover:bg-emerald-800" disabled={buyerState.type === 'loading'}>
               {buyerState.type === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
@@ -310,17 +310,17 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           <form onSubmit={submitDemand} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <HandCoins className="h-6 w-6 text-emerald-700" />
-              <h2 className="text-2xl font-black text-emerald-950">{t.demandTitle}</h2>
+              <h2 className="text-2xl font-black text-[#173a2b]">{t.demandTitle}</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t.phone}><input className="input bg-white text-slate-950" name="buyer_phone" required value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
-              <Field label={t.product}><select className="input bg-white text-slate-950" name="product_id" defaultValue={firstProduct} required>{productOptions}</select></Field>
-              <Field label={t.quantity}><input className="input bg-white text-slate-950" name="quantity_jowal" type="number" min={DEMAND_MINIMUM_JOWAL} step="1" required /></Field>
-              <Field label={t.targetPrice}><input className="input bg-white text-slate-950" name="target_price" type="number" min="0" step="1" /></Field>
-              <Field label={t.deliveryDate}><input className="input bg-white text-slate-950" name="requested_delivery_date" type="date" required /></Field>
+              <Field label={t.phone}><input className="input" name="buyer_phone" required value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
+              <Field label={t.product}><select className="input" name="product_id" defaultValue={firstProduct} required>{productOptions}</select></Field>
+              <Field label={t.quantity}><input className="input" name="quantity_jowal" type="number" min={DEMAND_MINIMUM_JOWAL} step="1" required /></Field>
+              <Field label={t.targetPrice}><input className="input" name="target_price" type="number" min="0" step="1" /></Field>
+              <Field label={t.deliveryDate}><input className="input" name="requested_delivery_date" type="date" required /></Field>
             </div>
             <p className="mt-3 text-sm font-bold text-amber-700">{t.minimum}</p>
-            <button className="btn-primary mt-5 bg-amber-500 text-slate-950 hover:bg-amber-400" disabled={demandState.type === 'loading'}>
+            <button className="btn-primary mt-5 bg-[#f6b83f] text-[#173a2b] hover:bg-amber-300" disabled={demandState.type === 'loading'}>
               {demandState.type === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : <HandCoins className="h-4 w-4" />}
               {t.submitDemand}
             </button>
@@ -355,8 +355,8 @@ function StatusPanel({
   return (
     <section className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-2xl font-black text-emerald-950">{title}</h2>
-        <button className="btn-secondary bg-slate-100 text-slate-800 hover:bg-slate-200" type="button" disabled={!phone} onClick={onLookup}>
+        <h2 className="text-2xl font-black text-[#173a2b]">{title}</h2>
+        <button className="btn-secondary" type="button" disabled={!phone} onClick={onLookup}>
           {lookupLabel}
         </button>
       </div>
@@ -365,7 +365,7 @@ function StatusPanel({
           rows.map((row) => (
             <article key={row.supply_request_id || row.demand_request_id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="font-black text-slate-950">{row.uf_products?.name_ar || row.uf_products?.name_en || row.product_id}</p>
+                <p className="font-black text-[#173a2b]">{row.uf_products?.name_ar || row.uf_products?.name_en || row.product_id}</p>
                 <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-black text-emerald-800">{row.status}</span>
               </div>
               <p className="mt-2 text-sm font-bold text-slate-600">{Number(row.quantity_jowal).toLocaleString()} جوال</p>

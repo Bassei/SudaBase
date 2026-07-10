@@ -173,8 +173,8 @@ export async function LocalizedCompanyDetailPage({
         {label.back}
       </Link>
 
-      <section className="overflow-hidden rounded-[2.5rem] bg-[radial-gradient(circle_at_top_left,_#f59e0b,_transparent_35%),linear-gradient(135deg,#020617,#111827_50%,#064e3b)] p-8 text-white md:p-12">
-        <div className="flex h-20 w-20 items-center justify-center rounded-[1.6rem] bg-white/10 text-3xl font-black ring-1 ring-white/10">
+      <section className="overflow-hidden rounded-lg border border-emerald-100 bg-[linear-gradient(135deg,#eef9f0_0%,#fff7e3_100%)] p-8 text-[#173a2b] md:p-12">
+        <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-[#f6b83f] text-3xl font-black text-[#173a2b] ring-1 ring-amber-100">
           {initials(name)}
         </div>
 
@@ -188,7 +188,7 @@ export async function LocalizedCompanyDetailPage({
             {sectorLabel(locale, business)}
           </span>
 
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black text-white ring-1 ring-white/10">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-emerald-800 ring-1 ring-emerald-100">
             <MapPin className="h-4 w-4" />
             {business.city || label.unknownCity}
           </span>
@@ -203,7 +203,7 @@ export async function LocalizedCompanyDetailPage({
 
       <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
         <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-700 text-white">
             <Building2 className="h-6 w-6" />
           </div>
           <h2 className="text-2xl font-black text-slate-950">{label.contacts}</h2>
@@ -240,7 +240,7 @@ export async function LocalizedCompanyDetailPage({
                 href={business.website}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-3 rounded-2xl bg-slate-950 p-4 font-black text-white transition hover:bg-amber-600"
+                  className="flex items-center gap-3 rounded-lg bg-emerald-700 p-4 font-black text-white transition hover:bg-amber-500 hover:text-[#173a2b]"
               >
                 <Globe2 className="h-5 w-5" />
                 {label.website}

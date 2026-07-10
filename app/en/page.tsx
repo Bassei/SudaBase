@@ -1,142 +1,147 @@
 import Link from 'next/link';
-import { BriefcaseBusiness, Handshake, LineChart } from 'lucide-react';
+import { ArrowRight, BriefcaseBusiness, LineChart, ShieldCheck, Sprout, Store } from 'lucide-react';
 import { MarketTicker } from '@/components/market/market-ticker';
 import { getMarketIndicators, getStats } from '@/lib/data';
 import { StatCard } from '@/components/ui/stat-card';
+import { BrandLogo } from '@/components/layout/brand-logo';
 
-const audiences = [
+const portals = [
   {
-    title: 'For Businesses',
-    subtitle: 'Market indicators, sectors, companies, and agricultural opportunities.',
-    description:
-      'Track market signals and explore business data connected to Sudanese agricultural supply chains.',
-    href: '/en/business',
-    icon: BriefcaseBusiness,
-    cta: 'Explore business data'
+    title: 'Farmer Portal',
+    subtitle: 'Submit crop availability',
+    description: 'A clear path for farmers to register supply and track review status from the same phone number.',
+    href: '/en/marketplace',
+    icon: Sprout,
+    tone: 'bg-emerald-50 text-emerald-800',
   },
   {
-    title: 'United Fruit Marketplace',
-    subtitle: 'Farmer supply and buyer demand coordinated by the United Fruit team.',
-    description:
-      'Submit crop availability or wholesale demand. The team reviews matches and coordinates without exposing contact details directly.',
+    title: 'Buyer Portal',
+    subtitle: 'Wholesale requests with transport logic',
+    description: 'Demand requests start at 400 jowal and are reviewed by the United Fruit team before matching.',
     href: '/en/marketplace',
-    icon: Handshake,
-    cta: 'Open marketplace'
+    icon: Store,
+    tone: 'bg-[#fff4d8] text-amber-800',
   },
   {
     title: 'Price Board',
-    subtitle: 'Public crop prices editable from the team dashboard.',
-    description:
-      'Review source and Khartoum average prices for feterita, wheat, and onion with the latest update time.',
+    subtitle: 'Editable public crop prices',
+    description: 'Source and Khartoum price ranges for feterita, wheat, and onion with a clean mobile-ready table.',
     href: '/en/marketplace/prices',
     icon: LineChart,
-    cta: 'View prices'
-  }
+    tone: 'bg-[#e7f7fb] text-cyan-800',
+  },
+  {
+    title: 'Business Portal',
+    subtitle: 'Companies, sectors, indicators',
+    description: 'A modern entry to the existing business data surface while keeping its current function intact.',
+    href: '/en/business',
+    icon: BriefcaseBusiness,
+    tone: 'bg-[#ffece4] text-orange-800',
+  },
 ];
 
 export default async function EnglishHomePage() {
-  const [stats, indicators] = await Promise.all([
-    getStats(),
-    getMarketIndicators()
-  ]);
+  const [stats, indicators] = await Promise.all([getStats(), getMarketIndicators()]);
 
   return (
-    <div dir="ltr">
-      <section className="bg-[#0a0a0a] bg-hero-mesh text-zinc-100 relative overflow-hidden">
-        {/* Decorative elements for the mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/80 via-[#0a0a0a]/90 to-zinc-950/80 pointer-events-none" />
-        
-        <div className="mx-auto max-w-7xl px-4 py-20 relative z-10">
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <p className="inline-flex rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm text-zinc-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-              United Fruit agricultural commodities platform
+    <main dir="ltr" className="overflow-hidden">
+      <section className="border-b border-emerald-100 bg-[linear-gradient(135deg,#fbfdf8_0%,#eef9f0_46%,#fff7e3_100%)]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:py-16 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+          <div>
+            <p className="badge">Sudanese agricultural commodities platform</p>
+            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-[#173a2b] sm:text-5xl lg:text-7xl">
+              United Fruit Company
+            </h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-[#426457]">
+              A light, modern interface for farmers, buyers, the matching team, and price-board visitors. Each portal adapts immediately to desktop or mobile screens.
             </p>
 
-            <Link
-              href="/ar"
-              className="rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm font-bold text-zinc-300 transition-all hover:bg-zinc-800 hover:text-white"
-            >
-              العربية
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/en/marketplace" className="btn-primary px-5 py-3">
+                Open marketplace
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/en/marketplace/prices" className="btn-secondary px-5 py-3">
+                View prices
+              </Link>
+            </div>
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-            United Fruit Company
-          </h1>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
-            A modern gateway for farmer supply, wholesale demand, transparent crop
-            prices, and team-reviewed commodity matching in Sudan.
-          </p>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {audiences.map(({ title, subtitle, description, href, icon: Icon, cta }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group rounded-3xl border border-zinc-800 bg-[#171717]/60 p-6 backdrop-blur-[12px] transition-all duration-300 hover:bg-zinc-800 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-1"
-              >
-                <div className="mb-4 inline-flex rounded-xl bg-zinc-900/50 p-3 ring-1 ring-zinc-800 transition-colors group-hover:bg-primary/10 group-hover:ring-primary/30">
-                  <Icon className="h-8 w-8 text-zinc-400 group-hover:text-primary transition-colors" />
-                </div>
-
-                <h2 className="text-2xl font-black text-zinc-100 group-hover:text-white">
-                  {title}
-                </h2>
-
-                <p className="mt-2 font-semibold text-zinc-300 group-hover:text-zinc-200">
-                  {subtitle}
+          <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-900/5">
+            <div className="flex items-center justify-between gap-4 border-b border-emerald-100 pb-4">
+              <BrandLogo />
+              <span className="rounded-lg bg-[#f6b83f] px-3 py-2 text-sm font-black text-[#173a2b]">
+                Live
+              </span>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <Info label="Team reviewed" value="Private matching" />
+              <Info label="Minimum demand" value="400 jowal" />
+              <Info label="Products" value="Feterita, wheat, onion" />
+              <Info label="Screens" value="Mobile and desktop" />
+            </div>
+            <div className="mt-5 rounded-lg bg-emerald-50 p-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-700" />
+                <p className="text-sm font-bold leading-7 text-[#426457]">
+                  Farmer and buyer contact details are not exposed to each other. Coordination happens through the internal team dashboard.
                 </p>
-
-                <p className="mt-4 text-sm leading-6 text-zinc-500 group-hover:text-zinc-400">
-                  {description}
-                </p>
-
-                <span className="mt-6 inline-flex font-bold text-primary group-hover:text-emerald-400 transition-colors">
-                  {cta} →
-                </span>
-              </Link>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
-        <div>
-          <h2 className="text-3xl font-black">Operating snapshot</h2>
-          <p className="mt-2 max-w-2xl text-slate-600">
-            One data layer supports business intelligence, marketplace requests, and editable crop prices.
-          </p>
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <p className="text-sm font-black text-emerald-700">Main portals</p>
+        <h2 className="mt-2 text-3xl font-black">Choose the right path</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {portals.map(({ title, subtitle, description, href, icon: Icon, tone }) => (
+            <Link key={title} href={href} className="group rounded-lg border border-emerald-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${tone}`}>
+                <Icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 text-xl font-black text-[#173a2b]">{title}</h3>
+              <p className="mt-2 text-sm font-black text-emerald-700">{subtitle}</p>
+              <p className="mt-3 text-sm leading-7 text-[#60736a]">{description}</p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#ef7b45]">
+                Enter portal
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
         </div>
+      </section>
 
-        <div className="grid gap-4 md:grid-cols-3">
+      <section className="border-y border-emerald-100 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 md:grid-cols-3">
           <StatCard label="Sectors" value={stats.sectors} />
           <StatCard label="Businesses" value={stats.businesses} />
           <StatCard label="Market indicators" value={indicators.length} />
         </div>
-
-        <section>
-          <div className="mb-4 flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold">Market snapshot</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Indicative prices for quick awareness. Full market tools are inside the business interface.
-              </p>
-            </div>
-
-            <Link href="/en/marketplace/prices" className="hidden font-bold text-sudanGreen md:inline-flex">
-              Open crop price board
-            </Link>
-          </div>
-
-          <MarketTicker indicators={indicators} />
-
-          <p className="mt-3 text-sm text-slate-500">
-            Exchange, USDT, gold, and silver prices are indicative and may differ from local Sudanese market prices.
-          </p>
-        </section>
       </section>
-    </div>
+
+      <section className="mx-auto max-w-7xl px-4 py-10">
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-black text-emerald-700">Market snapshot</p>
+            <h2 className="mt-2 text-2xl font-black">Quick indicators</h2>
+          </div>
+          <Link href="/en/marketplace/prices" className="btn-secondary">
+            Crop price board
+          </Link>
+        </div>
+        <MarketTicker indicators={indicators} />
+      </section>
+    </main>
   );
 }
 
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-emerald-100 bg-[#fbfdf8] p-4">
+      <p className="text-xs font-bold text-[#60736a]">{label}</p>
+      <p className="mt-1 text-lg font-black text-[#173a2b]">{value}</p>
+    </div>
+  );
+}
