@@ -266,6 +266,11 @@ alter table public.uf_buyers add column if not exists email text null;
 alter table public.uf_buyers add column if not exists contact_method text not null default 'phone' check (contact_method in ('phone','email','whatsapp'));
 alter table public.uf_products add column if not exists category text not null default 'crop';
 alter table public.uf_products add column if not exists active boolean not null default true;
+alter table public.uf_products add column if not exists transport_status text null;
+alter table public.uf_products add column if not exists evidence_level text null;
+alter table public.uf_products add column if not exists pilot_status text null;
+alter table public.uf_products add column if not exists key_caveat text null;
+alter table public.uf_products add column if not exists source_date date null;
 
 create table if not exists public.uf_technicians (
   technician_id uuid primary key default gen_random_uuid(),
@@ -315,15 +320,39 @@ create table if not exists public.uf_product_price_updates (
   created_at timestamptz default now()
 );
 
+create table if not exists public.uf_market_evidence (
+  evidence_id uuid primary key default gen_random_uuid(),
+  evidence_key text unique null,
+  evidence_date date not null,
+  evidence_type text not null,
+  product text not null,
+  actor_source text null,
+  location text null,
+  quantity_scope text null,
+  price_quote text null,
+  lead_time_days integer null,
+  classification text null,
+  pitch_use text null,
+  key_insight text null,
+  critical_caveat text null,
+  created_at timestamptz default now()
+);
+alter table public.uf_market_evidence add column if not exists evidence_key text null;
+
 create index if not exists idx_uf_technicians_email on public.uf_technicians(email);
 create index if not exists idx_uf_technicians_phone on public.uf_technicians(phone);
 create index if not exists idx_uf_transport_lanes_active on public.uf_transport_lanes(active, origin, destination);
+create unique index if not exists one_uf_transport_lane on public.uf_transport_lanes(origin, destination, truck_type);
+create unique index if not exists one_uf_price_source_name on public.uf_price_sources(name);
 create index if not exists idx_uf_price_updates_product_created on public.uf_product_price_updates(product_id, created_at desc);
+create index if not exists idx_uf_market_evidence_product_date on public.uf_market_evidence(product, evidence_date desc);
+create unique index if not exists one_uf_market_evidence_key on public.uf_market_evidence(evidence_key);
 
 alter table public.uf_technicians enable row level security;
 alter table public.uf_transport_lanes enable row level security;
 alter table public.uf_price_sources enable row level security;
 alter table public.uf_product_price_updates enable row level security;
+alter table public.uf_market_evidence enable row level security;
 
 create or replace function public.is_admin() returns boolean language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.admin_users where user_id = auth.uid())
@@ -354,3 +383,7 @@ drop policy if exists "Admin read product price updates" on public.uf_product_pr
 create policy "Admin read product price updates" on public.uf_product_price_updates for select using (public.is_admin());
 drop policy if exists "Admin manage product price updates" on public.uf_product_price_updates;
 create policy "Admin manage product price updates" on public.uf_product_price_updates for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Admin read market evidence" on public.uf_market_evidence;
+create policy "Admin read market evidence" on public.uf_market_evidence for select using (public.is_admin());
+drop policy if exists "Admin manage market evidence" on public.uf_market_evidence;
+create policy "Admin manage market evidence" on public.uf_market_evidence for all using (public.is_admin()) with check (public.is_admin());
