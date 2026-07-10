@@ -1,36 +1,36 @@
 import Link from 'next/link';
-import { BriefcaseBusiness, GraduationCap, SearchCheck } from 'lucide-react';
+import { BriefcaseBusiness, Handshake, LineChart } from 'lucide-react';
 import { MarketTicker } from '@/components/market/market-ticker';
 import { getMarketIndicators, getStats } from '@/lib/data';
 import { StatCard } from '@/components/ui/stat-card';
 
 const audiences = [
   {
-    title: 'للطلاب',
-    subtitle: 'جامعات، تخصصات، مقارنة، وتجارب الطلاب.',
-    description:
-      'ابحث عن الجامعات السودانية، استكشف البرامج والتخصصات، قارن بين الجامعات، واقرأ تجارب الطلاب.',
-    href: '/ar/students',
-    icon: GraduationCap,
-    cta: 'ابدأ كطالب'
-  },
-  {
     title: 'للأعمال',
-    subtitle: 'مؤشرات السوق، القطاعات، الشركات، والفرص.',
+    subtitle: 'مؤشرات السوق، القطاعات، الشركات، والفرص الزراعية.',
     description:
-      'تابع أسعار الدولار، USDT، الذهب والفضة، واستكشف القطاعات والفرص التجارية في السودان.',
+      'تابع مؤشرات السوق واستكشف بيانات الأعمال والقطاعات المرتبطة بسلاسل الإمداد الزراعي.',
     href: '/ar/business',
     icon: BriefcaseBusiness,
     cta: 'استكشف بيانات الأعمال'
   },
   {
-    title: 'للباحثين',
-    subtitle: 'بيانات منظمة، مصادر، منهجية، وجودة البيانات.',
+    title: 'سوق يونايتد فروت',
+    subtitle: 'عروض مزارعين وطلبات تجار تمر عبر فريق United Fruit.',
     description:
-      'استخدم بيانات التعليم والاقتصاد السودانية مع المصادر، مستوى الثقة، وتاريخ التحديث.',
-    href: '/ar/research',
-    icon: SearchCheck,
-    cta: 'افتح بوابة الباحثين'
+      'سجل توفر محصولك أو طلب شراء بالجملة، وسيقوم الفريق بمراجعة المطابقة والتنسيق دون كشف بيانات التواصل مباشرة.',
+    href: '/ar/marketplace',
+    icon: Handshake,
+    cta: 'افتح السوق'
+  },
+  {
+    title: 'لوحة الأسعار',
+    subtitle: 'أسعار عامة قابلة للتحديث من لوحة الفريق.',
+    description:
+      'اطلع على متوسط سعر المصدر ومتوسط سعر الخرطوم للفتريتة والقمح والبصل وآخر تحديث.',
+    href: '/ar/marketplace/prices',
+    icon: LineChart,
+    cta: 'عرض الأسعار'
   }
 ];
 
@@ -49,7 +49,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-20 relative z-10">
           <div className="mb-6 flex items-center justify-between gap-4">
             <p className="inline-flex rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm text-zinc-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-              منصة بيانات التعليم والاقتصاد في السودان
+              منصة United Fruit للسلع الزراعية في السودان
             </p>
 
             <Link
@@ -61,12 +61,12 @@ export default async function HomePage() {
           </div>
 
           <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-            سودا بيس
+            United Fruit Company
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
-            منصة بيانات وطنية للطلاب، الأعمال، الباحثين، الجامعات، المنظمات،
-            وصناع القرار. اختر الواجهة المناسبة لهدفك.
+            بوابة حديثة لتنظيم عروض المزارعين وطلبات المشترين، مع شفافية أسعار
+            وسير مطابقة داخلي يحافظ على خصوصية الأطراف.
           </p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -103,18 +103,16 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
         <div>
-          <h2 className="text-3xl font-black">لمحة عن المنصة</h2>
+          <h2 className="text-3xl font-black">لمحة عن التشغيل</h2>
           <p className="mt-2 max-w-2xl text-slate-600">
-            قاعدة بيانات واحدة تشغّل واجهات مختلفة حسب نوع المستخدم.
+            قاعدة بيانات واحدة تدعم الأعمال، السوق، ومؤشرات الأسعار القابلة للتحديث.
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-5">
-          <StatCard label="الجامعات" value={stats.universities} />
-          <StatCard label="البرامج" value={stats.programs} />
+        <div className="grid gap-4 md:grid-cols-3">
           <StatCard label="القطاعات" value={stats.sectors} />
           <StatCard label="الأعمال" value={stats.businesses} />
-          <StatCard label="التقييمات" value={stats.reviews} />
+          <StatCard label="مؤشرات السوق" value={indicators.length} />
         </div>
 
         <section>
@@ -126,8 +124,8 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <Link href="/ar/business" className="hidden font-bold text-sudanGreen md:inline-flex">
-              افتح واجهة الأعمال
+            <Link href="/ar/marketplace/prices" className="hidden font-bold text-sudanGreen md:inline-flex">
+              افتح لوحة أسعار المحاصيل
             </Link>
           </div>
 

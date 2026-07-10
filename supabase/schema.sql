@@ -156,3 +156,105 @@ select university_id, name_en, city, ownership from public.universities where we
 
 create or replace view public.v_suspicious_programs as
 select * from public.programs where program_or_faculty is null or length(program_or_faculty) < 3 or confidence = 'low';
+
+-- United Fruit Marketplace
+create table if not exists public.uf_products (
+  product_id text primary key,
+  name_ar text not null,
+  name_en text not null,
+  unit text not null default 'جوال 90 كجم',
+  source_price_min numeric null,
+  source_price_max numeric null,
+  khartoum_price_min numeric null,
+  khartoum_price_max numeric null,
+  source_region text not null,
+  last_updated timestamptz default now()
+);
+
+create table if not exists public.uf_farmers (
+  farmer_id uuid primary key default gen_random_uuid(),
+  name text not null,
+  phone text not null,
+  region text not null,
+  primary_crop text not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.uf_buyers (
+  buyer_id uuid primary key default gen_random_uuid(),
+  business_name text not null,
+  business_type text not null,
+  phone text not null,
+  location text not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.uf_supply_requests (
+  supply_request_id uuid primary key default gen_random_uuid(),
+  farmer_id uuid references public.uf_farmers(farmer_id) on delete set null,
+  farmer_phone text not null,
+  product_id text references public.uf_products(product_id) on delete restrict,
+  quantity_jowal integer not null check (quantity_jowal > 0),
+  harvest_location text not null,
+  expected_available_date date not null,
+  status text not null default 'قيد المراجعة' check (status in ('قيد المراجعة','تم التواصل','تمت المطابقة مع مشترٍ','تمت المطابقة، جاري التنسيق','مكتملة','ملغاة')),
+  notes text null,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.uf_demand_requests (
+  demand_request_id uuid primary key default gen_random_uuid(),
+  buyer_id uuid references public.uf_buyers(buyer_id) on delete set null,
+  buyer_phone text not null,
+  product_id text references public.uf_products(product_id) on delete restrict,
+  quantity_jowal integer not null check (quantity_jowal >= 400),
+  target_price numeric null,
+  requested_delivery_date date not null,
+  status text not null default 'قيد المراجعة' check (status in ('قيد المراجعة','تم التواصل','تمت المطابقة، جاري التنسيق','مكتملة','ملغاة')),
+  notes text null,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.uf_matches (
+  match_id uuid primary key default gen_random_uuid(),
+  supply_request_id uuid not null references public.uf_supply_requests(supply_request_id) on delete cascade,
+  demand_request_id uuid not null references public.uf_demand_requests(demand_request_id) on delete cascade,
+  final_price numeric null,
+  actual_delivery_date date null,
+  status text not null default 'قيد التنفيذ' check (status in ('قيد التنفيذ','مكتملة','ملغاة')),
+  notes text null,
+  created_by uuid null references auth.users(id) on delete set null,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique (supply_request_id, demand_request_id)
+);
+
+create index if not exists idx_uf_supply_status_created on public.uf_supply_requests(status, created_at desc);
+create index if not exists idx_uf_demand_status_created on public.uf_demand_requests(status, created_at desc);
+create index if not exists idx_uf_supply_farmer_phone on public.uf_supply_requests(farmer_phone);
+create index if not exists idx_uf_demand_buyer_phone on public.uf_demand_requests(buyer_phone);
+
+alter table public.uf_products enable row level security;
+alter table public.uf_farmers enable row level security;
+alter table public.uf_buyers enable row level security;
+alter table public.uf_supply_requests enable row level security;
+alter table public.uf_demand_requests enable row level security;
+alter table public.uf_matches enable row level security;
+
+drop policy if exists "Public read United Fruit products" on public.uf_products;
+create policy "Public read United Fruit products" on public.uf_products for select using (true);
+drop policy if exists "Admin write United Fruit products" on public.uf_products;
+create policy "Admin write United Fruit products" on public.uf_products for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "Admin read United Fruit farmers" on public.uf_farmers;
+create policy "Admin read United Fruit farmers" on public.uf_farmers for select using (public.is_admin());
+drop policy if exists "Admin read United Fruit buyers" on public.uf_buyers;
+create policy "Admin read United Fruit buyers" on public.uf_buyers for select using (public.is_admin());
+drop policy if exists "Admin manage United Fruit supply" on public.uf_supply_requests;
+create policy "Admin manage United Fruit supply" on public.uf_supply_requests for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Admin manage United Fruit demand" on public.uf_demand_requests;
+create policy "Admin manage United Fruit demand" on public.uf_demand_requests for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Admin manage United Fruit matches" on public.uf_matches;
+create policy "Admin manage United Fruit matches" on public.uf_matches for all using (public.is_admin()) with check (public.is_admin());

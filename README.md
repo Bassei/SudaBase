@@ -1,4 +1,4 @@
-# SudaBase
+# United Fruit Company
 
 A production-ready MVP scaffold for a national Sudanese data platform with two pillars:
 

@@ -11,13 +11,18 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: 'SudaBase',
-  description: 'Sudan Education & Economic Data Platform'
+  title: 'United Fruit Company',
+  description: 'Agricultural supply, demand, and market intelligence platform for Sudan',
+  openGraph: {
+    title: 'United Fruit Company',
+    description: 'Agricultural supply, demand, and market intelligence platform for Sudan',
+    siteName: 'United Fruit Company'
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <body className={`${tajawal.variable} font-sans`}>
         <Navbar />
         <main className="min-h-screen">{children}</main>
@@ -26,4 +31,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-

@@ -1,0 +1,1 @@
+export const DEMAND_MINIMUM_JOWAL = 400;

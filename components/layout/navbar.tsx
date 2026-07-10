@@ -2,6 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  SHOW_RESEARCHERS,
+  SHOW_STUDENTS,
+  SHOW_UNITED_FRUIT_MARKETPLACE,
+} from '@/lib/features';
 
 function removeLocalePrefix(pathname: string) {
   if (pathname.startsWith('/en')) {
@@ -36,10 +41,8 @@ export function Navbar() {
   const homeHref = isEnglish ? '/en' : '/';
   const studentsHref = `${localePrefix}/students`;
   const businessHref = `${localePrefix}/business`;
+  const marketplaceHref = `${localePrefix}/marketplace`;
   const researchHref = `${localePrefix}/research`;
-  const universitiesHref = `${localePrefix}/universities`;
-  const marketHref = `${localePrefix}/market-indicators`;
-  const compareHref = `${localePrefix}/compare-universities`;
 
   const arabicHref = getLanguageHref(pathname, 'ar');
   const englishHref = getLanguageHref(pathname, 'en');
@@ -53,7 +56,7 @@ export function Navbar() {
           </span>
 
           <span className="text-xl font-black underline">
-            SudaBase
+            United Fruit Company
           </span>
         </Link>
 
@@ -62,29 +65,28 @@ export function Navbar() {
             {isEnglish ? 'Home' : 'الرئيسية'}
           </Link>
 
-          <Link href={studentsHref} className="hover:text-primary transition-colors">
-            {isEnglish ? 'Students' : 'للطلاب'}
-          </Link>
+          {SHOW_STUDENTS && (
+            <Link href={studentsHref} className="hover:text-primary transition-colors">
+              {isEnglish ? 'Students' : 'للطلاب'}
+            </Link>
+          )}
 
           <Link href={businessHref} className="hover:text-primary transition-colors">
             {isEnglish ? 'Business' : 'للأعمال'}
           </Link>
 
-          <Link href={researchHref} className="hover:text-primary transition-colors">
-            {isEnglish ? 'Researchers' : 'للباحثين'}
-          </Link>
+          {SHOW_UNITED_FRUIT_MARKETPLACE && (
+            <Link href={marketplaceHref} className="hover:text-primary transition-colors">
+              {isEnglish ? 'Marketplace' : 'سوق يونايتد فروت'}
+            </Link>
+          )}
 
-          <Link href={universitiesHref} className="hover:text-primary transition-colors">
-            {isEnglish ? 'Universities' : 'الجامعات'}
-          </Link>
+          {SHOW_RESEARCHERS && (
+            <Link href={researchHref} className="hover:text-primary transition-colors">
+              {isEnglish ? 'Researchers' : 'للباحثين'}
+            </Link>
+          )}
 
-          <Link href={compareHref} className="hover:text-primary transition-colors">
-            {isEnglish ? 'Ratings' : 'التقييمات'}
-          </Link>
-
-          <Link href={marketHref} className="hover:text-primary transition-colors">
-            {isEnglish ? 'Market' : 'السوق'}
-          </Link>
         </nav>
 
         <div className="flex items-center gap-2">

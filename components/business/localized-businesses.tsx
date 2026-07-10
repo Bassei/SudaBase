@@ -61,7 +61,7 @@ type SectorRecord = {
 const ui = {
   ar: {
     dir: 'rtl',
-    title: 'سودا بيس',
+    title: 'United Fruit Company',
     description:
       'استكشف الشركات والقطاعات وجهات التواصل المتاحة من مصادر عامة بعد تنظيف البيانات ومراجعتها.',
     back: 'الرجوع للرئيسية',

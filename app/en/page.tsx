@@ -1,36 +1,36 @@
 import Link from 'next/link';
-import { BriefcaseBusiness, GraduationCap, SearchCheck } from 'lucide-react';
+import { BriefcaseBusiness, Handshake, LineChart } from 'lucide-react';
 import { MarketTicker } from '@/components/market/market-ticker';
 import { getMarketIndicators, getStats } from '@/lib/data';
 import { StatCard } from '@/components/ui/stat-card';
 
 const audiences = [
   {
-    title: 'For Students',
-    subtitle: 'Universities, programs, comparison, and student reviews.',
-    description:
-      'Find Sudanese universities, explore available programs, compare institutions, and read student experiences.',
-    href: '/en/students',
-    icon: GraduationCap,
-    cta: 'Start as student'
-  },
-  {
     title: 'For Businesses',
-    subtitle: 'Market indicators, sectors, businesses, and opportunities.',
+    subtitle: 'Market indicators, sectors, companies, and agricultural opportunities.',
     description:
-      'Track USD, USDT, gold, and silver indicators, explore sectors, and understand market opportunities.',
+      'Track market signals and explore business data connected to Sudanese agricultural supply chains.',
     href: '/en/business',
     icon: BriefcaseBusiness,
     cta: 'Explore business data'
   },
   {
-    title: 'For Researchers',
-    subtitle: 'Structured datasets, sources, methodology, and data quality.',
+    title: 'United Fruit Marketplace',
+    subtitle: 'Farmer supply and buyer demand coordinated by the United Fruit team.',
     description:
-      'Access Sudanese education and economic datasets with sources, confidence labels, and update information.',
-    href: '/en/research',
-    icon: SearchCheck,
-    cta: 'Open research portal'
+      'Submit crop availability or wholesale demand. The team reviews matches and coordinates without exposing contact details directly.',
+    href: '/en/marketplace',
+    icon: Handshake,
+    cta: 'Open marketplace'
+  },
+  {
+    title: 'Price Board',
+    subtitle: 'Public crop prices editable from the team dashboard.',
+    description:
+      'Review source and Khartoum average prices for feterita, wheat, and onion with the latest update time.',
+    href: '/en/marketplace/prices',
+    icon: LineChart,
+    cta: 'View prices'
   }
 ];
 
@@ -49,7 +49,7 @@ export default async function EnglishHomePage() {
         <div className="mx-auto max-w-7xl px-4 py-20 relative z-10">
           <div className="mb-6 flex items-center justify-between gap-4">
             <p className="inline-flex rounded-full border border-zinc-800 bg-[#171717]/50 backdrop-blur-md px-4 py-2 text-sm text-zinc-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-              Sudan Education & Economic Data Infrastructure
+              United Fruit agricultural commodities platform
             </p>
 
             <Link
@@ -61,13 +61,12 @@ export default async function EnglishHomePage() {
           </div>
 
           <h1 className="max-w-5xl text-5xl font-black tracking-wider md:text-7xl drop-shadow-lg text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 via-zinc-300 to-zinc-500">
-            SudaBase
+            United Fruit Company
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
-            A national data platform for students, businesses, researchers,
-            universities, organizations, and decision makers. Choose the interface
-            that matches your goal.
+            A modern gateway for farmer supply, wholesale demand, transparent crop
+            prices, and team-reviewed commodity matching in Sudan.
           </p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -104,18 +103,16 @@ export default async function EnglishHomePage() {
 
       <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
         <div>
-          <h2 className="text-3xl font-black">Platform snapshot</h2>
+          <h2 className="text-3xl font-black">Operating snapshot</h2>
           <p className="mt-2 max-w-2xl text-slate-600">
-            The same national database powers different experiences for different users.
+            One data layer supports business intelligence, marketplace requests, and editable crop prices.
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-5">
-          <StatCard label="Universities" value={stats.universities} />
-          <StatCard label="Programs" value={stats.programs} />
+        <div className="grid gap-4 md:grid-cols-3">
           <StatCard label="Sectors" value={stats.sectors} />
           <StatCard label="Businesses" value={stats.businesses} />
-          <StatCard label="Reviews" value={stats.reviews} />
+          <StatCard label="Market indicators" value={indicators.length} />
         </div>
 
         <section>
@@ -127,8 +124,8 @@ export default async function EnglishHomePage() {
               </p>
             </div>
 
-            <Link href="/business" className="hidden font-bold text-sudanGreen md:inline-flex">
-              Open business interface
+            <Link href="/en/marketplace/prices" className="hidden font-bold text-sudanGreen md:inline-flex">
+              Open crop price board
             </Link>
           </div>
 
