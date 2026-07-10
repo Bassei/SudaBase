@@ -3,12 +3,15 @@
 import { FormEvent, useState } from 'react';
 import { CheckCircle2, Loader2, RefreshCw } from 'lucide-react';
 import type { UfProduct } from '@/lib/united-fruit';
+import { MarketRefreshButton } from '@/components/market/market-refresh-button';
 
 type Props = {
   products: UfProduct[];
   supply: any[];
   demand: any[];
   matches: any[];
+  technicians: any[];
+  lanes: any[];
 };
 
 type State = { type: 'idle' | 'loading' | 'success' | 'error'; message: string };
@@ -28,7 +31,7 @@ async function send(path: string, method: 'POST' | 'PATCH', body: Record<string,
   return json;
 }
 
-export function AdminDashboard({ products, supply, demand, matches }: Props) {
+export function AdminDashboard({ products, supply, demand, matches, technicians, lanes }: Props) {
   const [matchState, setMatchState] = useState<State>({ type: 'idle', message: '' });
   const [priceState, setPriceState] = useState<State>({ type: 'idle', message: '' });
 
@@ -72,12 +75,15 @@ export function AdminDashboard({ products, supply, demand, matches }: Props) {
             <RefreshCw className="h-4 w-4" />
             تحديث
           </button>
+          <MarketRefreshButton />
         </div>
 
         <section className="grid gap-5 lg:grid-cols-3">
           <Metric label="عروض التوفر" value={supply.length} />
           <Metric label="طلبات الشراء" value={demand.length} />
           <Metric label="الصفقات المحتملة" value={matches.length} />
+          <Metric label="التقنيون" value={technicians.length} />
+          <Metric label="مسارات الترحيل" value={lanes.length} />
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">
@@ -147,9 +153,30 @@ export function AdminDashboard({ products, supply, demand, matches }: Props) {
               <Field name="source_price_max" label="سعر المصدر - أعلى" type="number" />
               <Field name="khartoum_price_min" label="سعر الخرطوم - أدنى" type="number" />
               <Field name="khartoum_price_max" label="سعر الخرطوم - أعلى" type="number" />
+              <label className="space-y-2 text-sm font-bold text-slate-700 sm:col-span-2">
+                <span>ملاحظة التحديث</span>
+                <input className="input" name="note" />
+              </label>
             </div>
             <Action state={priceState} label="تحديث الأسعار" />
           </form>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-2">
+          <Panel title="التقنيون المخولون">
+            <SimpleList
+              rows={technicians}
+              empty="لا يوجد تقنيون بعد."
+              render={(row) => `${row.name} - ${row.email || row.phone || 'بدون وسيلة'} - ${row.status}`}
+            />
+          </Panel>
+          <Panel title="مسارات الترحيل">
+            <SimpleList
+              rows={lanes}
+              empty="لا توجد مسارات ترحيل بعد."
+              render={(row) => `${row.origin} ← ${row.destination} - حد أدنى ${row.min_jowal} جوال`}
+            />
+          </Panel>
         </section>
 
         <Panel title="سجل الصفقات المحتملة">
@@ -236,6 +263,30 @@ function RequestList({ rows, kind }: { rows: any[]; kind: 'supply' | 'demand' })
               ? `${row.uf_farmers?.name || 'مزارع'} - ${row.harvest_location}`
               : `${row.uf_buyers?.business_name || 'تاجر'} - ${row.requested_delivery_date}`}
           </p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function SimpleList({
+  rows,
+  empty,
+  render,
+}: {
+  rows: any[];
+  empty: string;
+  render: (row: any) => string;
+}) {
+  if (!rows.length) {
+    return <p className="rounded-lg bg-emerald-50 p-4 text-sm font-bold text-[#60736a]">{empty}</p>;
+  }
+
+  return (
+    <div className="grid gap-3">
+      {rows.map((row) => (
+        <article key={row.technician_id || row.lane_id} className="rounded-lg border border-emerald-100 bg-emerald-50 p-4 text-sm font-black text-[#173a2b]">
+          {render(row)}
         </article>
       ))}
     </div>

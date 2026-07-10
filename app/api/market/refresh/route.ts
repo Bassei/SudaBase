@@ -71,6 +71,36 @@ function manualOfficialUsdRates(): IndicatorInput[] {
   return indicators;
 }
 
+async function fetchOpenUsdSdg(): Promise<IndicatorInput[]> {
+  try {
+    const response = await fetch('https://open.er-api.com/v6/latest/USD', {
+      cache: 'no-store',
+      headers: { 'user-agent': 'UnitedFruitCompany/1.0' }
+    });
+
+    if (!response.ok) return [];
+
+    const json = await response.json();
+    const value = Number(json?.rates?.SDG);
+
+    if (!Number.isFinite(value) || value <= 0) return [];
+
+    return [
+      {
+        indicator_type: 'currency',
+        name: 'USD Market Reference',
+        value: Number(value.toFixed(2)),
+        currency: 'SDG',
+        unit: '1 USD',
+        source_name: 'Open Exchange Rates mirror',
+        source_url: 'https://open.er-api.com/v6/latest/USD'
+      }
+    ];
+  } catch {
+    return [];
+  }
+}
+
 async function fetchBinanceUsdtSdg(): Promise<IndicatorInput[]> {
   const sourceUrl = 'https://p2p.binance.com/en/trade/USDT?fiat=SDG';
 
@@ -190,6 +220,47 @@ function manualMetals(): IndicatorInput[] {
   return indicators;
 }
 
+async function productPriceIndicators(): Promise<IndicatorInput[]> {
+  const { data } = await supabaseAdmin
+    .from('uf_products')
+    .select('product_id,name_ar,name_en,source_price_min,source_price_max,khartoum_price_min,khartoum_price_max,unit')
+    .eq('active', true);
+
+  return (data ?? []).flatMap((product: any) => {
+    const rows: IndicatorInput[] = [];
+    const sourceMin = Number(product.source_price_min);
+    const sourceMax = Number(product.source_price_max);
+    const khartoumMin = Number(product.khartoum_price_min);
+    const khartoumMax = Number(product.khartoum_price_max);
+
+    if (Number.isFinite(sourceMin) && Number.isFinite(sourceMax)) {
+      rows.push({
+        indicator_type: 'crop_source',
+        name: `${product.name_ar} - متوسط المصدر`,
+        value: Number(((sourceMin + sourceMax) / 2).toFixed(2)),
+        currency: 'SDG',
+        unit: product.unit || 'وحدة',
+        source_name: 'United Fruit price board',
+        source_url: '/marketplace/prices'
+      });
+    }
+
+    if (Number.isFinite(khartoumMin) && Number.isFinite(khartoumMax)) {
+      rows.push({
+        indicator_type: 'crop_khartoum',
+        name: `${product.name_ar} - متوسط الخرطوم`,
+        value: Number(((khartoumMin + khartoumMax) / 2).toFixed(2)),
+        currency: 'SDG',
+        unit: product.unit || 'وحدة',
+        source_name: 'United Fruit price board',
+        source_url: '/marketplace/prices'
+      });
+    }
+
+    return rows;
+  });
+}
+
 export async function GET() {
   try {
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -201,8 +272,10 @@ export async function GET() {
 
     const indicators = [
       ...manualOfficialUsdRates(),
+      ...(await fetchOpenUsdSdg()),
       ...(await fetchBinanceUsdtSdg()),
-      ...manualMetals()
+      ...manualMetals(),
+      ...(await productPriceIndicators())
     ];
 
     if (!indicators.length) {

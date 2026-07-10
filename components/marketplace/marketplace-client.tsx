@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import { CheckCircle2, HandCoins, Loader2, PackageCheck, Sprout, Store } from 'lucide-react';
+import Link from 'next/link';
 import type { UfProduct } from '@/lib/united-fruit';
 import { DEMAND_MINIMUM_JOWAL } from '@/lib/marketplace-constants';
 
@@ -13,13 +14,15 @@ const copy = {
     dir: 'rtl',
     badge: 'مطابقة داخلية بإشراف United Fruit',
     title: 'سوق يونايتد فروت',
-    lead: 'سجل عرض محصول أو طلب شراء بالجملة. كل مطابقة تمر عبر الفريق قبل التنسيق، ولا تظهر بيانات التواصل لأي طرف آخر.',
+    lead: 'سجل عرض محصول أو طلب شراء بالجملة، وسيقوم فريق United Fruit بالمراجعة والتنسيق حتى إتمام الصفقة.',
     farmerTitle: 'تسجيل مزارع',
     farmerOfferTitle: 'تسجيل توفر محصول',
     buyerTitle: 'تسجيل تاجر',
     demandTitle: 'تقديم طلب شراء',
     name: 'الاسم',
     phone: 'رقم الهاتف',
+    email: 'البريد الإلكتروني',
+    contactMethod: 'طريقة التواصل',
     region: 'المنطقة / الولاية',
     crop: 'المحصول الرئيسي',
     product: 'المنتج',
@@ -49,13 +52,15 @@ const copy = {
     dir: 'ltr',
     badge: 'Team-reviewed matching by United Fruit',
     title: 'United Fruit Marketplace',
-    lead: 'Submit crop supply or wholesale demand. Every match is reviewed by the team before coordination, and contact details are not exposed between parties.',
+    lead: 'Submit crop supply or wholesale demand, and the United Fruit team will review, match, and coordinate the deal.',
     farmerTitle: 'Farmer registration',
     farmerOfferTitle: 'Supply listing',
     buyerTitle: 'Buyer registration',
     demandTitle: 'Demand request',
     name: 'Name',
     phone: 'Phone',
+    email: 'Email',
+    contactMethod: 'Contact method',
     region: 'Region / state',
     crop: 'Primary crop',
     product: 'Product',
@@ -234,6 +239,14 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           </p>
           <h1 className="mt-6 text-4xl font-black text-[#173a2b] md:text-6xl">{t.title}</h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{t.lead}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/login" className="btn-primary px-5 py-3">
+              {locale === 'ar' ? 'تسجيل بالهاتف أو البريد' : 'Register by phone or email'}
+            </Link>
+            <Link href={locale === 'ar' ? '/ar/marketplace/prices' : '/en/marketplace/prices'} className="btn-secondary px-5 py-3">
+              {locale === 'ar' ? 'لوحة الأسعار' : 'Price board'}
+            </Link>
+          </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           {products.map((product) => (
@@ -257,7 +270,9 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label={t.name}><input className="input" name="name" required /></Field>
-              <Field label={t.phone}><input className="input" name="phone" required value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
+              <Field label={t.phone}><input className="input" name="phone" value={farmerPhone} onChange={(e) => setFarmerPhone(e.target.value)} /></Field>
+              <Field label={t.email}><input className="input" name="email" type="email" /></Field>
+              <Field label={t.contactMethod}><select className="input" name="contact_method" defaultValue="phone"><option value="phone">الهاتف</option><option value="email">البريد</option><option value="whatsapp">واتساب</option></select></Field>
               <Field label={t.region}><input className="input" name="region" required /></Field>
               <Field label={t.crop}><input className="input" name="primary_crop" required /></Field>
             </div>
@@ -297,7 +312,9 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label={t.businessName}><input className="input" name="business_name" required /></Field>
               <Field label={t.businessType}><select className="input" name="business_type" required><option>تاجر جملة</option><option>مصنع</option><option>غيره</option></select></Field>
-              <Field label={t.phone}><input className="input" name="phone" required value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
+              <Field label={t.phone}><input className="input" name="phone" value={buyerPhone} onChange={(e) => setBuyerPhone(e.target.value)} /></Field>
+              <Field label={t.email}><input className="input" name="email" type="email" /></Field>
+              <Field label={t.contactMethod}><select className="input" name="contact_method" defaultValue="phone"><option value="phone">الهاتف</option><option value="email">البريد</option><option value="whatsapp">واتساب</option></select></Field>
               <Field label={t.buyerLocation}><input className="input" name="location" required /></Field>
             </div>
             <button className="btn-primary mt-5 bg-emerald-700 hover:bg-emerald-800" disabled={buyerState.type === 'loading'}>

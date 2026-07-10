@@ -8,32 +8,32 @@ import { BrandLogo } from '@/components/layout/brand-logo';
 const portals = [
   {
     title: 'بوابة المزارع',
-    subtitle: 'سجل محصولك وتابع حالة العرض',
-    description: 'نموذج واضح لتسجيل بيانات المزارع وتوفر الفتريتة أو القمح أو البصل، ثم متابعة الحالة من نفس الرقم.',
+    subtitle: 'اعرض محصولك بثقة',
+    description: 'سجل الكمية وموقع الحصاد، وسيتابع الفريق العرض حتى الوصول لمشترٍ مناسب.',
     href: '/ar/marketplace',
     icon: Sprout,
     tone: 'bg-emerald-50 text-emerald-800',
   },
   {
     title: 'بوابة التاجر',
-    subtitle: 'طلبات شراء بالجملة مع حد نقل واضح',
-    description: 'طلب شراء يبدأ من 400 جوال لضمان كفاءة النقل، ثم يراجعه فريق United Fruit قبل المطابقة.',
+    subtitle: 'اطلب كميات تجارية',
+    description: 'طلبات الشراء تبدأ من 400 جوال وتدخل مباشرة لمسار مراجعة ومطابقة منظم.',
     href: '/ar/marketplace',
     icon: Store,
     tone: 'bg-[#fff4d8] text-amber-800',
   },
   {
     title: 'لوحة الأسعار',
-    subtitle: 'أسعار عامة قابلة للتحديث',
-    description: 'جدول سريع لأسعار المصدر والخرطوم وآخر تحديث، مناسب للقراءة من الهاتف أو الحاسوب.',
+    subtitle: 'تابع السوق قبل القرار',
+    description: 'أسعار المصدر والخرطوم في مكان واحد مع تحديثات الفريق حسب حركة السوق.',
     href: '/ar/marketplace/prices',
     icon: LineChart,
     tone: 'bg-[#e7f7fb] text-cyan-800',
   },
   {
     title: 'بوابة الأعمال',
-    subtitle: 'قطاعات وشركات ومؤشرات',
-    description: 'مدخل منظم لبيانات الأعمال الحالية مع الحفاظ على وظيفة القسم كما هي.',
+    subtitle: 'شركات وقطاعات وفرص',
+    description: 'استكشف الشركات والقطاعات ومؤشرات السوق المرتبطة بالتجارة الزراعية.',
     href: '/ar/business',
     icon: BriefcaseBusiness,
     tone: 'bg-[#ffece4] text-orange-800',
@@ -53,7 +53,7 @@ export default async function HomePage() {
               United Fruit Company
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-[#426457]">
-              واجهة خفيفة وواضحة لكل الفئات السودانية: المزارع، التاجر، فريق المطابقة، وزائر الأسعار. كل بوابة تقود المستخدم مباشرة للخطوة المناسبة على الهاتف أو الحاسوب.
+              سوق منظم للمحاصيل السودانية يربط عروض المزارعين بطلبات التجار عبر فريق United Fruit، مع أسعار واضحة وترحيل قابل للتنسيق.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -75,16 +75,16 @@ export default async function HomePage() {
               </span>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <Info label="طلبات تمر عبر الفريق" value="خصوصية كاملة" />
+              <Info label="المطابقة" value="عبر الفريق" />
               <Info label="حد طلب الشراء" value="400 جوال" />
-              <Info label="المنتجات" value="فتريتة، قمح، بصل" />
-              <Info label="الواجهات" value="هاتف وحاسوب" />
+              <Info label="المنتجات" value="محاصيل مختارة" />
+              <Info label="الترحيل" value="مسارات جاهزة" />
             </div>
             <div className="mt-5 rounded-lg bg-emerald-50 p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-700" />
                 <p className="text-sm font-bold leading-7 text-[#426457]">
-                  لا تظهر بيانات التواصل بين المزارع والتاجر مباشرة. المطابقة والتنسيق يتمان من لوحة الفريق الداخلية.
+                  لا تظهر بيانات التواصل بين المزارع والتاجر مباشرة. المطابقة والتنسيق يتمان عبر فريق United Fruit.
                 </p>
               </div>
             </div>

@@ -7,17 +7,19 @@ export async function POST(request: Request) {
     const business_name = String(input.business_name || '').trim();
     const business_type = String(input.business_type || '').trim();
     const phone = String(input.phone || '').trim();
+    const email = String(input.email || '').trim() || null;
     const location = String(input.location || '').trim();
+    const contact_method = String(input.contact_method || 'phone').trim();
 
-    if (!business_name || !business_type || !phone || !location) {
+    if (!business_name || !business_type || (!phone && !email) || !location) {
       return NextResponse.json({ ok: false, error: 'أكمل كل بيانات تسجيل التاجر.' }, { status: 400 });
     }
 
     const supabase = createSupabaseAdminClient();
     const { data, error } = await supabase
       .from('uf_buyers')
-      .insert({ business_name, business_type, phone, location })
-      .select('buyer_id,business_name,business_type,phone,location')
+      .insert({ business_name, business_type, phone, email, location, contact_method })
+      .select('buyer_id,business_name,business_type,phone,email,location,contact_method')
       .single();
 
     if (error) {

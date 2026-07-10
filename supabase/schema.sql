@@ -258,3 +258,99 @@ drop policy if exists "Admin manage United Fruit demand" on public.uf_demand_req
 create policy "Admin manage United Fruit demand" on public.uf_demand_requests for all using (public.is_admin()) with check (public.is_admin());
 drop policy if exists "Admin manage United Fruit matches" on public.uf_matches;
 create policy "Admin manage United Fruit matches" on public.uf_matches for all using (public.is_admin()) with check (public.is_admin());
+
+-- Market-ready additions: contact channels, technicians, logistics, and price audit trail.
+alter table public.uf_farmers add column if not exists email text null;
+alter table public.uf_farmers add column if not exists contact_method text not null default 'phone' check (contact_method in ('phone','email','whatsapp'));
+alter table public.uf_buyers add column if not exists email text null;
+alter table public.uf_buyers add column if not exists contact_method text not null default 'phone' check (contact_method in ('phone','email','whatsapp'));
+alter table public.uf_products add column if not exists category text not null default 'crop';
+alter table public.uf_products add column if not exists active boolean not null default true;
+
+create table if not exists public.uf_technicians (
+  technician_id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text null,
+  phone text null,
+  status text not null default 'active' check (status in ('active','pending','disabled')),
+  created_at timestamptz default now(),
+  unique (email),
+  unique (phone)
+);
+
+create table if not exists public.uf_transport_lanes (
+  lane_id uuid primary key default gen_random_uuid(),
+  origin text not null,
+  destination text not null,
+  distance_km numeric null,
+  truck_type text not null default 'شاحنة',
+  min_jowal integer not null default 400,
+  estimated_cost_min numeric null,
+  estimated_cost_max numeric null,
+  notes text null,
+  active boolean not null default true,
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.uf_price_sources (
+  source_id uuid primary key default gen_random_uuid(),
+  name text not null,
+  source_url text null,
+  source_type text not null default 'manual' check (source_type in ('manual','exchange','p2p','commodity','sheet')),
+  notes text null,
+  active boolean not null default true,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.uf_product_price_updates (
+  update_id uuid primary key default gen_random_uuid(),
+  product_id text not null references public.uf_products(product_id) on delete cascade,
+  source_price_min numeric null,
+  source_price_max numeric null,
+  khartoum_price_min numeric null,
+  khartoum_price_max numeric null,
+  source_id uuid null references public.uf_price_sources(source_id) on delete set null,
+  updated_by uuid null references auth.users(id) on delete set null,
+  note text null,
+  created_at timestamptz default now()
+);
+
+create index if not exists idx_uf_technicians_email on public.uf_technicians(email);
+create index if not exists idx_uf_technicians_phone on public.uf_technicians(phone);
+create index if not exists idx_uf_transport_lanes_active on public.uf_transport_lanes(active, origin, destination);
+create index if not exists idx_uf_price_updates_product_created on public.uf_product_price_updates(product_id, created_at desc);
+
+alter table public.uf_technicians enable row level security;
+alter table public.uf_transport_lanes enable row level security;
+alter table public.uf_price_sources enable row level security;
+alter table public.uf_product_price_updates enable row level security;
+
+create or replace function public.is_admin() returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.admin_users where user_id = auth.uid())
+    or exists (
+      select 1
+      from public.uf_technicians
+      where status = 'active'
+        and (
+          (email is not null and lower(email) = lower(coalesce(auth.jwt() ->> 'email', '')))
+          or (phone is not null and phone = coalesce(auth.jwt() ->> 'phone', ''))
+        )
+    );
+$$;
+
+drop policy if exists "Admin read United Fruit technicians" on public.uf_technicians;
+create policy "Admin read United Fruit technicians" on public.uf_technicians for select using (public.is_admin());
+drop policy if exists "Admin manage United Fruit technicians" on public.uf_technicians;
+create policy "Admin manage United Fruit technicians" on public.uf_technicians for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Public read active transport lanes" on public.uf_transport_lanes;
+create policy "Public read active transport lanes" on public.uf_transport_lanes for select using (active = true);
+drop policy if exists "Admin manage transport lanes" on public.uf_transport_lanes;
+create policy "Admin manage transport lanes" on public.uf_transport_lanes for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Public read active price sources" on public.uf_price_sources;
+create policy "Public read active price sources" on public.uf_price_sources for select using (active = true);
+drop policy if exists "Admin manage price sources" on public.uf_price_sources;
+create policy "Admin manage price sources" on public.uf_price_sources for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "Admin read product price updates" on public.uf_product_price_updates;
+create policy "Admin read product price updates" on public.uf_product_price_updates for select using (public.is_admin());
+drop policy if exists "Admin manage product price updates" on public.uf_product_price_updates;
+create policy "Admin manage product price updates" on public.uf_product_price_updates for all using (public.is_admin()) with check (public.is_admin());

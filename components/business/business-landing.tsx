@@ -22,13 +22,13 @@ const ui = {
     companies: 'الشركات',
     companiesDesc: 'اعرض الشركات السودانية النظيفة والمؤكدة مع القطاع والمدينة ووسائل التواصل.',
     market: 'مؤشرات السوق',
-    marketDesc: 'تابع أسعار الدولار، USDT، الذهب، والفضة كمؤشرات إرشادية.',
+    marketDesc: 'تابع مؤشرات الصرف والسيولة وأسعار المحاصيل من صفحة واحدة.',
     sectors: 'القطاعات',
     sectorsDesc: 'استكشف القطاعات الاقتصادية مثل النقل، الزراعة، الصناعة، التمويل، والخدمات.',
     opportunities: 'الفرص',
-    opportunitiesDesc: 'مساحة مستقبلية لتحليل الفرص التجارية حسب القطاع والمدينة.',
+    opportunitiesDesc: 'ادخل سوق United Fruit لتقديم عروض وطلبات قابلة للمطابقة.',
     openCompanies: 'فتح دليل الشركات',
-    comingSoon: 'قريباً',
+    comingSoon: 'فتح',
     note:
       'بيانات الشركات في هذه المرحلة انتقائية ومراجعة يدوياً بدرجة أعلى. سنضيف المزيد تدريجياً من مصادر موثوقة.',
     statsCompanies: 'شركات مؤكدة',
@@ -46,13 +46,13 @@ const ui = {
     companies: 'Companies',
     companiesDesc: 'Browse verified Sudanese companies with sector, city, and contact information.',
     market: 'Market indicators',
-    marketDesc: 'Track USD, USDT, gold, and silver as indicative market signals.',
+    marketDesc: 'Track exchange, liquidity, and crop price signals from one page.',
     sectors: 'Sectors',
     sectorsDesc: 'Explore economic sectors such as logistics, agriculture, manufacturing, finance, and services.',
     opportunities: 'Opportunities',
-    opportunitiesDesc: 'Future space for analyzing opportunities by sector and city.',
+    opportunitiesDesc: 'Open the United Fruit marketplace for supply and demand matching.',
     openCompanies: 'Open companies directory',
-    comingSoon: 'Coming soon',
+    comingSoon: 'Open',
     note:
       'The current business dataset is selective and more strictly reviewed. More companies will be added gradually from trusted sources.',
     statsCompanies: 'Verified companies',
@@ -169,24 +169,24 @@ export function LocalizedBusinessLandingPage({ locale }: { locale: Locale }) {
           icon={LineChart}
           title={label.market}
           description={label.marketDesc}
+          href="/market-indicators"
           cta={label.comingSoon}
-          disabled
         />
 
         <FeatureCard
           icon={Store}
           title={label.sectors}
           description={label.sectorsDesc}
+          href="/sectors"
           cta={label.comingSoon}
-          disabled
         />
 
         <FeatureCard
           icon={SearchCheck}
           title={label.opportunities}
           description={label.opportunitiesDesc}
+          href={`/${locale}/marketplace`}
           cta={label.comingSoon}
-          disabled
         />
       </section>
 

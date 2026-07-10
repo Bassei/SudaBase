@@ -47,7 +47,7 @@ export async function requireMarketplaceAdmin() {
 
 export async function getMarketplaceAdminData() {
   const supabase = createSupabaseAdminClient();
-  const [products, supply, demand, matches] = await Promise.all([
+  const [products, supply, demand, matches, technicians, lanes] = await Promise.all([
     supabase.from('uf_products').select('*').order('product_id'),
     supabase
       .from('uf_supply_requests')
@@ -61,9 +61,11 @@ export async function getMarketplaceAdminData() {
       .from('uf_matches')
       .select('*, uf_supply_requests(product_id,quantity_jowal,harvest_location), uf_demand_requests(quantity_jowal,requested_delivery_date)')
       .order('created_at', { ascending: false }),
+    supabase.from('uf_technicians').select('*').order('created_at', { ascending: false }),
+    supabase.from('uf_transport_lanes').select('*').eq('active', true).order('origin'),
   ]);
 
-  for (const result of [products, supply, demand, matches]) {
+  for (const result of [products, supply, demand, matches, technicians, lanes]) {
     if (result.error) {
       throw result.error;
     }
@@ -74,5 +76,7 @@ export async function getMarketplaceAdminData() {
     supply: supply.data ?? [],
     demand: demand.data ?? [],
     matches: matches.data ?? [],
+    technicians: technicians.data ?? [],
+    lanes: lanes.data ?? [],
   };
 }

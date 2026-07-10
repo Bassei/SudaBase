@@ -8,32 +8,32 @@ import { BrandLogo } from '@/components/layout/brand-logo';
 const portals = [
   {
     title: 'Farmer Portal',
-    subtitle: 'Submit crop availability',
-    description: 'A clear path for farmers to register supply and track review status from the same phone number.',
+    subtitle: 'List crop supply with confidence',
+    description: 'Submit quantity and harvest location, then let the team move the offer toward a suitable buyer.',
     href: '/en/marketplace',
     icon: Sprout,
     tone: 'bg-emerald-50 text-emerald-800',
   },
   {
     title: 'Buyer Portal',
-    subtitle: 'Wholesale requests with transport logic',
-    description: 'Demand requests start at 400 jowal and are reviewed by the United Fruit team before matching.',
+    subtitle: 'Request commercial volumes',
+    description: 'Demand starts at 400 jowal and enters a structured review and matching flow.',
     href: '/en/marketplace',
     icon: Store,
     tone: 'bg-[#fff4d8] text-amber-800',
   },
   {
     title: 'Price Board',
-    subtitle: 'Editable public crop prices',
-    description: 'Source and Khartoum price ranges for feterita, wheat, and onion with a clean mobile-ready table.',
+    subtitle: 'Read the market before acting',
+    description: 'Source and Khartoum price ranges in one place, updated by the team as the market moves.',
     href: '/en/marketplace/prices',
     icon: LineChart,
     tone: 'bg-[#e7f7fb] text-cyan-800',
   },
   {
     title: 'Business Portal',
-    subtitle: 'Companies, sectors, indicators',
-    description: 'A modern entry to the existing business data surface while keeping its current function intact.',
+    subtitle: 'Companies, sectors, opportunities',
+    description: 'Explore companies, sectors, and market indicators connected to agricultural trade.',
     href: '/en/business',
     icon: BriefcaseBusiness,
     tone: 'bg-[#ffece4] text-orange-800',
@@ -53,7 +53,7 @@ export default async function EnglishHomePage() {
               United Fruit Company
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-[#426457]">
-              A light, modern interface for farmers, buyers, the matching team, and price-board visitors. Each portal adapts immediately to desktop or mobile screens.
+              A managed market for Sudanese crops, connecting farmer supply with buyer demand through the United Fruit team.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -75,16 +75,16 @@ export default async function EnglishHomePage() {
               </span>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <Info label="Team reviewed" value="Private matching" />
+              <Info label="Matching" value="Team managed" />
               <Info label="Minimum demand" value="400 jowal" />
-              <Info label="Products" value="Feterita, wheat, onion" />
-              <Info label="Screens" value="Mobile and desktop" />
+              <Info label="Products" value="Selected crops" />
+              <Info label="Transport" value="Ready lanes" />
             </div>
             <div className="mt-5 rounded-lg bg-emerald-50 p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-emerald-700" />
                 <p className="text-sm font-bold leading-7 text-[#426457]">
-                  Farmer and buyer contact details are not exposed to each other. Coordination happens through the internal team dashboard.
+                  Farmer and buyer contact details are not exposed directly. Coordination happens through the United Fruit team.
                 </p>
               </div>
             </div>
