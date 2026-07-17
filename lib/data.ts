@@ -166,6 +166,6 @@ export async function getBusiness(id: string) {
 
 export async function getMarketIndicators() {
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.from('market_indicators').select('*').order('fetched_at', { ascending: false }).limit(12);
+  const { data } = await supabase.from('market_indicators').select('*').order('fetched_at', { ascending: false }).limit(60);
   return (data ?? []) as MarketIndicator[];
 }

@@ -1,7 +1,7 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
-import { CheckCircle2, HandCoins, Loader2, PackageCheck, Sprout, Store } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { CheckCircle2, ClipboardList, HandCoins, Loader2, PackageCheck, Sprout, Store } from 'lucide-react';
 import Link from 'next/link';
 import type { UfProduct } from '@/lib/united-fruit';
 import { DEMAND_MINIMUM_JOWAL } from '@/lib/marketplace-constants';
@@ -47,6 +47,14 @@ const copy = {
     supplySaved: 'تم إرسال العرض بحالة قيد المراجعة.',
     demandSaved: 'تم إرسال الطلب بحالة قيد المراجعة.',
     noRows: 'لا توجد سجلات لهذا الرقم.',
+    choosePortal: 'اختر بوابتك',
+    choosePortalHint: 'كل مسار يعرض الخطوات التي تحتاجها فقط.',
+    farmerPortal: 'بوابة المزارع',
+    farmerPortalHint: 'تسجيل المزارع ثم عرض المحصول',
+    buyerPortal: 'بوابة المشتري',
+    buyerPortalHint: 'تسجيل النشاط ثم طلب الشراء',
+    statusPortal: 'متابعة الطلبات',
+    statusPortalHint: 'راجع حالة العروض والطلبات',
   },
   en: {
     dir: 'ltr',
@@ -85,6 +93,14 @@ const copy = {
     supplySaved: 'Supply submitted for review.',
     demandSaved: 'Demand submitted for review.',
     noRows: 'No records for this phone number.',
+    choosePortal: 'Choose your portal',
+    choosePortalHint: 'Each journey only shows the steps you need.',
+    farmerPortal: 'Farmer portal',
+    farmerPortalHint: 'Register, then list crop supply',
+    buyerPortal: 'Buyer portal',
+    buyerPortalHint: 'Register, then request a purchase',
+    statusPortal: 'Request status',
+    statusPortalHint: 'Track supply and demand requests',
   },
 };
 
@@ -149,6 +165,14 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
   const [demandState, setDemandState] = useState<ApiState>({ type: 'idle', message: '' });
   const [offerRows, setOfferRows] = useState<any[]>([]);
   const [requestRows, setRequestRows] = useState<any[]>([]);
+  const [activePortal, setActivePortal] = useState<'farmer' | 'buyer' | 'status'>('farmer');
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get('portal');
+    if (requested === 'farmer' || requested === 'buyer' || requested === 'status') {
+      setActivePortal(requested);
+    }
+  }, []);
 
   const productOptions = useMemo(
     () =>
@@ -249,7 +273,7 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
           </div>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
-          {products.map((product) => (
+          {products.slice(0, 3).map((product) => (
             <article key={product.product_id} className="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
               <p className="text-sm font-bold text-slate-500">{product.source_region}</p>
               <h2 className="mt-2 text-2xl font-black text-[#173a2b]">
@@ -261,8 +285,19 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 pb-14 lg:grid-cols-2">
-        <div className="space-y-5">
+      <section className="mx-auto max-w-7xl px-4 pb-8">
+        <div className="rounded-3xl border border-emerald-950/10 bg-white p-3 shadow-sm">
+          <div className="px-3 pb-3 pt-2"><h2 className="text-xl font-black">{t.choosePortal}</h2><p className="mt-1 text-sm text-[#60736a]">{t.choosePortalHint}</p></div>
+          <div className="grid gap-2 md:grid-cols-3">
+            <PortalButton active={activePortal === 'farmer'} icon={Sprout} title={t.farmerPortal} hint={t.farmerPortalHint} onClick={() => setActivePortal('farmer')} />
+            <PortalButton active={activePortal === 'buyer'} icon={Store} title={t.buyerPortal} hint={t.buyerPortalHint} onClick={() => setActivePortal('buyer')} />
+            <PortalButton active={activePortal === 'status'} icon={ClipboardList} title={t.statusPortal} hint={t.statusPortalHint} onClick={() => setActivePortal('status')} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-14">
+        {activePortal === 'farmer' && <div className="grid gap-5 lg:grid-cols-2">
           <form onSubmit={submitFarmer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <Sprout className="h-6 w-6 text-emerald-700" />
@@ -301,9 +336,9 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
             </button>
             <div className="mt-4"><Notice state={supplyState} /></div>
           </form>
-        </div>
+        </div>}
 
-        <div className="space-y-5">
+        {activePortal === 'buyer' && <div className="grid gap-5 lg:grid-cols-2">
           <form onSubmit={submitBuyer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <Store className="h-6 w-6 text-emerald-700" />
@@ -343,14 +378,39 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
             </button>
             <div className="mt-4"><Notice state={demandState} /></div>
           </form>
-        </div>
+        </div>}
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 pb-16 lg:grid-cols-2">
+      {activePortal === 'status' && <section className="mx-auto grid max-w-7xl gap-5 px-4 pb-16 lg:grid-cols-2">
         <StatusPanel title={t.myOffers} phone={farmerPhone} rows={offerRows} empty={t.noRows} lookupLabel={t.lookup} onLookup={() => lookup('farmer', farmerPhone, setOfferRows)} />
         <StatusPanel title={t.myRequests} phone={buyerPhone} rows={requestRows} empty={t.noRows} lookupLabel={t.lookup} onLookup={() => lookup('buyer', buyerPhone, setRequestRows)} />
-      </section>
+      </section>}
     </main>
+  );
+}
+
+function PortalButton({
+  active,
+  icon: Icon,
+  title,
+  hint,
+  onClick,
+}: {
+  active: boolean;
+  icon: typeof Sprout;
+  title: string;
+  hint: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-center gap-4 rounded-2xl p-4 text-start transition ${active ? 'bg-[#173a2b] text-white shadow-lg shadow-emerald-950/10' : 'bg-[#f4f7f5] text-[#173a2b] hover:bg-emerald-50'}`}
+    >
+      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${active ? 'bg-white/10 text-amber-300' : 'bg-white text-emerald-700 shadow-sm'}`}><Icon className="h-5 w-5" /></span>
+      <span><span className="block font-black">{title}</span><span className={`mt-1 block text-xs ${active ? 'text-emerald-100/70' : 'text-[#60736a]'}`}>{hint}</span></span>
+    </button>
   );
 }
 

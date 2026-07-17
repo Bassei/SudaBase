@@ -15,11 +15,13 @@
 
 html { 
   scroll-behavior: smooth; 
+  background: #f6f8f6;
 }
 
 @layer base {
   body { 
-    @apply bg-[#fbfdf8] text-[#173a2b] antialiased font-sans selection:bg-[#f6b83f]/40 selection:text-[#173a2b]; 
+    @apply bg-[#f6f8f6] text-[#173a2b] antialiased font-sans selection:bg-[#f6b83f]/40 selection:text-[#173a2b];
+    min-width: 320px;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -34,23 +36,23 @@ html {
 
 @layer components {
   .card { 
-    @apply rounded-lg border border-emerald-100 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-md; 
+    @apply rounded-2xl border border-emerald-950/10 bg-white p-6 shadow-sm transition hover:border-emerald-900/20 hover:shadow-md;
   }
   
   .input { 
-    @apply w-full rounded-lg border border-emerald-100 bg-white px-4 py-2.5 text-sm text-[#173a2b] outline-none transition-all placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100; 
+    @apply w-full rounded-xl border border-emerald-950/10 bg-white px-4 py-3 text-sm text-[#173a2b] outline-none transition-all placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100/70;
   }
   
   .btn { 
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition active:scale-95 disabled:pointer-events-none disabled:opacity-50; 
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition active:scale-[.98] disabled:pointer-events-none disabled:opacity-50;
   }
   
   .btn-primary { 
-    @apply btn bg-emerald-700 text-white shadow-sm hover:bg-emerald-800; 
+    @apply btn bg-[#173a2b] text-white shadow-sm hover:bg-emerald-900;
   }
   
   .btn-secondary { 
-    @apply btn border border-emerald-100 bg-white text-[#173a2b] shadow-sm hover:border-emerald-200 hover:bg-emerald-50; 
+    @apply btn border border-emerald-950/10 bg-white text-[#173a2b] shadow-sm hover:border-emerald-900/20 hover:bg-emerald-50;
   }
   
   .badge { 
