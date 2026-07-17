@@ -15,24 +15,113 @@ export type UfProduct = {
   last_updated: string | null;
 };
 
+// Keep the public marketplace useful while a new environment is waiting for the
+// marketplace migration to be applied. Mutations still require the real tables.
+export const fallbackUfProducts: UfProduct[] = [
+  {
+    product_id: 'feterita',
+    name_ar: 'الفتريتة',
+    name_en: 'Feterita (Wad Akr)',
+    unit: 'جوال 90 كجم',
+    source_price_min: 130000,
+    source_price_max: 130000,
+    khartoum_price_min: 160000,
+    khartoum_price_max: 160000,
+    source_region: 'الجزيرة',
+    last_updated: '2026-07-08T00:00:00.000Z',
+  },
+  {
+    product_id: 'wheat',
+    name_ar: 'القمح',
+    name_en: 'Wheat',
+    unit: 'جوال 90 كجم',
+    source_price_min: 165000,
+    source_price_max: 170000,
+    khartoum_price_min: 210000,
+    khartoum_price_max: 250000,
+    source_region: 'الجزيرة',
+    last_updated: '2026-07-08T00:00:00.000Z',
+  },
+  {
+    product_id: 'onion',
+    name_ar: 'البصل',
+    name_en: 'Onion',
+    unit: 'جوال 90 كجم',
+    source_price_min: 65000,
+    source_price_max: 80000,
+    khartoum_price_min: 110000,
+    khartoum_price_max: 120000,
+    source_region: 'الدامر',
+    last_updated: '2026-07-08T00:00:00.000Z',
+  },
+  {
+    product_id: 'sesame',
+    name_ar: 'السمسم',
+    name_en: 'Sesame',
+    unit: 'قنطار',
+    source_price_min: null,
+    source_price_max: null,
+    khartoum_price_min: null,
+    khartoum_price_max: null,
+    source_region: 'القضارف',
+    last_updated: null,
+  },
+  {
+    product_id: 'groundnut',
+    name_ar: 'الفول السوداني',
+    name_en: 'Groundnut',
+    unit: 'طن',
+    source_price_min: null,
+    source_price_max: null,
+    khartoum_price_min: null,
+    khartoum_price_max: null,
+    source_region: 'كردفان',
+    last_updated: null,
+  },
+  {
+    product_id: 'hibiscus',
+    name_ar: 'الكركدي',
+    name_en: 'Hibiscus',
+    unit: 'قنطار',
+    source_price_min: null,
+    source_price_max: null,
+    khartoum_price_min: null,
+    khartoum_price_max: null,
+    source_region: 'شمال كردفان',
+    last_updated: null,
+  },
+  {
+    product_id: 'gum-arabic',
+    name_ar: 'الصمغ العربي',
+    name_en: 'Gum Arabic',
+    unit: 'قنطار',
+    source_price_min: null,
+    source_price_max: null,
+    khartoum_price_min: null,
+    khartoum_price_max: null,
+    source_region: 'كردفان',
+    last_updated: null,
+  },
+];
+
 export { DEMAND_MINIMUM_JOWAL };
 
 export async function getUfProducts() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from('uf_products')
     .select('*')
     .order('product_id');
 
   if (error) {
-    throw error;
+    return fallbackUfProducts;
   }
 
   return (data ?? []) as UfProduct[];
 }
 
 export async function requireMarketplaceAdmin() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -42,7 +131,14 @@ export async function requireMarketplaceAdmin() {
   }
 
   const { data } = await supabase.rpc('is_admin');
-  return { user, isAdmin: data === true };
+  const allowlistedEmails = (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+  const allowlisted = Boolean(
+    user.email && allowlistedEmails.includes(user.email.toLowerCase())
+  );
+  return { user, isAdmin: data === true || allowlisted };
 }
 
 export async function getMarketplaceAdminData() {
@@ -65,10 +161,19 @@ export async function getMarketplaceAdminData() {
     supabase.from('uf_transport_lanes').select('*').eq('active', true).order('origin'),
   ]);
 
-  for (const result of [products, supply, demand, matches, technicians, lanes]) {
-    if (result.error) {
-      throw result.error;
-    }
+  const results = [products, supply, demand, matches, technicians, lanes];
+  const databaseReady = results.every((result) => !result.error);
+
+  if (!databaseReady) {
+    return {
+      products: fallbackUfProducts,
+      supply: [],
+      demand: [],
+      matches: [],
+      technicians: [],
+      lanes: [],
+      databaseReady: false,
+    };
   }
 
   return {
@@ -78,5 +183,6 @@ export async function getMarketplaceAdminData() {
     matches: matches.data ?? [],
     technicians: technicians.data ?? [],
     lanes: lanes.data ?? [],
+    databaseReady: true,
   };
 }

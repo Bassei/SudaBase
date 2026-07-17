@@ -11,13 +11,14 @@ const supabase = createClient(
 );
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function UniversityDetailPage({ params }: PageProps) {
-  const universityId = decodeURIComponent(params.id);
+  const { id } = await params;
+  const universityId = decodeURIComponent(id);
 
   const { data: university } = await supabase
     .from('universities')

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { marketplaceDatabaseError } from '@/lib/marketplace-api';
 
 export async function POST(request: Request) {
   try {
@@ -35,14 +36,11 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+      return marketplaceDatabaseError(error);
     }
 
     return NextResponse.json({ ok: true, supply: data });
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: error instanceof Error ? error.message : 'تعذر إرسال العرض.' },
-      { status: 500 }
-    );
+    return marketplaceDatabaseError(error, 'تعذر إرسال العرض. / Unable to submit the supply offer.');
   }
 }

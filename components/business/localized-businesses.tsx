@@ -346,20 +346,27 @@ export async function LocalizedBusinessPage({
   const city = searchParams?.city || '';
   const contact = searchParams?.contact || '';
 
-  const [{ data: businesses }, { data: sectors }] = await Promise.all([
-    supabase
-      .from('businesses_public')
-      .select('*')
-      .order('quality_score', { ascending: false })
-      .limit(1000),
-    supabase
-      .from('business_sectors')
-      .select('*')
-      .order('sector_name', { ascending: true }),
-  ]);
+  const { data: businesses } = await supabase
+    .from('businesses_public')
+    .select('*')
+    .order('quality_score', { ascending: false })
+    .limit(1000);
 
   const all = (businesses || []) as BusinessRecord[];
-  const sectorRows = (sectors || []) as SectorRecord[];
+  const sectorRows = Array.from(
+    new Map(
+      all
+        .filter((business) => business.sector)
+        .map((business) => [
+          business.sector as string,
+          {
+            sector_id: business.sector as string,
+            sector_name: business.sector as string,
+            sector_name_ar: business.sector_name_ar,
+          },
+        ])
+    ).values()
+  ).sort((a, b) => a.sector_name.localeCompare(b.sector_name)) as SectorRecord[];
 
   const filtered = all
     .filter((business) => {

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import {
@@ -439,9 +440,11 @@ function LogoMark({ university, name }: { university: UniversityRecord; name: st
   if (university.logo_url) {
     return (
       <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
-        <img
+        <Image
           src={university.logo_url}
           alt={`${name} logo`}
+          width={56}
+          height={56}
           className="h-full w-full object-contain"
         />
       </div>
@@ -499,9 +502,11 @@ function UniversityCard({
         <header className="flex items-start gap-4">
           {university.logo_url ? (
             <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
-              <img
+              <Image
                 src={university.logo_url}
                 alt={`${name} logo`}
+                width={56}
+                height={56}
                 className="h-full w-full object-contain"
               />
             </div>

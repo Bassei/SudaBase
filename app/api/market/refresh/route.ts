@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { requireMarketplaceAdmin } from '@/lib/united-fruit';
 
 export const dynamic = 'force-dynamic';
 
@@ -261,8 +262,13 @@ async function productPriceIndicators(): Promise<IndicatorInput[]> {
   });
 }
 
-export async function GET() {
+export async function POST() {
   try {
+    const { user, isAdmin } = await requireMarketplaceAdmin();
+    if (!user || !isAdmin) {
+      return NextResponse.json({ ok: false, error: 'Unauthorized.' }, { status: 403 });
+    }
+
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return NextResponse.json(
         { ok: false, error: 'Missing SUPABASE_SERVICE_ROLE_KEY' },

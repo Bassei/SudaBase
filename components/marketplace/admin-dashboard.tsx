@@ -12,6 +12,7 @@ type Props = {
   matches: any[];
   technicians: any[];
   lanes: any[];
+  databaseReady: boolean;
 };
 
 type State = { type: 'idle' | 'loading' | 'success' | 'error'; message: string };
@@ -31,9 +32,24 @@ async function send(path: string, method: 'POST' | 'PATCH', body: Record<string,
   return json;
 }
 
-export function AdminDashboard({ products, supply, demand, matches, technicians, lanes }: Props) {
+export function AdminDashboard({ products, supply, demand, matches, technicians, lanes, databaseReady }: Props) {
   const [matchState, setMatchState] = useState<State>({ type: 'idle', message: '' });
   const [priceState, setPriceState] = useState<State>({ type: 'idle', message: '' });
+
+  if (!databaseReady) {
+    return (
+      <main dir="rtl" className="bg-[#fbfdf8] px-4 py-10 text-[#173a2b]">
+        <section className="mx-auto max-w-3xl rounded-lg border border-amber-300 bg-amber-50 p-8 shadow-sm">
+          <h1 className="text-3xl font-black text-amber-950">قاعدة بيانات السوق تحتاج إلى التهيئة</h1>
+          <p className="mt-4 leading-8 text-amber-900">
+            الاتصال بـ Supabase يعمل، لكن جداول سوق United Fruit غير موجودة بعد. طبّق ملف
+            <code className="mx-2 rounded bg-white px-2 py-1" dir="ltr">supabase/marketplace.sql</code>
+            من محرر SQL في Supabase، ثم أعد تحميل هذه الصفحة.
+          </p>
+        </section>
+      </main>
+    );
+  }
 
   async function createMatch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

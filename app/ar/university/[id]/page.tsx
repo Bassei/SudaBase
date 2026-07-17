@@ -1,5 +1,6 @@
 import { LocalizedUniversityDetailPage } from '@/components/universities/localized-universities';
 
-export default function ArabicUniversityDetailPage({ params }: { params: { id: string } }) {
-  return <LocalizedUniversityDetailPage locale="ar" id={decodeURIComponent(params.id)} />;
+export default async function ArabicUniversityDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <LocalizedUniversityDetailPage locale="ar" id={decodeURIComponent(id)} />;
 }

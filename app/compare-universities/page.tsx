@@ -762,13 +762,14 @@ function ComparisonTable({
 export default async function CompareUniversitiesPage({
   searchParams
 }: {
-  searchParams?: SearchParams;
+  searchParams?: Promise<SearchParams>;
 }) {
-  const locale: Locale = searchParams?.lang === 'ar' ? 'ar' : 'en';
+  const resolvedSearchParams = await searchParams;
+  const locale: Locale = resolvedSearchParams?.lang === 'ar' ? 'ar' : 'en';
   const t = ui[locale];
 
-  const selectedCity = searchParams?.city || '';
-  const compareQuery = searchParams?.compare || '';
+  const selectedCity = resolvedSearchParams?.city || '';
+  const compareQuery = resolvedSearchParams?.compare || '';
 
   const [
     { data: universitiesData, error: universitiesError },

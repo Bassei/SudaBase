@@ -12,7 +12,10 @@ export function MarketRefreshButton() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/market/refresh', { cache: 'no-store' });
+      const response = await fetch('/api/market/refresh', {
+        method: 'POST',
+        cache: 'no-store',
+      });
       const json = await response.json();
       if (!response.ok || json.ok === false) throw new Error(json.error || 'تعذر تحديث المؤشرات.');
       setMessage(`تم تحديث ${json.saved} مؤشر.`);

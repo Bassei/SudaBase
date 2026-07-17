@@ -40,10 +40,13 @@ Never place a Supabase service-role key in frontend code.
 
 ## Database setup
 
-1. Open Supabase SQL editor.
-2. Run `supabase/schema.sql`.
-3. Run `supabase/seed.sql` if you want starter sectors.
-4. Insert your admin user after the admin logs in once:
+The connected Supabase project already contains the university and business
+dataset. To enable the United Fruit marketplace:
+
+1. Open the Supabase SQL editor for the configured project.
+2. Run `supabase/marketplace.sql`. It is idempotent and includes the marketplace
+   tables, RLS policies, grants, functions, indexes, and starter products.
+3. Insert your admin user after the admin logs in once:
 
 ```sql
 insert into public.admin_users (user_id, email)
@@ -51,7 +54,18 @@ select id, email from auth.users where email = 'you@example.com'
 on conflict do nothing;
 ```
 
-Your existing `universities` and `programs` tables are reused as-is.
+The existing `universities`, `programs`, `businesses_public`,
+`student_reviews`, and `market_indicators` objects are reused as-is. The public
+marketplace pages fall back to the starter product catalog until the marketplace
+migration is applied; submission endpoints return HTTP 503 instead of crashing.
+
+## Verification
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
 
 ## Market indicators
 

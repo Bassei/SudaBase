@@ -10,7 +10,7 @@ type SearchParams = {
 export default async function CompaniesPage({
   searchParams,
 }: {
-  searchParams?: SearchParams | Promise<SearchParams>;
+  searchParams?: Promise<SearchParams>;
 }) {
   const params = await searchParams;
 
