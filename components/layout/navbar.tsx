@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BarChart3, BriefcaseBusiness, GraduationCap, Grid2X2, Handshake, LogIn, Menu, X } from 'lucide-react';
+import { ClipboardList, Handshake, Home, LogIn, Menu, Tags, X } from 'lucide-react';
 import { useState } from 'react';
 import { BrandLogo } from '@/components/layout/brand-logo';
 import { SHOW_UNITED_FRUIT_MARKETPLACE } from '@/lib/features';
@@ -27,17 +27,16 @@ export function Navbar() {
   const homeHref = isEnglish ? '/en' : '/';
 
   const navItems = [
-    { href: homeHref, label: isEnglish ? 'Portals' : 'البوابات', icon: Grid2X2 },
+    { href: homeHref, label: isEnglish ? 'Home' : 'الرئيسية', icon: Home },
     { href: `${prefix}/marketplace`, label: isEnglish ? 'Market' : 'السوق الزراعي', icon: Handshake, show: SHOW_UNITED_FRUIT_MARKETPLACE },
-    { href: `${prefix}/marketplace/prices`, label: isEnglish ? 'Prices & indicators' : 'الأسعار والمؤشرات', icon: BarChart3, show: SHOW_UNITED_FRUIT_MARKETPLACE },
-    { href: `${prefix}/business`, label: isEnglish ? 'Business' : 'الأعمال', icon: BriefcaseBusiness },
-    { href: `${prefix}/universities`, label: isEnglish ? 'Knowledge' : 'المعرفة', icon: GraduationCap },
+    { href: `${prefix}/marketplace/prices`, label: isEnglish ? 'Crop prices' : 'أسعار المحاصيل', icon: Tags, show: SHOW_UNITED_FRUIT_MARKETPLACE },
+    { href: `${prefix}/marketplace?portal=status`, label: isEnglish ? 'Offers & requests' : 'العروض والطلبات', icon: ClipboardList, show: SHOW_UNITED_FRUIT_MARKETPLACE },
   ].filter((item) => item.show !== false);
 
   return (
     <header dir={isEnglish ? 'ltr' : 'rtl'} className="sticky top-0 z-50 border-b border-emerald-950/10 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <Link href={homeHref} className="min-w-0" onClick={() => setOpen(false)}><BrandLogo /></Link>
+        <Link href={homeHref} className="min-w-0" onClick={() => setOpen(false)}><BrandLogo locale={isEnglish ? 'en' : 'ar'} /></Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
           {navItems.map(({ href, label, icon: Icon }) => {

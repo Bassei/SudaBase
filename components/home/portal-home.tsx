@@ -2,258 +2,190 @@ import Link from 'next/link';
 import {
   ArrowLeft,
   ArrowRight,
-  BarChart3,
-  BookOpenCheck,
-  BriefcaseBusiness,
-  Building2,
-  GraduationCap,
+  BadgeDollarSign,
+  CheckCircle2,
+  ClipboardCheck,
+  CloudSun,
   Handshake,
-  LineChart,
-  SearchCheck,
+  PackageSearch,
+  Scale,
   ShieldCheck,
   Sprout,
   Store,
+  Truck,
 } from 'lucide-react';
-import { MarketTicker } from '@/components/market/market-ticker';
-import type { MarketIndicator } from '@/lib/types';
+import type { UfProduct } from '@/lib/united-fruit';
 
 type Locale = 'ar' | 'en';
-type Stats = {
-  universities: number;
-  programs: number;
-  sectors: number;
-  businesses: number;
-  reviews: number;
-};
+
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1764277434161-23d72931335f?auto=format&fit=crop&q=85&w=2400';
+const WHEAT_IMAGE = 'https://images.unsplash.com/photo-1723530923751-f9b769238666?auto=format&fit=crop&q=85&w=2400';
 
 const copy = {
   ar: {
     dir: 'rtl' as const,
-    eyebrow: 'منصة القرار الزراعي والتجاري في السودان',
-    title: 'كل خدمة في بوابتها. كل قرار يبدأ من بيانات واضحة.',
-    lead: 'منصة موحّدة تربط تجارة المحاصيل، أسعار السوق، دليل الأعمال، والمعرفة الجامعية ضمن مسارات قصيرة ومنظمة.',
-    primary: 'استكشف البوابات',
-    secondary: 'افتح لوحة الأسعار',
-    live: 'بيانات السوق الآن',
-    liveHint: 'آخر مؤشرات متاحة من قاعدة البيانات',
-    portalsEyebrow: 'نظام البوابات',
-    portalsTitle: 'اختر وجهتك، ثم نفّذ مهمتك مباشرة',
-    portalsLead: 'لا قوائم طويلة ولا خدمات مختلطة. كل بوابة تجمع الأدوات التي تخص هدفًا واحدًا.',
-    enter: 'دخول البوابة',
-    quick: 'وصول سريع',
-    stats: [
-      ['شركة ونشاط', 'businesses'],
-      ['قطاع اقتصادي', 'sectors'],
-      ['جامعة', 'universities'],
-      ['برنامج أكاديمي', 'programs'],
-    ] as const,
-    portals: [
-      {
-        number: '01',
-        title: 'بوابة السوق الزراعي',
-        description: 'مساران منفصلان للمزارع والمشتري، مع متابعة حالة العرض أو الطلب.',
-        href: '/ar/marketplace',
-        icon: Handshake,
-        accent: 'emerald',
-        links: [
-          { label: 'عرض محصول', href: '/ar/marketplace?portal=farmer', icon: Sprout },
-          { label: 'طلب شراء', href: '/ar/marketplace?portal=buyer', icon: Store },
-        ],
-      },
-      {
-        number: '02',
-        title: 'بوابة الأسعار والمؤشرات',
-        description: 'لوحات ورسوم لمقارنة أسعار المصدر والخرطوم وقراءة مؤشرات السوق.',
-        href: '/ar/marketplace/prices',
-        icon: BarChart3,
-        accent: 'amber',
-        links: [
-          { label: 'أسعار المحاصيل', href: '/ar/marketplace/prices', icon: LineChart },
-          { label: 'مؤشرات السوق', href: '/ar/market-indicators', icon: BarChart3 },
-        ],
-      },
-      {
-        number: '03',
-        title: 'بوابة ذكاء الأعمال',
-        description: 'اكتشف الشركات والقطاعات والفرص التجارية من مكان واحد.',
-        href: '/ar/business',
-        icon: BriefcaseBusiness,
-        accent: 'sky',
-        links: [
-          { label: 'دليل الشركات', href: '/ar/business/companies', icon: Building2 },
-          { label: 'استكشاف القطاعات', href: '/sectors', icon: SearchCheck },
-        ],
-      },
-      {
-        number: '04',
-        title: 'بوابة المعرفة',
-        description: 'الجامعات والبرامج والمقارنات والأدوات المخصصة للطلاب والباحثين.',
-        href: '/ar/universities',
-        icon: GraduationCap,
-        accent: 'violet',
-        links: [
-          { label: 'الجامعات', href: '/ar/universities', icon: GraduationCap },
-          { label: 'البحث والمقارنة', href: '/ar/research', icon: BookOpenCheck },
-        ],
-      },
+    eyebrow: 'سوق المحاصيل السودانية',
+    title: 'من أرضك إلى السوق، بخطوات أوضح.',
+    lead: 'اعرض محصولك، اطلب الكمية التي تحتاجها، وتابع أسعار السوق في منصة واحدة متخصصة في المحاصيل فقط.',
+    explore: 'استكشف السوق',
+    sell: 'اعرض محصولك',
+    secure: 'بياناتك محمية',
+    managed: 'مطابقة بإشراف الفريق',
+    actionsEyebrow: 'ابدأ الآن',
+    actionsTitle: 'ماذا تريد أن تفعل اليوم؟',
+    actionsLead: 'اختر خدمة واحدة وانتقل مباشرة إلى النموذج المناسب دون صفحات مشتتة.',
+    actionCta: 'ابدأ الخدمة',
+    cropsEyebrow: 'المحاصيل المتاحة',
+    cropsTitle: 'أسعار السوق في نظرة سريعة',
+    cropsLead: 'متوسطات استرشادية حسب آخر تحديث مسجل من الفريق.',
+    allPrices: 'عرض كل الأسعار',
+    source: 'سعر المصدر',
+    khartoum: 'سعر الخرطوم',
+    pending: 'قيد التحديث',
+    sdg: 'ج.س',
+    storyEyebrow: 'سوق مبني حول المحصول',
+    storyTitle: 'معلومات أقل تشتتًا، وقرار أسرع.',
+    storyText: 'نركز على ما يحتاجه المزارع والمشتري فعلاً: المنتج، الكمية، الموقع، السعر، وموعد التسليم. يتولى الفريق مراجعة الطلب والمطابقة والتنسيق.',
+    request: 'اطلب محصولاً',
+    track: 'تابع طلبك',
+    howEyebrow: 'كيف تعمل المنصة؟',
+    howTitle: 'ثلاث خطوات من العرض إلى الاتفاق',
+    serviceTitle: 'خدمات تساعد حركة المحصول',
+    services: [
+      { title: 'النقل والتخزين', text: 'سجل احتياجك اللوجستي ضمن الطلب ليتابعه الفريق.', icon: Truck, href: '/ar/marketplace?portal=buyer', cta: 'اطلب تنسيقاً' },
+      { title: 'العروض والطلبات', text: 'اعرض الكميات المتوفرة أو اطلب كمية تجارية واضحة.', icon: Handshake, href: '/ar/marketplace', cta: 'افتح السوق' },
+      { title: 'الطقس والتنبيهات', text: 'تابع التنبيهات الزراعية العامة قبل الحصاد أو النقل.', icon: CloudSun, href: 'https://meteosudan.sd/alerts/', cta: 'عرض التنبيهات' },
     ],
-    trustTitle: 'منصة مرتبة حول القرار، لا حول الصفحات',
-    trustText: 'تُعرض بيانات الاتصال الحساسة فقط ضمن مسار الفريق، بينما تبقى الأسعار والمعلومات العامة متاحة بصورة واضحة للزائر.',
+    actions: [
+      { title: 'أعرض محصولاً', text: 'سجل المحصول والكمية وموقع الحصاد.', icon: Sprout, href: '/ar/marketplace?portal=farmer', tone: 'green' },
+      { title: 'أطلب محصولاً', text: 'حدد المنتج والكمية وموعد التسليم.', icon: Store, href: '/ar/marketplace?portal=buyer', tone: 'gold' },
+      { title: 'أسعار المحاصيل', text: 'قارن سعر المصدر بسعر الخرطوم.', icon: BadgeDollarSign, href: '/ar/marketplace/prices', tone: 'orange' },
+      { title: 'متابعة الطلب', text: 'راجع حالة عروضك وطلباتك برقم الهاتف.', icon: ClipboardCheck, href: '/ar/marketplace?portal=status', tone: 'dark' },
+    ],
+    steps: [
+      ['01', 'سجل العرض أو الطلب', 'أدخل البيانات الأساسية للمحصول والكمية والموقع.'],
+      ['02', 'مراجعة ومطابقة', 'يتحقق الفريق من البيانات ويربط العرض بالطلب المناسب.'],
+      ['03', 'تنسيق الصفقة', 'يتم تنسيق السعر والتسليم والنقل حتى إغلاق الطلب.'],
+    ],
   },
   en: {
     dir: 'ltr' as const,
-    eyebrow: 'Sudan’s agriculture and business decision platform',
-    title: 'One clear portal for every task. Better data for every decision.',
-    lead: 'A unified platform for crop trading, market prices, business intelligence, and university knowledge—organized into focused journeys.',
-    primary: 'Explore portals',
-    secondary: 'Open price dashboard',
-    live: 'Market now',
-    liveHint: 'Latest indicators available in the database',
-    portalsEyebrow: 'Portal system',
-    portalsTitle: 'Choose a destination and get straight to work',
-    portalsLead: 'No long menus or mixed tasks. Each portal contains the tools for one clear goal.',
-    enter: 'Enter portal',
-    quick: 'Quick access',
-    stats: [
-      ['Businesses', 'businesses'],
-      ['Economic sectors', 'sectors'],
-      ['Universities', 'universities'],
-      ['Academic programs', 'programs'],
-    ] as const,
-    portals: [
-      {
-        number: '01',
-        title: 'Agricultural Market',
-        description: 'Separate farmer and buyer journeys, with a focused request-status area.',
-        href: '/en/marketplace',
-        icon: Handshake,
-        accent: 'emerald',
-        links: [
-          { label: 'List crop supply', href: '/en/marketplace?portal=farmer', icon: Sprout },
-          { label: 'Request a purchase', href: '/en/marketplace?portal=buyer', icon: Store },
-        ],
-      },
-      {
-        number: '02',
-        title: 'Prices & Indicators',
-        description: 'Charts comparing source and Khartoum crop prices alongside market indicators.',
-        href: '/en/marketplace/prices',
-        icon: BarChart3,
-        accent: 'amber',
-        links: [
-          { label: 'Crop prices', href: '/en/marketplace/prices', icon: LineChart },
-          { label: 'Market indicators', href: '/en/market-indicators', icon: BarChart3 },
-        ],
-      },
-      {
-        number: '03',
-        title: 'Business Intelligence',
-        description: 'Explore companies, sectors, and commercial opportunities in one place.',
-        href: '/en/business',
-        icon: BriefcaseBusiness,
-        accent: 'sky',
-        links: [
-          { label: 'Company directory', href: '/en/business/companies', icon: Building2 },
-          { label: 'Explore sectors', href: '/sectors', icon: SearchCheck },
-        ],
-      },
-      {
-        number: '04',
-        title: 'Knowledge Portal',
-        description: 'Universities, programs, comparisons, and tools for students and researchers.',
-        href: '/en/universities',
-        icon: GraduationCap,
-        accent: 'violet',
-        links: [
-          { label: 'Universities', href: '/en/universities', icon: GraduationCap },
-          { label: 'Research & compare', href: '/en/research', icon: BookOpenCheck },
-        ],
-      },
+    eyebrow: 'Sudan crop marketplace',
+    title: 'From your field to the market, with a clearer path.',
+    lead: 'List crop supply, request the volume you need, and follow market prices in one crop-focused platform.',
+    explore: 'Explore the market',
+    sell: 'List your crop',
+    secure: 'Your data is protected',
+    managed: 'Team-managed matching',
+    actionsEyebrow: 'Start here',
+    actionsTitle: 'What do you need today?',
+    actionsLead: 'Choose one service and go directly to the right form—without navigating unrelated pages.',
+    actionCta: 'Start service',
+    cropsEyebrow: 'Available crops',
+    cropsTitle: 'Market prices at a glance',
+    cropsLead: 'Indicative averages based on the latest team update.',
+    allPrices: 'View all prices',
+    source: 'Source price',
+    khartoum: 'Khartoum price',
+    pending: 'Being updated',
+    sdg: 'SDG',
+    storyEyebrow: 'Built around the crop',
+    storyTitle: 'Less noise. Faster decisions.',
+    storyText: 'We focus on what farmers and buyers actually need: product, volume, location, price, and delivery date. The team reviews, matches, and coordinates each request.',
+    request: 'Request a crop',
+    track: 'Track request',
+    howEyebrow: 'How it works',
+    howTitle: 'Three steps from listing to agreement',
+    serviceTitle: 'Services that move crops',
+    services: [
+      { title: 'Transport & storage', text: 'Include logistics needs in your request for team follow-up.', icon: Truck, href: '/en/marketplace?portal=buyer', cta: 'Request coordination' },
+      { title: 'Offers & requests', text: 'List available supply or request a clear commercial volume.', icon: Handshake, href: '/en/marketplace', cta: 'Open market' },
+      { title: 'Weather alerts', text: 'Check public agricultural alerts before harvest or transport.', icon: CloudSun, href: 'https://meteosudan.sd/alerts/', cta: 'View alerts' },
     ],
-    trustTitle: 'Organized around decisions—not page count',
-    trustText: 'Sensitive contact details remain inside the team workflow, while prices and public intelligence stay clear and accessible.',
+    actions: [
+      { title: 'List crop supply', text: 'Add crop, volume, and harvest location.', icon: Sprout, href: '/en/marketplace?portal=farmer', tone: 'green' },
+      { title: 'Request a crop', text: 'Set product, volume, and delivery date.', icon: Store, href: '/en/marketplace?portal=buyer', tone: 'gold' },
+      { title: 'Crop prices', text: 'Compare source and Khartoum prices.', icon: BadgeDollarSign, href: '/en/marketplace/prices', tone: 'orange' },
+      { title: 'Track request', text: 'Check offers and requests by phone number.', icon: ClipboardCheck, href: '/en/marketplace?portal=status', tone: 'dark' },
+    ],
+    steps: [
+      ['01', 'Submit supply or demand', 'Enter the essential crop, quantity, and location details.'],
+      ['02', 'Review and matching', 'The team verifies the record and finds a suitable counterpart.'],
+      ['03', 'Deal coordination', 'Price, delivery, and transport are coordinated through closing.'],
+    ],
   },
 };
 
-const accentClasses: Record<string, string> = {
-  emerald: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
-  amber: 'bg-amber-50 text-amber-700 ring-amber-100',
-  sky: 'bg-sky-50 text-sky-700 ring-sky-100',
-  violet: 'bg-violet-50 text-violet-700 ring-violet-100',
+const actionTones: Record<string, string> = {
+  green: 'bg-[#e6f2e7] text-[#245b35]',
+  gold: 'bg-[#fff2c9] text-[#8b5b00]',
+  orange: 'bg-[#fde8d7] text-[#9a4d17]',
+  dark: 'bg-[#dfe8e2] text-[#173a2b]',
 };
 
-export function PortalHome({ locale, stats, indicators }: { locale: Locale; stats: Stats; indicators: MarketIndicator[] }) {
+function average(min: number | null, max: number | null) {
+  if (min === null && max === null) return null;
+  if (min !== null && max !== null) return (min + max) / 2;
+  return min ?? max;
+}
+
+export function PortalHome({ locale, products }: { locale: Locale; products: UfProduct[] }) {
   const t = copy[locale];
   const Arrow = locale === 'ar' ? ArrowLeft : ArrowRight;
+  const formatter = new Intl.NumberFormat(locale === 'ar' ? 'ar-SD' : 'en-US', { maximumFractionDigits: 0 });
 
   return (
-    <main dir={t.dir} className="overflow-hidden">
-      <section className="relative border-b border-emerald-950/10 bg-[#0c2f23] text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(52,211,153,.18),transparent_30%),radial-gradient(circle_at_85%_5%,rgba(246,184,63,.2),transparent_25%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[1.08fr_.92fr] lg:items-center lg:py-20">
-          <div>
-            <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-emerald-100 backdrop-blur">{t.eyebrow}</p>
-            <h1 className="mt-6 max-w-4xl text-4xl font-black leading-[1.15] text-white sm:text-5xl lg:text-6xl">{t.title}</h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-emerald-50/80">{t.lead}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#portals" className="btn bg-[#f6b83f] px-5 py-3 text-[#173a2b] hover:bg-amber-300">{t.primary}<Arrow className="h-4 w-4" /></a>
-              <Link href={locale === 'ar' ? '/ar/marketplace/prices' : '/en/marketplace/prices'} className="btn border border-white/20 bg-white/10 px-5 py-3 text-white hover:bg-white/15">{t.secondary}</Link>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-white/10 bg-white/[.07] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl">
-            <div className="rounded-2xl bg-white p-5 text-[#173a2b] sm:p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div><p className="text-xs font-black uppercase tracking-[.18em] text-emerald-700">{t.live}</p><p className="mt-1 text-sm text-[#60736a]">{t.liveHint}</p></div>
-                <span className="relative flex h-3 w-3"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" /></span>
-              </div>
-              <div className="mt-5"><MarketTicker indicators={indicators} compact locale={locale} /></div>
-            </div>
+    <main dir={t.dir} className="overflow-hidden bg-[#f7f5ee] text-[#173a2b]">
+      <section className="relative min-h-[690px] overflow-hidden bg-[#173a2b] text-white">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${HERO_IMAGE})` }} />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,39,27,.96)_0%,rgba(10,39,27,.78)_46%,rgba(10,39,27,.2)_100%)] rtl:bg-[linear-gradient(270deg,rgba(10,39,27,.96)_0%,rgba(10,39,27,.78)_46%,rgba(10,39,27,.2)_100%)]" />
+        <div className="relative mx-auto flex min-h-[690px] max-w-7xl items-center px-4 py-20">
+          <div className="max-w-3xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-black text-[#f7d16f] backdrop-blur"><Sprout className="h-4 w-4" />{t.eyebrow}</p>
+            <h1 className="mt-7 text-5xl font-black leading-[1.12] text-white sm:text-6xl lg:text-7xl">{t.title}</h1>
+            <p className="mt-6 max-w-2xl text-lg leading-9 text-white/75 sm:text-xl">{t.lead}</p>
+            <div className="mt-9 flex flex-wrap gap-3"><Link href={locale === 'ar' ? '/ar/marketplace' : '/en/marketplace'} className="btn bg-[#f5c451] px-6 py-3.5 text-[#173a2b] hover:bg-amber-300">{t.explore}<Arrow className="h-4 w-4" /></Link><Link href={locale === 'ar' ? '/ar/marketplace?portal=farmer' : '/en/marketplace?portal=farmer'} className="btn border border-white/25 bg-white/10 px-6 py-3.5 text-white backdrop-blur hover:bg-white/15">{t.sell}</Link></div>
+            <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm font-bold text-white/70"><span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#f5c451]" />{t.secure}</span><span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[#f5c451]" />{t.managed}</span></div>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-emerald-950/10 bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-emerald-950/10 px-4 md:grid-cols-4 rtl:divide-x-reverse">
-          {t.stats.map(([label, key]) => (
-            <div key={key} className="px-4 py-6 text-center sm:py-8"><p className="text-3xl font-black text-[#173a2b]">{Number(stats[key]).toLocaleString(locale === 'ar' ? 'ar' : 'en-US')}</p><p className="mt-1 text-sm font-bold text-[#60736a]">{label}</p></div>
-          ))}
+      <section className="relative z-10 mx-auto -mt-16 max-w-7xl px-4">
+        <div className="rounded-[2rem] border border-black/5 bg-white p-5 shadow-[0_24px_80px_rgba(31,55,42,.16)] sm:p-8">
+          <div className="max-w-2xl"><p className="text-sm font-black text-[#9a6b12]">{t.actionsEyebrow}</p><h2 className="mt-2 text-3xl font-black sm:text-4xl">{t.actionsTitle}</h2><p className="mt-3 leading-7 text-[#66766e]">{t.actionsLead}</p></div>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {t.actions.map(({ title, text, icon: Icon, href, tone }) => <Link key={title} href={href} className="group rounded-2xl border border-black/[.07] bg-[#fbfaf6] p-5 transition hover:-translate-y-1 hover:border-[#d5b15b] hover:bg-white hover:shadow-lg"><div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${actionTones[tone]}`}><Icon className="h-6 w-6" /></div><h3 className="mt-5 text-lg font-black">{title}</h3><p className="mt-2 min-h-12 text-sm leading-6 text-[#66766e]">{text}</p><span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#9a6b12]">{t.actionCta}<Arrow className="h-4 w-4 transition group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></span></Link>)}
+          </div>
         </div>
       </section>
 
-      <section id="portals" className="mx-auto max-w-7xl px-4 py-14 lg:py-20">
-        <div className="max-w-3xl">
-          <p className="text-sm font-black text-emerald-700">{t.portalsEyebrow}</p>
-          <h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">{t.portalsTitle}</h2>
-          <p className="mt-4 text-base leading-8 text-[#60736a]">{t.portalsLead}</p>
-        </div>
-
-        <div className="mt-9 grid gap-5 lg:grid-cols-2">
-          {t.portals.map(({ number, title, description, href, icon: Icon, accent, links }) => (
-            <article key={number} className="group relative overflow-hidden rounded-3xl border border-emerald-950/10 bg-white p-6 shadow-[0_14px_45px_rgba(23,58,43,.06)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(23,58,43,.11)] sm:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ring-1 ${accentClasses[accent]}`}><Icon className="h-7 w-7" /></div>
-                <span className="text-4xl font-black text-emerald-950/[.06]">{number}</span>
-              </div>
-              <h3 className="mt-6 text-2xl font-black">{title}</h3>
-              <p className="mt-3 max-w-xl leading-7 text-[#60736a]">{description}</p>
-              <div className="mt-6 grid gap-2 sm:grid-cols-2">
-                {links.map(({ label, href: quickHref, icon: QuickIcon }) => (
-                  <Link key={label} href={quickHref} className="flex items-center gap-3 rounded-2xl bg-[#f5f8f6] px-4 py-3 text-sm font-black text-[#294e3d] transition hover:bg-emerald-50 hover:text-emerald-800"><QuickIcon className="h-4 w-4" />{label}</Link>
-                ))}
-              </div>
-              <Link href={href} className="mt-6 inline-flex items-center gap-2 text-sm font-black text-emerald-700">{t.enter}<Arrow className="h-4 w-4 transition group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></Link>
-            </article>
-          ))}
+      <section className="mx-auto max-w-7xl px-4 py-20">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div className="max-w-2xl"><p className="text-sm font-black text-[#9a6b12]">{t.cropsEyebrow}</p><h2 className="mt-2 text-3xl font-black sm:text-4xl">{t.cropsTitle}</h2><p className="mt-3 leading-7 text-[#66766e]">{t.cropsLead}</p></div><Link href={locale === 'ar' ? '/ar/marketplace/prices' : '/en/marketplace/prices'} className="btn-secondary">{t.allPrices}<Arrow className="h-4 w-4" /></Link></div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.slice(0, 8).map((product) => {
+            const source = average(product.source_price_min, product.source_price_max);
+            const khartoum = average(product.khartoum_price_min, product.khartoum_price_max);
+            return <article key={product.product_id} className="rounded-3xl border border-black/[.07] bg-white p-5 shadow-sm"><div className="flex items-start justify-between gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#edf3e8] text-[#356e3f]"><Scale className="h-5 w-5" /></div><span className="rounded-full bg-[#f7f5ee] px-3 py-1 text-xs font-bold text-[#66766e]">{product.unit}</span></div><h3 className="mt-5 text-xl font-black">{locale === 'ar' ? product.name_ar : product.name_en}</h3><p className="mt-1 text-sm text-[#7c887f]">{product.source_region}</p><div className="mt-5 space-y-3 border-t border-black/[.07] pt-4"><PriceRow label={t.source} value={source === null ? t.pending : `${formatter.format(source)} ${t.sdg}`} /><PriceRow label={t.khartoum} value={khartoum === null ? t.pending : `${formatter.format(khartoum)} ${t.sdg}`} strong /></div></article>;
+          })}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16">
-        <div className="flex flex-col gap-5 rounded-3xl bg-[#eef7f1] p-6 sm:flex-row sm:items-center sm:p-8">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm"><ShieldCheck className="h-6 w-6" /></div>
-          <div><h2 className="text-xl font-black">{t.trustTitle}</h2><p className="mt-2 max-w-4xl leading-7 text-[#60736a]">{t.trustText}</p></div>
+      <section className="relative overflow-hidden bg-[#173a2b] text-white">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${WHEAT_IMAGE})` }} />
+        <div className="absolute inset-0 bg-[#173a2b]/85" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 lg:grid-cols-[1fr_.75fr] lg:items-center">
+          <div><p className="text-sm font-black text-[#f5c451]">{t.storyEyebrow}</p><h2 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">{t.storyTitle}</h2><p className="mt-5 max-w-2xl text-lg leading-9 text-white/70">{t.storyText}</p><div className="mt-8 flex flex-wrap gap-3"><Link href={locale === 'ar' ? '/ar/marketplace?portal=buyer' : '/en/marketplace?portal=buyer'} className="btn bg-[#f5c451] text-[#173a2b] hover:bg-amber-300">{t.request}<Arrow className="h-4 w-4" /></Link><Link href={locale === 'ar' ? '/ar/marketplace?portal=status' : '/en/marketplace?portal=status'} className="btn border border-white/20 bg-white/10 text-white hover:bg-white/15">{t.track}</Link></div></div>
+          <div className="grid gap-3">{t.steps.map(([number, title, text]) => <div key={number} className="flex gap-4 rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur"><span className="text-2xl font-black text-[#f5c451]">{number}</span><div><h3 className="font-black text-white">{title}</h3><p className="mt-1 text-sm leading-6 text-white/60">{text}</p></div></div>)}</div>
         </div>
       </section>
+
+      <section id="services" className="mx-auto max-w-7xl px-4 py-20"><div className="flex items-center gap-3"><PackageSearch className="h-7 w-7 text-[#9a6b12]" /><h2 className="text-3xl font-black">{t.serviceTitle}</h2></div><div className="mt-7 grid gap-4 md:grid-cols-3">{t.services.map(({ title, text, icon: Icon, href, cta }) => <Link key={title} href={href} target={href.startsWith('http') ? '_blank' : undefined} className="group rounded-3xl border border-black/[.07] bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#edf3e8] text-[#356e3f]"><Icon className="h-6 w-6" /></div><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-[#66766e]">{text}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#9a6b12]">{cta}<Arrow className="h-4 w-4" /></span></Link>)}</div></section>
+
+      <p className="mx-auto max-w-7xl px-4 pb-8 text-center text-[11px] text-[#849087]">Photos: <a className="underline" href="https://unsplash.com/photos/tractor-plowing-a-field-at-sunset-Ve4xSwl93pY" target="_blank" rel="noreferrer">Miguel Garcia Jimenez</a> & <a className="underline" href="https://unsplash.com/photos/a-close-up-of-a-field-of-wheat-Yy-cnK2kI5c" target="_blank" rel="noreferrer">Mohamed B.</a> / Unsplash</p>
     </main>
   );
+}
+
+function PriceRow({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
+  return <div className="flex items-center justify-between gap-3 text-sm"><span className="text-[#7c887f]">{label}</span><span className={strong ? 'font-black text-[#2d6a3b]' : 'font-bold'}>{value}</span></div>;
 }

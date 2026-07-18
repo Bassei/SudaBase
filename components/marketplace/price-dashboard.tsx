@@ -25,6 +25,7 @@ import {
 import type { UfProduct } from '@/lib/united-fruit';
 
 type Locale = 'ar' | 'en';
+const WHEAT_IMAGE = 'https://images.unsplash.com/photo-1688902325229-f6f2ad06561d?auto=format&fit=crop&q=85&w=2400';
 
 const copy = {
   ar: {
@@ -136,17 +137,19 @@ export function PriceDashboard({ products, locale }: { products: UfProduct[]; lo
 
   return (
     <main dir={t.dir} className="min-h-screen bg-[#f6f8f6] text-[#173a2b]">
-      <section className="border-b border-emerald-950/10 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14">
+      <section className="relative overflow-hidden border-b border-emerald-950/10 bg-[#173a2b] text-white">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${WHEAT_IMAGE})` }} />
+        <div className="absolute inset-0 bg-[#173a2b]/85" />
+        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:py-16">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-sm font-black text-emerald-700">{t.eyebrow}</p>
-              <h1 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">{t.title}</h1>
-              <p className="mt-4 text-lg leading-8 text-[#60736a]">{t.lead}</p>
+              <p className="text-sm font-black text-[#f5c451]">{t.eyebrow}</p>
+              <h1 className="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">{t.title}</h1>
+              <p className="mt-4 text-lg leading-8 text-white/70">{t.lead}</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link href={locale === 'ar' ? '/ar/market-indicators' : '/en/market-indicators'} className="btn-secondary"><BarChart3 className="h-4 w-4" />{t.indicators}</Link>
-              <Link href={locale === 'ar' ? '/ar/marketplace' : '/en/marketplace'} className="btn-primary">{t.market}<Arrow className="h-4 w-4" /></Link>
+              <Link href={locale === 'ar' ? '/ar/marketplace?portal=status' : '/en/marketplace?portal=status'} className="btn border border-white/20 bg-white/10 text-white hover:bg-white/15">{locale === 'ar' ? 'العروض والطلبات' : 'Offers & requests'}</Link>
+              <Link href={locale === 'ar' ? '/ar/marketplace' : '/en/marketplace'} className="btn bg-[#f5c451] text-[#173a2b] hover:bg-amber-300">{t.market}<Arrow className="h-4 w-4" /></Link>
             </div>
           </div>
 
@@ -221,6 +224,7 @@ export function PriceDashboard({ products, locale }: { products: UfProduct[]; lo
         </div>
         {!filtered.length && <p className="mt-5 rounded-2xl border border-dashed border-emerald-200 bg-white p-8 text-center font-bold text-[#60736a]">{t.noResults}</p>}
       </section>
+      <p className="pb-6 text-center text-[11px] text-[#849087]">Photo: <a className="underline" href="https://unsplash.com/photos/a-close-up-of-a-bunch-of-wheat-in-a-field-B9KFg8CRoQY" target="_blank" rel="noreferrer">Kateryna Hliznitsova / Unsplash</a></p>
     </main>
   );
 }

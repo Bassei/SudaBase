@@ -253,7 +253,13 @@ insert into public.uf_products (
   ('sesame', 'السمسم', 'Sesame', 'قنطار', null, null, null, null, 'القضارف', null, null, 'Future candidate', 'Needs field price and logistics validation.', null),
   ('groundnut', 'الفول السوداني', 'Groundnut', 'طن', null, null, null, null, 'كردفان', null, null, 'Future candidate', 'Needs field price and logistics validation.', null),
   ('hibiscus', 'الكركدي', 'Hibiscus', 'قنطار', null, null, null, null, 'شمال كردفان', null, null, 'Future candidate', 'Needs field price and logistics validation.', null),
-  ('gum-arabic', 'الصمغ العربي', 'Gum Arabic', 'قنطار', null, null, null, null, 'كردفان', null, null, 'Future candidate', 'Needs field price and logistics validation.', null)
+  ('gum-arabic', 'الصمغ العربي', 'Gum Arabic', 'قنطار', null, null, null, null, 'كردفان', null, null, 'Future candidate', 'Needs field price and logistics validation.', null),
+  ('millet', 'الدخن', 'Millet', 'جوال 90 كجم', null, null, null, null, 'شمال دارفور', null, null, 'Future candidate', 'Initial catalogue record; field price requires team validation.', null),
+  ('sorghum-tabat', 'الذرة الرفيعة - طابت', 'Sorghum (Tabat)', 'جوال 90 كجم', null, null, null, null, 'الجزيرة', null, null, 'Future candidate', 'Initial catalogue record; variety and field price require validation.', null),
+  ('cotton-seed', 'بذرة القطن', 'Cotton Seed', 'قنطار', null, null, null, null, 'الجزيرة', null, null, 'Future candidate', 'Initial catalogue record; quality grade requires validation.', null),
+  ('cowpea', 'اللوبيا', 'Cowpea', 'جوال 90 كجم', null, null, null, null, 'كردفان', null, null, 'Future candidate', 'Initial catalogue record; field price requires validation.', null),
+  ('chickpea', 'الحمص', 'Chickpea', 'جوال 90 كجم', null, null, null, null, 'الشمالية', null, null, 'Future candidate', 'Initial catalogue record; field price requires validation.', null),
+  ('dates', 'البلح', 'Dates', 'جوال', null, null, null, null, 'الشمالية', null, null, 'Future candidate', 'Initial catalogue record; variety, unit, and price require validation.', null)
 on conflict (product_id) do update set
   name_ar = excluded.name_ar,
   name_en = excluded.name_en,

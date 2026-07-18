@@ -1,7 +1,7 @@
 import { PortalHome } from '@/components/home/portal-home';
-import { getMarketIndicators, getStats } from '@/lib/data';
+import { getUfProducts } from '@/lib/united-fruit';
 
 export default async function EnglishHomePage() {
-  const [stats, indicators] = await Promise.all([getStats(), getMarketIndicators()]);
-  return <PortalHome locale="en" stats={stats} indicators={indicators} />;
+  const products = await getUfProducts();
+  return <PortalHome locale="en" products={products} />;
 }

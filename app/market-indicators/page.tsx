@@ -1,7 +1,5 @@
-import { IndicatorDashboard } from '@/components/market/indicator-dashboard';
-import { getMarketIndicators } from '@/lib/data';
+import { redirect } from 'next/navigation';
 
-export default async function MarketIndicatorsPage() {
-  const indicators = await getMarketIndicators();
-  return <IndicatorDashboard indicators={indicators} locale="ar" />;
+export default function MarketIndicatorsPage() {
+  redirect('/ar/marketplace/prices');
 }

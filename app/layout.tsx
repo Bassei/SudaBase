@@ -11,12 +11,12 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: 'United Fruit Company',
-  description: 'Agricultural supply, demand, and market intelligence platform for Sudan',
+  title: 'United Fruit | سوق المحاصيل السودانية',
+  description: 'سوق متخصص لعرض وطلب المحاصيل السودانية ومتابعة الأسعار والتنسيق بين المزارعين والمشترين',
   openGraph: {
-    title: 'United Fruit Company',
-    description: 'Agricultural supply, demand, and market intelligence platform for Sudan',
-    siteName: 'United Fruit Company'
+    title: 'United Fruit | سوق المحاصيل السودانية',
+    description: 'اعرض محصولك، اطلب الكمية التي تحتاجها، وتابع أسعار السوق السوداني.',
+    siteName: 'United Fruit Crop Market'
   }
 };
 
