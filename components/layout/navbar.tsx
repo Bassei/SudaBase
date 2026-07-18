@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ClipboardList, Handshake, Home, LogIn, Menu, Tags, X } from 'lucide-react';
+import { Boxes, Handshake, Home, LogIn, Menu, Tags, Truck, X } from 'lucide-react';
 import { useState } from 'react';
 import { BrandLogo } from '@/components/layout/brand-logo';
 import { SHOW_UNITED_FRUIT_MARKETPLACE } from '@/lib/features';
@@ -28,9 +28,10 @@ export function Navbar() {
 
   const navItems = [
     { href: homeHref, label: isEnglish ? 'Home' : 'الرئيسية', icon: Home },
-    { href: `${prefix}/marketplace`, label: isEnglish ? 'Market' : 'السوق الزراعي', icon: Handshake, show: SHOW_UNITED_FRUIT_MARKETPLACE },
+    { href: `${prefix}/crops`, label: isEnglish ? 'Crops' : 'المحاصيل', icon: Boxes, show: SHOW_UNITED_FRUIT_MARKETPLACE },
+    { href: `${prefix}/marketplace`, label: isEnglish ? 'Market portals' : 'بوابات السوق', icon: Handshake, show: SHOW_UNITED_FRUIT_MARKETPLACE },
     { href: `${prefix}/marketplace/prices`, label: isEnglish ? 'Crop prices' : 'أسعار المحاصيل', icon: Tags, show: SHOW_UNITED_FRUIT_MARKETPLACE },
-    { href: `${prefix}/marketplace?portal=status`, label: isEnglish ? 'Offers & requests' : 'العروض والطلبات', icon: ClipboardList, show: SHOW_UNITED_FRUIT_MARKETPLACE },
+    { href: `${prefix}/services`, label: isEnglish ? 'Services' : 'الخدمات', icon: Truck, show: SHOW_UNITED_FRUIT_MARKETPLACE },
   ].filter((item) => item.show !== false);
 
   return (

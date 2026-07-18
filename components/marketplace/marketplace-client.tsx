@@ -12,9 +12,9 @@ type ApiState = { type: 'idle' | 'loading' | 'success' | 'error'; message: strin
 const copy = {
   ar: {
     dir: 'rtl',
-    badge: 'مطابقة داخلية بإشراف United Fruit',
-    title: 'سوق يونايتد فروت',
-    lead: 'سجل عرض محصول أو طلب شراء بالجملة، وسيقوم فريق United Fruit بالمراجعة والتنسيق حتى إتمام الصفقة.',
+    badge: 'مطابقة موثوقة بإشراف فريق حصاد',
+    title: 'بوابة حصاد',
+    lead: 'أكمل بيانات هذه البوابة فقط، وسيقوم فريق حصاد بالمراجعة والمطابقة والتنسيق حتى إتمام الصفقة.',
     farmerTitle: 'تسجيل مزارع',
     farmerOfferTitle: 'تسجيل توفر محصول',
     buyerTitle: 'تسجيل تاجر',
@@ -58,9 +58,9 @@ const copy = {
   },
   en: {
     dir: 'ltr',
-    badge: 'Team-reviewed matching by United Fruit',
-    title: 'United Fruit Marketplace',
-    lead: 'Submit crop supply or wholesale demand, and the United Fruit team will review, match, and coordinate the deal.',
+    badge: 'Team-reviewed matching by Hasad',
+    title: 'Hasad Portal',
+    lead: 'Complete only this portal’s details, and the Hasad team will review, match, and coordinate the deal.',
     farmerTitle: 'Farmer registration',
     farmerOfferTitle: 'Supply listing',
     buyerTitle: 'Buyer registration',
@@ -152,7 +152,17 @@ async function postJson(path: string, body: Record<string, unknown>) {
   return json;
 }
 
-export function MarketplaceClient({ products, locale }: { products: UfProduct[]; locale: Locale }) {
+export function MarketplaceClient({
+  products,
+  locale,
+  initialPortal = 'farmer',
+  showPortalNav = true,
+}: {
+  products: UfProduct[];
+  locale: Locale;
+  initialPortal?: 'farmer' | 'buyer' | 'status';
+  showPortalNav?: boolean;
+}) {
   const t = copy[locale];
   const firstProduct = products[0]?.product_id ?? '';
   const [farmerId, setFarmerId] = useState('');
@@ -165,7 +175,7 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
   const [demandState, setDemandState] = useState<ApiState>({ type: 'idle', message: '' });
   const [offerRows, setOfferRows] = useState<any[]>([]);
   const [requestRows, setRequestRows] = useState<any[]>([]);
-  const [activePortal, setActivePortal] = useState<'farmer' | 'buyer' | 'status'>('farmer');
+  const [activePortal, setActivePortal] = useState<'farmer' | 'buyer' | 'status'>(initialPortal);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get('portal');
@@ -285,7 +295,7 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-8">
+      {showPortalNav && <section className="mx-auto max-w-7xl px-4 pb-8">
         <div className="rounded-3xl border border-emerald-950/10 bg-white p-3 shadow-sm">
           <div className="px-3 pb-3 pt-2"><h2 className="text-xl font-black">{t.choosePortal}</h2><p className="mt-1 text-sm text-[#60736a]">{t.choosePortalHint}</p></div>
           <div className="grid gap-2 md:grid-cols-3">
@@ -294,7 +304,7 @@ export function MarketplaceClient({ products, locale }: { products: UfProduct[];
             <PortalButton active={activePortal === 'status'} icon={ClipboardList} title={t.statusPortal} hint={t.statusPortalHint} onClick={() => setActivePortal('status')} />
           </div>
         </div>
-      </section>
+      </section>}
 
       <section className="mx-auto max-w-7xl px-4 pb-14">
         {activePortal === 'farmer' && <div className="grid gap-5 lg:grid-cols-2">

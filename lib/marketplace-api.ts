@@ -20,7 +20,7 @@ export function marketplaceDatabaseError(
     {
       ok: false,
       error: databaseMissing
-        ? 'سوق United Fruit قيد التهيئة حاليًا. حاول بعد اكتمال إعداد قاعدة البيانات. / The marketplace database is being prepared.'
+        ? 'سوق حصاد قيد التهيئة حاليًا. حاول بعد اكتمال إعداد قاعدة البيانات. / The marketplace database is being prepared.'
         : fallback,
     },
     { status: databaseMissing ? 503 : 500 }

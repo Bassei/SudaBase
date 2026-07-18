@@ -148,7 +148,7 @@ export function PriceDashboard({ products, locale }: { products: UfProduct[]; lo
               <p className="mt-4 text-lg leading-8 text-white/70">{t.lead}</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link href={locale === 'ar' ? '/ar/marketplace?portal=status' : '/en/marketplace?portal=status'} className="btn border border-white/20 bg-white/10 text-white hover:bg-white/15">{locale === 'ar' ? 'العروض والطلبات' : 'Offers & requests'}</Link>
+              <Link href={locale === 'ar' ? '/ar/marketplace/status' : '/en/marketplace/status'} className="btn border border-white/20 bg-white/10 text-white hover:bg-white/15">{locale === 'ar' ? 'متابعة الطلبات' : 'Track requests'}</Link>
               <Link href={locale === 'ar' ? '/ar/marketplace' : '/en/marketplace'} className="btn bg-[#f5c451] text-[#173a2b] hover:bg-amber-300">{t.market}<Arrow className="h-4 w-4" /></Link>
             </div>
           </div>

@@ -19,9 +19,9 @@ export function BrandLogo({ compact = false, locale = 'ar' }: { compact?: boolea
       </span>
       {!compact && (
         <span className="leading-tight">
-          <span className="block text-base font-black text-[#173a2b] sm:text-lg">United Fruit</span>
+          <span className="block text-xl font-black text-[#173a2b] sm:text-2xl">حصاد</span>
           <span className="block text-[11px] font-bold text-emerald-700">
-            {locale === 'ar' ? 'سوق المحاصيل السودانية' : 'Sudan crop marketplace'}
+            {locale === 'ar' ? 'بوابة المحاصيل السودانية' : 'Sudan crop marketplace'}
           </span>
         </span>
       )}

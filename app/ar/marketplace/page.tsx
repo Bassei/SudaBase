@@ -1,7 +1,5 @@
-import { MarketplaceClient } from '@/components/marketplace/marketplace-client';
-import { getUfProducts } from '@/lib/united-fruit';
+import { MarketplaceGateway } from '@/components/marketplace/marketplace-gateway';
 
-export default async function ArabicMarketplacePage() {
-  const products = await getUfProducts();
-  return <MarketplaceClient products={products} locale="ar" />;
+export default function ArabicMarketplacePage() {
+  return <MarketplaceGateway locale="ar" />;
 }
