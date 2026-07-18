@@ -19,7 +19,7 @@ export function BrandLogo({ compact = false, locale = 'ar' }: { compact?: boolea
       </span>
       {!compact && (
         <span className="leading-tight">
-          <span className="block text-xl font-black text-[#173a2b] sm:text-2xl">حصاد</span>
+          <span className="block text-lg font-black text-[#173a2b] sm:text-xl">حصاد <span className="text-[#9a6b12]">| HASAD</span></span>
           <span className="block text-[11px] font-bold text-emerald-700">
             {locale === 'ar' ? 'بوابة المحاصيل السودانية' : 'Sudan crop marketplace'}
           </span>

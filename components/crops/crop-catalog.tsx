@@ -12,9 +12,9 @@ type Category = HasadCrop['category'] | 'all';
 const labels = {
   ar: {
     dir: 'rtl' as const,
-    eyebrow: 'بيانات موقع محصول',
+    eyebrow: 'حصاد | HASAD',
     title: 'كتالوج المحاصيل',
-    lead: 'صورة واضحة واسم ووحدة تداول لكل محصول. ابحث أو اختر التصنيف، ثم انتقل مباشرةً للبيع أو الشراء.',
+    lead: 'دليل متكامل للمحاصيل، يتضمن التصنيف ووحدة التداول ومسارات العرض والطلب.',
     search: 'ابحث عن محصول…',
     unit: 'وحدة التداول',
     sell: 'عرض للبيع',
@@ -24,9 +24,9 @@ const labels = {
   },
   en: {
     dir: 'ltr' as const,
-    eyebrow: 'Mahsool public data',
+    eyebrow: 'HASAD | حصاد',
     title: 'Crop catalog',
-    lead: 'A clear image, name, and trading unit for every crop. Search or filter, then go directly to selling or buying.',
+    lead: 'A comprehensive crop directory with classifications, trading units, and direct supply and demand services.',
     search: 'Search crops…',
     unit: 'Trading unit',
     sell: 'List for sale',

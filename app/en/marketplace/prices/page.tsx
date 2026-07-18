@@ -1,7 +1,7 @@
 import { PriceDashboard } from '@/components/marketplace/price-dashboard';
-import { getUfProducts } from '@/lib/united-fruit';
+import { getMahsoolCropPrices } from '@/lib/mahsool-prices';
 
 export default async function EnglishPriceBoardPage() {
-  const products = await getUfProducts();
-  return <PriceDashboard products={products} locale="en" />;
+  const prices = await getMahsoolCropPrices();
+  return <PriceDashboard prices={prices} locale="en" />;
 }

@@ -11,9 +11,9 @@ export function ServicesCatalog({ locale }: { locale: 'ar' | 'en' }) {
     <main dir={ar ? 'rtl' : 'ltr'} className="min-h-screen bg-[#f7f5ee]">
       <section className="bg-[#12382a] text-white">
         <div className="mx-auto max-w-7xl px-4 py-16">
-          <p className="text-sm font-black text-[#f5c451]">{ar ? 'بوابة مستقلة' : 'Dedicated portal'}</p>
+          <p className="text-sm font-black text-[#f5c451]">{ar ? 'حصاد | HASAD' : 'HASAD | حصاد'}</p>
           <h1 className="mt-3 text-4xl font-black text-white sm:text-6xl">{ar ? 'الخدمات الزراعية' : 'Agricultural services'}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/70">{ar ? 'الخدمات المنشورة في موقع محصول مرتبة هنا بعيدًا عن الأسعار والعروض والطلبات.' : 'Services published by Mahsool, organized separately from prices, listings, and purchase requests.'}</p>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/70">{ar ? 'حلول متكاملة لدعم تداول المحاصيل ونقلها وتجهيزها وفق متطلبات السوق.' : 'Integrated solutions supporting crop handling, transport, and market preparation.'}</p>
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 py-12">

@@ -5,7 +5,6 @@ import {
   BadgeDollarSign,
   Boxes,
   ClipboardCheck,
-  Handshake,
   Sprout,
   Store,
   Truck,
@@ -17,40 +16,38 @@ type Locale = 'ar' | 'en';
 const copy = {
   ar: {
     dir: 'rtl' as const,
-    eyebrow: 'حصاد — سوق المحاصيل السودانية',
+    eyebrow: 'حصاد | HASAD',
     title: 'كل محصول، وكل خدمة، في بوابتها الصحيحة.',
     lead: 'منصة واضحة تربط المزارع والمشتري بخدمات المحاصيل والأسعار، دون خلط أو صفحات مزدحمة.',
     start: 'اختر بوابتك',
     catalog: 'تصفح المحاصيل',
     sectionEyebrow: 'بوابات حصاد',
     sectionTitle: 'إلى أين تريد الذهاب؟',
-    sectionLead: 'اختر مهمة واحدة؛ ستنتقل إلى صفحة مستقلة لا تعرض إلا ما تحتاجه.',
-    source: 'كتالوج المحاصيل والخدمات مستورد من بيانات موقع محصول العامة.',
+    sectionLead: 'اختر البوابة المناسبة للوصول مباشرةً إلى الخدمة المطلوبة.',
     portals: [
       { title: 'بوابة المزارع', text: 'سجّل بياناتك واعرض محصولك وكميته وموقع الحصاد.', href: '/ar/marketplace/farmer', icon: Sprout, tone: 'green' },
       { title: 'بوابة المشتري', text: 'حدد المحصول والكمية المطلوبة وتاريخ التسليم.', href: '/ar/marketplace/buyer', icon: Store, tone: 'gold' },
       { title: 'كتالوج المحاصيل', text: 'شاهد صورة كل محصول وتصنيفه ووحدة تداوله.', href: '/ar/crops', icon: Boxes, tone: 'orange' },
-      { title: 'أسعار المحاصيل', text: 'تابع الأسعار والاتجاهات والرسوم البيانية فقط.', href: '/ar/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
+      { title: 'أسعار المحاصيل', text: 'تابع الأسعار المنشورة واتجاهات السوق عبر رسوم بيانية واضحة.', href: '/ar/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
       { title: 'متابعة الطلبات', text: 'راجع حالة عروض البيع وطلبات الشراء برقم الهاتف.', href: '/ar/marketplace/status', icon: ClipboardCheck, tone: 'dark' },
       { title: 'الخدمات الزراعية', text: 'النقل والتخزين والغربلة والتجفيف والتعبئة والطحن.', href: '/ar/services', icon: Truck, tone: 'olive' },
     ],
   },
   en: {
     dir: 'ltr' as const,
-    eyebrow: 'Hasad — Sudan crop marketplace',
+    eyebrow: 'HASAD | حصاد',
     title: 'Every crop and service in the right portal.',
     lead: 'A clear platform connecting farmers and buyers to crop services and prices—without crowded, mixed-purpose pages.',
     start: 'Choose your portal',
     catalog: 'Browse crops',
     sectionEyebrow: 'Hasad portals',
     sectionTitle: 'Where do you want to go?',
-    sectionLead: 'Choose one task and open a dedicated page containing only what you need.',
-    source: 'Crop and service catalog imported from Mahsool public data.',
+    sectionLead: 'Select the appropriate portal for direct access to the required service.',
     portals: [
       { title: 'Farmer portal', text: 'Register and list your crop, volume, and harvest location.', href: '/en/marketplace/farmer', icon: Sprout, tone: 'green' },
       { title: 'Buyer portal', text: 'Choose crop, required volume, and delivery date.', href: '/en/marketplace/buyer', icon: Store, tone: 'gold' },
       { title: 'Crop catalog', text: 'See every crop image, category, and trading unit.', href: '/en/crops', icon: Boxes, tone: 'orange' },
-      { title: 'Crop prices', text: 'Follow crop prices, trends, and charts only.', href: '/en/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
+      { title: 'Crop prices', text: 'Review published prices and market trends through clear charts.', href: '/en/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
       { title: 'Request tracking', text: 'Check sale listings and purchase requests by phone.', href: '/en/marketplace/status', icon: ClipboardCheck, tone: 'dark' },
       { title: 'Agricultural services', text: 'Transport, storage, screening, drying, packaging, and milling.', href: '/en/services', icon: Truck, tone: 'olive' },
     ],
@@ -104,7 +101,6 @@ export function PortalHome({ locale }: { locale: Locale; products: UfProduct[] }
             </Link>
           ))}
         </div>
-        <p className="mt-8 flex items-center gap-2 text-sm font-bold text-[#738078]"><Handshake className="h-4 w-4 text-emerald-700" />{t.source}</p>
       </section>
     </main>
   );
