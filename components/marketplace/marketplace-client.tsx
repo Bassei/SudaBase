@@ -17,8 +17,8 @@ const copy = {
     lead: 'يرجى استكمال البيانات المطلوبة لإتاحة المراجعة والمطابقة وتنسيق إجراءات الصفقة.',
     farmerTitle: 'بيانات تسجيل المزارع',
     farmerOfferTitle: 'بيانات عرض المحصول',
-    buyerTitle: 'تسجيل تاجر',
-    demandTitle: 'تقديم طلب شراء',
+    buyerTitle: 'بيانات تسجيل المشتري',
+    demandTitle: 'بيانات طلب المحصول',
     name: 'الاسم',
     phone: 'رقم الهاتف',
     email: 'البريد الإلكتروني',
@@ -36,8 +36,8 @@ const copy = {
     buyerLocation: 'الموقع',
     targetPrice: 'السعر المستهدف (اختياري)',
     deliveryDate: 'تاريخ التسليم المطلوب',
-    submitBuyer: 'حفظ التاجر',
-    submitDemand: 'إرسال الطلب',
+    submitBuyer: 'تأكيد التسجيل',
+    submitDemand: 'إرسال طلب المحصول',
     myOffers: 'عروضي',
     myRequests: 'طلباتي',
     lookup: 'عرض الحالة',
@@ -63,8 +63,8 @@ const copy = {
     lead: 'Complete the required information for review, matching, and transaction coordination.',
     farmerTitle: 'Farmer registration details',
     farmerOfferTitle: 'Crop listing details',
-    buyerTitle: 'Buyer registration',
-    demandTitle: 'Demand request',
+    buyerTitle: 'Buyer registration details',
+    demandTitle: 'Crop request details',
     name: 'Name',
     phone: 'Phone',
     email: 'Email',
@@ -82,8 +82,8 @@ const copy = {
     buyerLocation: 'Location',
     targetPrice: 'Target price (optional)',
     deliveryDate: 'Requested delivery date',
-    submitBuyer: 'Save buyer',
-    submitDemand: 'Submit demand',
+    submitBuyer: 'Confirm registration',
+    submitDemand: 'Submit crop request',
     myOffers: 'My offers',
     myRequests: 'My requests',
     lookup: 'View status',
@@ -177,6 +177,7 @@ export function MarketplaceClient({
   const [requestRows, setRequestRows] = useState<any[]>([]);
   const [activePortal, setActivePortal] = useState<'farmer' | 'buyer' | 'status'>(initialPortal);
   const [farmerStep, setFarmerStep] = useState<'register' | 'supply'>('register');
+  const [buyerStep, setBuyerStep] = useState<'register' | 'demand'>('register');
   const pageTitle = showPortalNav ? t.title : activePortal === 'farmer' ? t.farmerPortal : activePortal === 'buyer' ? t.buyerPortal : t.statusPortal;
   const pageLead = showPortalNav ? t.lead : activePortal === 'farmer' ? t.farmerPortalHint : activePortal === 'buyer' ? t.buyerPortalHint : t.statusPortalHint;
 
@@ -237,6 +238,7 @@ export function MarketplaceClient({
       setBuyerId(json.buyer.buyer_id);
       setBuyerPhone(json.buyer.phone);
       setBuyerState({ type: 'success', message: t.buyerSaved });
+      setBuyerStep('demand');
     } catch (error) {
       setBuyerState({ type: 'error', message: error instanceof Error ? error.message : 'Error' });
     }
@@ -358,8 +360,14 @@ export function MarketplaceClient({
           </form>}
         </div>}
 
-        {activePortal === 'buyer' && <div className="grid gap-5 lg:grid-cols-2">
-          <form onSubmit={submitBuyer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
+        {activePortal === 'buyer' && <div className="mx-auto w-full max-w-4xl">
+          <div className="mb-5 grid gap-3 rounded-3xl border border-emerald-950/10 bg-white p-3 shadow-sm sm:grid-cols-2">
+            <button type="button" onClick={() => setBuyerStep('register')} className={`flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-black transition ${buyerStep === 'register' ? 'bg-[#173a2b] text-white shadow-lg' : 'bg-[#f4f7f5] text-[#426457] hover:bg-emerald-50'}`}><CheckCircle2 className="h-5 w-5" />{locale === 'ar' ? 'التسجيل' : 'Registration'}</button>
+            <button type="button" onClick={() => setBuyerStep('demand')} className={`flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-black transition ${buyerStep === 'demand' ? 'bg-[#f6b83f] text-[#173a2b] shadow-lg' : 'bg-[#f4f7f5] text-[#426457] hover:bg-amber-50'}`}><HandCoins className="h-5 w-5" />{locale === 'ar' ? 'طلب محصول' : 'Request a crop'}</button>
+          </div>
+          {buyerStep === 'demand' && buyerState.type === 'success' && <div className="mb-5"><Notice state={buyerState} /></div>}
+
+          {buyerStep === 'register' && <form onSubmit={submitBuyer} className="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <Store className="h-6 w-6 text-emerald-700" />
               <h2 className="text-2xl font-black text-[#173a2b]">{t.buyerTitle}</h2>
@@ -377,9 +385,9 @@ export function MarketplaceClient({
               {t.submitBuyer}
             </button>
             <div className="mt-4"><Notice state={buyerState} /></div>
-          </form>
+          </form>}
 
-          <form onSubmit={submitDemand} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
+          {buyerStep === 'demand' && <form onSubmit={submitDemand} className="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <HandCoins className="h-6 w-6 text-emerald-700" />
               <h2 className="text-2xl font-black text-[#173a2b]">{t.demandTitle}</h2>
@@ -397,7 +405,7 @@ export function MarketplaceClient({
               {t.submitDemand}
             </button>
             <div className="mt-4"><Notice state={demandState} /></div>
-          </form>
+          </form>}
         </div>}
       </section>
 

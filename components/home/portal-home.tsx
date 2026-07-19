@@ -25,12 +25,12 @@ const copy = {
     sectionTitle: 'بوابات السوق والخدمات',
     sectionLead: 'اختر البوابة المناسبة للوصول مباشرةً إلى الخدمة المطلوبة.',
     portals: [
-      { title: 'بوابة المزارع', text: 'سجّل بياناتك واعرض محصولك وكميته وموقع الحصاد.', href: '/ar/marketplace/farmer', icon: Sprout, tone: 'green' },
-      { title: 'بوابة المشتري', text: 'حدد المحصول والكمية المطلوبة وتاريخ التسليم.', href: '/ar/marketplace/buyer', icon: Store, tone: 'gold' },
-      { title: 'كتالوج المحاصيل', text: 'شاهد صورة كل محصول وتصنيفه ووحدة تداوله.', href: '/ar/crops', icon: Boxes, tone: 'orange' },
-      { title: 'أسعار المحاصيل', text: 'تابع الأسعار المنشورة واتجاهات السوق عبر رسوم بيانية واضحة.', href: '/ar/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
-      { title: 'متابعة الطلبات', text: 'راجع حالة عروض البيع وطلبات الشراء برقم الهاتف.', href: '/ar/marketplace/status', icon: ClipboardCheck, tone: 'dark' },
-      { title: 'الخدمات الزراعية', text: 'النقل والتخزين والغربلة والتجفيف والتعبئة والطحن.', href: '/ar/services', icon: Truck, tone: 'olive' },
+      { title: 'بوابة المزارع', text: 'سجّل بياناتك واعرض محصولك وكميته وموقع الحصاد.', href: '/ar/marketplace/farmer', icon: Sprout, tone: 'green', imagePosition: '0% 0%' },
+      { title: 'بوابة المشتري', text: 'حدد المحصول والكمية المطلوبة وتاريخ التسليم.', href: '/ar/marketplace/buyer', icon: Store, tone: 'gold', imagePosition: '50% 0%' },
+      { title: 'كتالوج المحاصيل', text: 'شاهد صورة كل محصول وتصنيفه ووحدة تداوله.', href: '/ar/crops', icon: Boxes, tone: 'orange', imagePosition: '100% 0%' },
+      { title: 'أسعار المحاصيل', text: 'تابع الأسعار المنشورة واتجاهات السوق عبر رسوم بيانية واضحة.', href: '/ar/marketplace/prices', icon: BadgeDollarSign, tone: 'blue', imagePosition: '0% 100%' },
+      { title: 'متابعة الطلبات', text: 'راجع حالة عروض البيع وطلبات الشراء برقم الهاتف.', href: '/ar/marketplace/status', icon: ClipboardCheck, tone: 'dark', imagePosition: '50% 100%' },
+      { title: 'الخدمات الزراعية', text: 'النقل والتخزين والغربلة والتجفيف والتعبئة والطحن.', href: '/ar/services', icon: Truck, tone: 'olive', imagePosition: '100% 100%' },
     ],
   },
   en: {
@@ -44,12 +44,12 @@ const copy = {
     sectionTitle: 'Market and service portals',
     sectionLead: 'Select the appropriate portal for direct access to the required service.',
     portals: [
-      { title: 'Farmer portal', text: 'Register and list your crop, volume, and harvest location.', href: '/en/marketplace/farmer', icon: Sprout, tone: 'green' },
-      { title: 'Buyer portal', text: 'Choose crop, required volume, and delivery date.', href: '/en/marketplace/buyer', icon: Store, tone: 'gold' },
-      { title: 'Crop catalog', text: 'See every crop image, category, and trading unit.', href: '/en/crops', icon: Boxes, tone: 'orange' },
-      { title: 'Crop prices', text: 'Review published prices and market trends through clear charts.', href: '/en/marketplace/prices', icon: BadgeDollarSign, tone: 'blue' },
-      { title: 'Request tracking', text: 'Check sale listings and purchase requests by phone.', href: '/en/marketplace/status', icon: ClipboardCheck, tone: 'dark' },
-      { title: 'Agricultural services', text: 'Transport, storage, screening, drying, packaging, and milling.', href: '/en/services', icon: Truck, tone: 'olive' },
+      { title: 'Farmer portal', text: 'Register and list your crop, volume, and harvest location.', href: '/en/marketplace/farmer', icon: Sprout, tone: 'green', imagePosition: '0% 0%' },
+      { title: 'Buyer portal', text: 'Choose crop, required volume, and delivery date.', href: '/en/marketplace/buyer', icon: Store, tone: 'gold', imagePosition: '50% 0%' },
+      { title: 'Crop catalog', text: 'See every crop image, category, and trading unit.', href: '/en/crops', icon: Boxes, tone: 'orange', imagePosition: '100% 0%' },
+      { title: 'Crop prices', text: 'Review published prices and market trends through clear charts.', href: '/en/marketplace/prices', icon: BadgeDollarSign, tone: 'blue', imagePosition: '0% 100%' },
+      { title: 'Request tracking', text: 'Check sale listings and purchase requests by phone.', href: '/en/marketplace/status', icon: ClipboardCheck, tone: 'dark', imagePosition: '50% 100%' },
+      { title: 'Agricultural services', text: 'Transport, storage, screening, drying, packaging, and milling.', href: '/en/services', icon: Truck, tone: 'olive', imagePosition: '100% 100%' },
     ],
   },
 };
@@ -62,6 +62,8 @@ const tones: Record<string, string> = {
   dark: 'bg-slate-200 text-slate-800',
   olive: 'bg-lime-100 text-lime-800',
 };
+
+const PORTAL_IMAGE = '/images/portals/portal-sheet.jpg';
 
 export function PortalHome({ locale }: { locale: Locale; products: UfProduct[] }) {
   const t = copy[locale];
@@ -92,12 +94,18 @@ export function PortalHome({ locale }: { locale: Locale; products: UfProduct[] }
           <p className="mt-4 text-lg leading-8 text-[#66766e]">{t.sectionLead}</p>
         </div>
         <div className="mt-9 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {t.portals.map(({ title, text, href, icon: Icon, tone }) => (
-            <Link key={href} href={href} className="group flex min-h-64 flex-col rounded-[1.75rem] border border-black/[.07] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-[#d5b15b] hover:shadow-xl">
-              <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${tones[tone]}`}><Icon className="h-7 w-7" /></div>
-              <h3 className="mt-7 text-2xl font-black">{title}</h3>
-              <p className="mt-3 flex-1 leading-7 text-[#66766e]">{text}</p>
-              <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#8f6517]">{locale === 'ar' ? 'فتح البوابة' : 'Open portal'}<Arrow className="h-4 w-4 transition group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></span>
+          {t.portals.map(({ title, text, href, icon: Icon, tone, imagePosition }) => (
+            <Link key={href} href={href} className="group flex min-h-[26rem] flex-col overflow-hidden rounded-[1.75rem] border border-black/[.07] bg-white shadow-sm transition hover:-translate-y-1 hover:border-[#d5b15b] hover:shadow-xl">
+              <div className="relative aspect-[16/9] overflow-hidden bg-[#eaf0e8]">
+                <div role="img" aria-label={title} className="h-full w-full bg-cover transition duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${PORTAL_IMAGE})`, backgroundPosition: imagePosition, backgroundSize: '300% 200%' }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#102e22]/50 via-transparent to-transparent" />
+                <div className={`absolute bottom-4 start-4 flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg ${tones[tone]}`}><Icon className="h-7 w-7" /></div>
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="text-2xl font-black">{title}</h3>
+                <p className="mt-3 flex-1 leading-7 text-[#66766e]">{text}</p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#8f6517]">{locale === 'ar' ? 'فتح البوابة' : 'Open portal'}<Arrow className="h-4 w-4 transition group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></span>
+              </div>
             </Link>
           ))}
         </div>
