@@ -176,6 +176,22 @@ export const fallbackUfProducts: UfProduct[] = [
   },
 ];
 
+const fallbackById = new Map(fallbackUfProducts.map((product) => [product.product_id, product]));
+const brokenText = /[?ØÙ�]/;
+
+function sanitizeProduct(product: UfProduct): UfProduct | null {
+  const fallback = fallbackById.get(product.product_id);
+  const choose = (value: string, fallbackValue = '') => value && !brokenText.test(value) ? value : fallbackValue;
+  const sanitized = {
+    ...product,
+    name_ar: choose(product.name_ar, fallback?.name_ar),
+    name_en: choose(product.name_en, fallback?.name_en),
+    unit: choose(product.unit, fallback?.unit),
+    source_region: choose(product.source_region, fallback?.source_region),
+  };
+  return sanitized.name_ar && sanitized.name_en && sanitized.unit ? sanitized : null;
+}
+
 export { DEMAND_MINIMUM_JOWAL };
 
 export async function getUfProducts() {
@@ -189,7 +205,10 @@ export async function getUfProducts() {
     return fallbackUfProducts;
   }
 
-  return (data ?? []) as UfProduct[];
+  const products = ((data ?? []) as UfProduct[])
+    .map(sanitizeProduct)
+    .filter((product): product is UfProduct => product !== null);
+  return products.length ? products : fallbackUfProducts;
 }
 
 export async function requireMarketplaceAdmin() {

@@ -17,12 +17,12 @@ const copy = {
   ar: {
     dir: 'rtl' as const,
     eyebrow: 'حصاد | HASAD',
-    title: 'كل محصول، وكل خدمة، في بوابتها الصحيحة.',
+    title: 'سوق حصاد للمحاصيل السودانية',
     lead: 'منصة واضحة تربط المزارع والمشتري بخدمات المحاصيل والأسعار، دون خلط أو صفحات مزدحمة.',
     start: 'اختر بوابتك',
     catalog: 'تصفح المحاصيل',
     sectionEyebrow: 'بوابات حصاد',
-    sectionTitle: 'إلى أين تريد الذهاب؟',
+    sectionTitle: 'بوابات السوق والخدمات',
     sectionLead: 'اختر البوابة المناسبة للوصول مباشرةً إلى الخدمة المطلوبة.',
     portals: [
       { title: 'بوابة المزارع', text: 'سجّل بياناتك واعرض محصولك وكميته وموقع الحصاد.', href: '/ar/marketplace/farmer', icon: Sprout, tone: 'green' },
@@ -36,12 +36,12 @@ const copy = {
   en: {
     dir: 'ltr' as const,
     eyebrow: 'HASAD | حصاد',
-    title: 'Every crop and service in the right portal.',
+    title: 'HASAD Sudanese Crop Market',
     lead: 'A clear platform connecting farmers and buyers to crop services and prices—without crowded, mixed-purpose pages.',
     start: 'Choose your portal',
     catalog: 'Browse crops',
     sectionEyebrow: 'Hasad portals',
-    sectionTitle: 'Where do you want to go?',
+    sectionTitle: 'Market and service portals',
     sectionLead: 'Select the appropriate portal for direct access to the required service.',
     portals: [
       { title: 'Farmer portal', text: 'Register and list your crop, volume, and harvest location.', href: '/en/marketplace/farmer', icon: Sprout, tone: 'green' },
