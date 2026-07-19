@@ -72,7 +72,7 @@ export function CropCatalog({ locale }: { locale: Locale }) {
           {crops.map((crop) => (
             <article key={crop.slug} className="group overflow-hidden rounded-[1.75rem] border border-black/[.07] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
               <div className="relative aspect-[4/3] overflow-hidden bg-[#edf2e9]">
-                <img src={crop.image} alt={locale === 'ar' ? crop.nameAr : crop.nameEn} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                <div role="img" aria-label={locale === 'ar' ? crop.nameAr : crop.nameEn} className="h-full w-full bg-cover transition duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${crop.image})`, backgroundPosition: crop.imagePosition, backgroundSize: '300% 300%' }} />
                 <span className="absolute start-3 top-3 rounded-full bg-white/90 px-3 py-1.5 text-xs font-black text-[#315f42] shadow-sm backdrop-blur">{t.categories[crop.category]}</span>
               </div>
               <div className="p-5">

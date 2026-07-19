@@ -28,14 +28,18 @@ function normalize(rows: unknown): MahsoolCropPrice[] {
     const product = String(item.product ?? '').trim();
     const price = Number(item.price);
     const date = String(item.date ?? '');
-    if (!CROP_PATTERN.test(product) || !Number.isFinite(price) || price <= 0 || !date) return [];
+    const market = String(item.market ?? '').trim();
+    const pricing = String(item.pricing ?? '').trim();
+    const unit = String(item.unit ?? '').replaceAll('-', ' ').trim();
+    const labels = `${product} ${market} ${pricing} ${unit}`;
+    if (!CROP_PATTERN.test(product) || /[?ØÙ�]/.test(labels) || !Number.isFinite(price) || price <= 0 || !date) return [];
     return [{
       id: Number(item.id) || 0,
       product,
-      market: String(item.market ?? '').trim(),
-      pricing: String(item.pricing ?? '').trim(),
+      market,
+      pricing,
       price,
-      unit: String(item.unit ?? '').replaceAll('-', ' ').trim(),
+      unit,
       date,
     }];
   });
