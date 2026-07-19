@@ -15,8 +15,8 @@ const copy = {
     badge: 'مطابقة موثوقة بإشراف فريق حصاد',
     title: 'بوابة حصاد | HASAD',
     lead: 'يرجى استكمال البيانات المطلوبة لإتاحة المراجعة والمطابقة وتنسيق إجراءات الصفقة.',
-    farmerTitle: 'تسجيل مزارع',
-    farmerOfferTitle: 'تسجيل توفر محصول',
+    farmerTitle: 'بيانات تسجيل المزارع',
+    farmerOfferTitle: 'بيانات عرض المحصول',
     buyerTitle: 'تسجيل تاجر',
     demandTitle: 'تقديم طلب شراء',
     name: 'الاسم',
@@ -29,8 +29,8 @@ const copy = {
     quantity: 'الكمية بالجوال',
     harvestLocation: 'منطقة / موقع الحصاد',
     availableDate: 'تاريخ التوفر المتوقع',
-    submitFarmer: 'حفظ المزارع',
-    submitSupply: 'إرسال العرض',
+    submitFarmer: 'تأكيد التسجيل',
+    submitSupply: 'إرسال عرض المحصول',
     businessName: 'اسم النشاط',
     businessType: 'نوع النشاط',
     buyerLocation: 'الموقع',
@@ -61,8 +61,8 @@ const copy = {
     badge: 'Team-reviewed matching by Hasad',
     title: 'HASAD Portal | حصاد',
     lead: 'Complete the required information for review, matching, and transaction coordination.',
-    farmerTitle: 'Farmer registration',
-    farmerOfferTitle: 'Supply listing',
+    farmerTitle: 'Farmer registration details',
+    farmerOfferTitle: 'Crop listing details',
     buyerTitle: 'Buyer registration',
     demandTitle: 'Demand request',
     name: 'Name',
@@ -75,8 +75,8 @@ const copy = {
     quantity: 'Quantity in jowal',
     harvestLocation: 'Harvest location',
     availableDate: 'Expected availability date',
-    submitFarmer: 'Save farmer',
-    submitSupply: 'Submit supply',
+    submitFarmer: 'Confirm registration',
+    submitSupply: 'Submit crop listing',
     businessName: 'Business name',
     businessType: 'Business type',
     buyerLocation: 'Location',
@@ -176,6 +176,9 @@ export function MarketplaceClient({
   const [offerRows, setOfferRows] = useState<any[]>([]);
   const [requestRows, setRequestRows] = useState<any[]>([]);
   const [activePortal, setActivePortal] = useState<'farmer' | 'buyer' | 'status'>(initialPortal);
+  const [farmerStep, setFarmerStep] = useState<'register' | 'supply'>('register');
+  const pageTitle = showPortalNav ? t.title : activePortal === 'farmer' ? t.farmerPortal : activePortal === 'buyer' ? t.buyerPortal : t.statusPortal;
+  const pageLead = showPortalNav ? t.lead : activePortal === 'farmer' ? t.farmerPortalHint : activePortal === 'buyer' ? t.buyerPortalHint : t.statusPortalHint;
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get('portal');
@@ -204,6 +207,7 @@ export function MarketplaceClient({
       setFarmerId(json.farmer.farmer_id);
       setFarmerPhone(json.farmer.phone);
       setFarmerState({ type: 'success', message: t.farmerSaved });
+      setFarmerStep('supply');
     } catch (error) {
       setFarmerState({ type: 'error', message: error instanceof Error ? error.message : 'Error' });
     }
@@ -266,23 +270,23 @@ export function MarketplaceClient({
 
   return (
     <main dir={t.dir} className="bg-[#fbfdf8] text-[#173a2b]">
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <section className={`mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:items-center ${showPortalNav ? 'lg:grid-cols-[1.05fr_0.95fr]' : ''}`}>
         <div>
           <p className="inline-flex rounded-full bg-emerald-900 px-4 py-2 text-sm font-black text-amber-100">
             {t.badge}
           </p>
-          <h1 className="mt-6 text-4xl font-black text-[#173a2b] md:text-6xl">{t.title}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{t.lead}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <h1 className="mt-6 text-4xl font-black text-[#173a2b] md:text-6xl">{pageTitle}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{pageLead}</p>
+          {showPortalNav && <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/login" className="btn-primary px-5 py-3">
               {locale === 'ar' ? 'تسجيل بالهاتف أو البريد' : 'Register by phone or email'}
             </Link>
             <Link href={locale === 'ar' ? '/ar/marketplace/prices' : '/en/marketplace/prices'} className="btn-secondary px-5 py-3">
               {locale === 'ar' ? 'لوحة الأسعار' : 'Price board'}
             </Link>
-          </div>
+          </div>}
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
+        {showPortalNav && <div className="grid gap-3 sm:grid-cols-3">
           {products.slice(0, 3).map((product) => (
             <article key={product.product_id} className="rounded-lg border border-emerald-900/10 bg-white p-5 shadow-sm">
               <p className="text-sm font-bold text-slate-500">{product.source_region}</p>
@@ -292,7 +296,7 @@ export function MarketplaceClient({
               <p className="mt-2 text-sm font-bold text-amber-700">{product.unit}</p>
             </article>
           ))}
-        </div>
+        </div>}
       </section>
 
       {showPortalNav && <section className="mx-auto max-w-7xl px-4 pb-8">
@@ -307,8 +311,14 @@ export function MarketplaceClient({
       </section>}
 
       <section className="mx-auto max-w-7xl px-4 pb-14">
-        {activePortal === 'farmer' && <div className="grid gap-5 lg:grid-cols-2">
-          <form onSubmit={submitFarmer} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
+        {activePortal === 'farmer' && <div className="mx-auto w-full max-w-4xl">
+          <div className="mb-5 grid gap-3 rounded-3xl border border-emerald-950/10 bg-white p-3 shadow-sm sm:grid-cols-2">
+            <button type="button" onClick={() => setFarmerStep('register')} className={`flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-black transition ${farmerStep === 'register' ? 'bg-[#173a2b] text-white shadow-lg' : 'bg-[#f4f7f5] text-[#426457] hover:bg-emerald-50'}`}><CheckCircle2 className="h-5 w-5" />{locale === 'ar' ? 'التسجيل' : 'Registration'}</button>
+            <button type="button" onClick={() => setFarmerStep('supply')} className={`flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-black transition ${farmerStep === 'supply' ? 'bg-[#f6b83f] text-[#173a2b] shadow-lg' : 'bg-[#f4f7f5] text-[#426457] hover:bg-amber-50'}`}><PackageCheck className="h-5 w-5" />{locale === 'ar' ? 'عرض محصول' : 'List a crop'}</button>
+          </div>
+          {farmerStep === 'supply' && farmerState.type === 'success' && <div className="mb-5"><Notice state={farmerState} /></div>}
+
+          {farmerStep === 'register' && <form onSubmit={submitFarmer} className="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <Sprout className="h-6 w-6 text-emerald-700" />
               <h2 className="text-2xl font-black text-[#173a2b]">{t.farmerTitle}</h2>
@@ -326,9 +336,9 @@ export function MarketplaceClient({
               {t.submitFarmer}
             </button>
             <div className="mt-4"><Notice state={farmerState} /></div>
-          </form>
+          </form>}
 
-          <form onSubmit={submitSupply} className="rounded-lg border border-emerald-900/10 bg-white p-6 shadow-sm">
+          {farmerStep === 'supply' && <form onSubmit={submitSupply} className="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-5 flex items-center gap-3">
               <PackageCheck className="h-6 w-6 text-emerald-700" />
               <h2 className="text-2xl font-black text-[#173a2b]">{t.farmerOfferTitle}</h2>
@@ -345,7 +355,7 @@ export function MarketplaceClient({
               {t.submitSupply}
             </button>
             <div className="mt-4"><Notice state={supplyState} /></div>
-          </form>
+          </form>}
         </div>}
 
         {activePortal === 'buyer' && <div className="grid gap-5 lg:grid-cols-2">
